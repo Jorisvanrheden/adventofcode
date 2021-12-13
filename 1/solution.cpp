@@ -29,17 +29,30 @@ std::vector<int> parseInput(std::string filepath)
     return input;
 }
 
-int findIncreasingMeasurements(const std::vector<int>& input)
+int getChunkSum(const std::vector<int>& input, int index, int chunkSize)
+{
+    int sum = 0;
+
+    for(int i=0;i<chunkSize;i++)
+    {
+        sum += input[index - i];
+    }
+
+    return sum;
+}
+
+//Combined solution
+int findIncreasingMeasurements(const std::vector<int>& input, int chunkSize)
 {
     int counter = 0;
 
-    //start from index 1, as index 0 has no value to compare with
-    for(int i=1;i<input.size();i++)
+    //start from index chunkSize, as indices below that cannot form a chunk together
+    for(int i=chunkSize;i<input.size();i++)
     {
-        int current = input[i];
-        int previous = input[i-1];
+        int sumCurrentChunk  = getChunkSum(input, i, chunkSize);
+        int sumPreviousChunk = getChunkSum(input, i - 1, chunkSize);
 
-        if(current > previous) counter++;
+        if(sumCurrentChunk > sumPreviousChunk) counter++;
     }
 
     return counter;
@@ -49,7 +62,7 @@ int main()
 {
     std::vector<int> input = parseInput("./input");
 
-    int result = findIncreasingMeasurements(input);
+    int result = findIncreasingMeasurements(input, 1);
 
     std::cout<<"--- ANSWER IS ---"<<std::endl;
     std::cout<<result<<std::endl;
