@@ -131,11 +131,32 @@ int computeTotalDistance(const std::vector<Direction*>& directions)
     return distanceHorizontal * distanceVertical;
 }
 
+int computeTotalDistanceWithAim(const std::vector<Direction*>& directions)
+{
+    int distance = 0;
+    int depth = 0;
+    int aim = 0;
+
+    for(const auto& direction : directions)
+    {
+        aim      += direction->y * direction->magnitude;
+        distance += direction->x * direction->magnitude;
+
+        //process depth only if the forward vector is valid
+        if(direction->x != 0)
+        {
+            depth += aim * direction->magnitude;
+        }
+    }
+
+    return distance * depth;
+}
+
 int main()
 {
     std::vector<Direction*> input = parseInput("./input");
 
-    int result = computeTotalDistance(input);
+    int result = computeTotalDistanceWithAim(input);
 
     std::cout<<"--- ANSWER IS ---"<<std::endl;
     std::cout<<result<<std::endl;
