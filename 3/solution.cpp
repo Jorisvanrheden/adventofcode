@@ -3,6 +3,8 @@
 #include <vector>
 #include <stdlib.h>
 
+const int OCCURRENCES_EQUAL = -1;
+
 std::vector<std::string> parseInput(const std::string& filepath)
 {
     std::vector<std::string> input;
@@ -20,10 +22,9 @@ std::vector<std::string> parseInput(const std::string& filepath)
 
 int getMostOccurringDigit(const std::vector<std::string>& input, int column)
 {
-    const int NUMBERS = 9;
-
-    int occurrenceCounter[NUMBERS] = {0};
-
+    int zeroes = 0;
+    int ones = 0;
+    
     for(const auto& row : input)
     {
         //verify column index as valid
@@ -31,29 +32,40 @@ int getMostOccurringDigit(const std::vector<std::string>& input, int column)
 
         int value = row[column] - '0';
 
-        //iterate counter
-        occurrenceCounter[value]++;
+        if(value) ones++;
+        else zeroes++;
     }
 
-    //retrieve most occurrences index
-    int occurencesIndex = 0;
-    int occurences = 0;
-    for(int i=0;i<NUMBERS;i++)
+    if(ones>zeroes)return 1;
+    else if(ones<zeroes)return 0;
+    else if(ones == zeroes) return OCCURRENCES_EQUAL;
+}
+
+std::vector<std::string> filter(const std::vector<std::string>& input, int column, char filter)
+{
+    std::vector<std::string> filteredCollection;
+
+    for(int i=0;i<input.size();i++)
     {
-        if(occurrenceCounter[i] > occurences)
+        if(input[i][column] == filter)
         {
-            occurences = occurrenceCounter[i];
-            occurencesIndex = i;    
+            filteredCollection.push_back(input[i]);
         }
     }
 
-    return occurencesIndex;
+    return filteredCollection;
+}
+
+int getInputColumns(const std::vector<std::string>& input)
+{
+    if(input.size()>0) return input[0].length();
+
+    return 0;
 }
 
 std::string createMostCommonBinary(const std::vector<std::string>& input)
 {
-    int length = 0;
-    if(input.size()>0) length = input[0].length();
+    int length = getInputColumns(input);
 
     std::string gamma;
     gamma.resize(length);
@@ -85,12 +97,65 @@ std::string flipBinary(const std::string& binary)
     return flippedBinary;
 }
 
-int computePowerConsumption(const std::string& binaryGammaRate, const std::string& binaryEpsilonRate)
+int multiplyBinaries(const std::string& binaryA, const std::string& binaryB)
 {
-    int gamma   = std::stoi(binaryGammaRate, 0, 2);
-    int epsilon = std::stoi(binaryEpsilonRate, 0, 2);
+    int a = std::stoi(binaryA, 0, 2);
+    int b = std::stoi(binaryB, 0, 2);
 
-    return gamma * epsilon;
+    return a * b;
+}
+
+std::string findOxygenGeneratorRating(std::vector<std::string> input)
+{
+    //for each column, find the most common value
+    int columns = getInputColumns(input);
+
+    for(int i=0;i<columns;i++)
+    {
+        //if an equal amount of cases arises, select '1'
+        int digit = getMostOccurringDigit(input, i);
+        if(digit == OCCURRENCES_EQUAL)
+        {
+            digit = 1;
+        }
+
+        char digitFilter = digit + '0';
+
+        //filter the collection
+        input = filter(input, i, digitFilter);
+
+        if(input.size() == 1) return input[0];
+    }
+
+    return std::string();
+}
+
+std::string findCO2ScrubberRating(std::vector<std::string> input)
+{
+    //for each column, find the most common value
+    int columns = getInputColumns(input);
+
+    for(int i=0;i<columns;i++)
+    {
+        //if an equal amount of cases arises, select '1'
+        int digit = getMostOccurringDigit(input, i);
+        if(digit == OCCURRENCES_EQUAL)
+        {
+            digit = 1;
+        }
+
+        //flip the digit for least occurrences
+        digit = !digit;
+
+        char digitFilter = digit + '0';
+
+        //filter the collection
+        input = filter(input, i, digitFilter);
+
+        if(input.size() == 1) return input[0];
+    }
+    
+    return std::string();
 }
 
 int main()
@@ -100,7 +165,10 @@ int main()
     std::string gammaBinary   = createMostCommonBinary(input);
     std::string epsilonBinary = flipBinary(gammaBinary);
 
-    int result = computePowerConsumption(gammaBinary, epsilonBinary);
+    std::string oxygenGeneratorRating   = findOxygenGeneratorRating(input);
+    std::string CO2ScrubberRating       = findCO2ScrubberRating(input);
+
+    int result = multiplyBinaries(oxygenGeneratorRating, CO2ScrubberRating);
 
     std::cout<<"--- ANSWER IS ---"<<std::endl;
     std::cout<<result<<std::endl;
