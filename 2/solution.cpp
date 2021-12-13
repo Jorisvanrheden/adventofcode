@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-
 #include <vector>
 
 //Options are:

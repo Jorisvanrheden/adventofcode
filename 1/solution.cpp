@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-
 #include <vector>
 
 std::vector<int> parseInput(const std::string& filepath)
