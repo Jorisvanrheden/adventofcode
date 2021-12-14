@@ -163,23 +163,35 @@ std::vector<Vector2D> lineToCoordinates(const Line& line)
         else yDir = -1;
     }
 
-    //only process horizontal/vertical
-    if(xDir != 0 && yDir != 0) return coordinates;
-
     int xDiffAbs = abs(xDiff) + 1;
     int yDiffAbs = abs(yDiff) + 1;
 
-    //loop through abs value of the diff
-    //multiply index with dir and add the from to it
-    for(int i=0;i<xDiffAbs;i++)
+    if(xDir != 0 && yDir != 0) 
     {
-        int x = line.from.x + i*xDir;
-
-        for(int j=0;j<yDiffAbs;j++)
+        //diagonals travel the distance horizontal and vertical
+        //therefore both xDiffAbs or yDiffAbs can be used
+        for(int i=0;i<xDiffAbs;i++)
         {
-            int y = line.from.y + j*yDir;
+            int x = line.from.x + i*xDir;
+            int y = line.from.y + i*yDir;
 
             coordinates.push_back(Vector2D(x,y));
+        }
+    }
+    else
+    {
+        //loop through abs value of the diff
+        //multiply index with dir and add the from to it
+        for(int i=0;i<xDiffAbs;i++)
+        {
+            int x = line.from.x + i*xDir;
+
+            for(int j=0;j<yDiffAbs;j++)
+            {
+                int y = line.from.y + j*yDir;
+
+                coordinates.push_back(Vector2D(x,y));
+            }
         }
     }
 
