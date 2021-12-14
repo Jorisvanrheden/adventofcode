@@ -277,18 +277,11 @@ bool hasBingo(const Board& board)
     //check rows
     for(int i=0;i<board.rows;i++)
     {     
-        std::string pr;
-
         std::vector<int> row(board.columns);
         for(int j=0;j<board.columns;j++)
         {
             row[j] = board.getStatusAt(i,j);
-
-            pr += std::to_string(row[j]);
-            pr += "\t";
         }   
-
-        std::cout<<pr<<std::endl;
 
         if(isConsistentCollection(row, 1)) return true;
     }
@@ -309,30 +302,35 @@ bool hasBingo(const Board& board)
     return false;
 }
 
-Output getBingoBoard(Input& input)
+std::vector<Output> processGames(Input& input)
 {
+    std::vector<Output> output;
+
+    //cache a data structure that keeps track of the finished games
+    std::vector<bool> completed(input.boards.size(), false);
+
     //loop through numbers
     for(const auto& number : input.numbers)
     {
-        std::cout<<"Processing number: "<<number<<std::endl;
-
         //for each number, apply it to the board
         for(int i=0;i<input.boards.size();i++)
-        {
-            std::cout<<" --- BOARD NUMBER "<<i<<std::endl;
-            
+        { 
+            if(completed[i]) continue;
+
             applyNumberToBoard(input.boards[i], number);  
-            input.boards[i].printValues();   
-            input.boards[i].printStatus();
 
             if(hasBingo(input.boards[i]))
             {
-                return Output(i, number);
+                //store the active run information
+                output.push_back(Output(i, number));
+
+                //also label the current board as finished
+                completed[i] = true;
             }  
         }
     }
 
-    return Output(-1, -1);
+    return output;
 }
 
 int getUnmarkedBoardScore(const Input& input, int boardIndex)
@@ -364,11 +362,18 @@ int main()
 {
     Input input = parseInput("./input");
 
-    Output output = getBingoBoard(input);
-    int result = getUnmarkedBoardScore(input, output.index) * output.number;
+    std::vector<Output> output = processGames(input);
 
-    std::cout<<"--- ANSWER IS ---"<<std::endl;
-    std::cout<<result<<std::endl;
+    if(output.size() > 0)
+    {
+        //--- Output for the winning game ---
+        //int result = getUnmarkedBoardScore(input, output[0].index) * output[0].number;
+
+        //--- Output for the losing game ---
+        int result = getUnmarkedBoardScore(input, output[output.size()-1].index) * output[output.size()-1].number;
+        std::cout<<"--- ANSWER IS ---"<<std::endl;
+        std::cout<<result<<std::endl;
+    }
 
     return 0;
 }
