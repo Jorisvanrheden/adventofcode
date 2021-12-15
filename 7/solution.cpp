@@ -69,14 +69,29 @@ void getBounds(const std::vector<int>& input, int& min, int& max)
     }
 }
 
+int getCostSolutionA(int distance)
+{
+    return distance;
+}
+
+int getCostSolutionB(int distance)
+{
+    int cost = 0;
+    for(int i=0;i<=distance;i++)
+    {
+        cost+=i;
+    }
+    return cost;
+}
+
 int getCost(const std::vector<int>& input, int x)
 {
     int total = 0;
 
     for(int i=0;i<input.size();i++)
     {
-        int costPerEntry = abs(input[i] - x);
-        total += costPerEntry;
+        int distance = abs(input[i] - x);
+        total += getCostSolutionB(distance);
     }
 
     return total;
