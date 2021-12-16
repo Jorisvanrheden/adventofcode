@@ -49,23 +49,24 @@ std::vector<std::string> parseInput(const std::string& filepath)
     return input;
 }
 
-std::vector<char> getInvalidCharacters(const std::string& line)
+struct SyntaxResult 
+{
+    std::vector<char> invalidCharacters;
+    std::vector<char> autoFilledCharacters;
+
+    SyntaxResult(const std::vector<char>& invalidCharacters, const std::vector<char>& autoFilledCharacters)
+        : invalidCharacters(invalidCharacters), autoFilledCharacters(autoFilledCharacters)
+    {
+    }
+};
+
+SyntaxResult getInvalidCharacters(const std::string& line)
 {
     const std::string OPEN_SET = "([{<";
     const std::string CLOSED_SET = ")]}>";
 
-    //traverse through the string
-    //keep track of the OPEN_SET types that occurred
-    //the moment a CLOSED_SET type occurs, store the index and backtrack?
-
-    //keep track of how MANY open sets are in a row
-
-    //lets say the input looks like "([{"
-    //3 open types
-    //the moment a closed type comes along, it firstly MUST pair
-    //with the latest open set
-
-    //probably keep track of open sets and their respective characters
+    std::vector<char> invalidCharacters;
+    std::vector<char> autoFilledCharacters;
 
     std::vector<int> openIndices;
     
@@ -89,7 +90,8 @@ std::vector<char> getInvalidCharacters(const std::string& line)
             //if no open set has occurred before, the line is corrupt
             if (openIndices.size() == 0)
             {
-                return { CLOSED_SET[index] };
+                invalidCharacters.push_back(CLOSED_SET[index]);
+                break;
             }
 
             //check what the latest openIndex is
@@ -106,7 +108,8 @@ std::vector<char> getInvalidCharacters(const std::string& line)
             {
                 //if they are not the same, there is a pair discrepancy
                 std::cout << "Expected " << CLOSED_SET[latestOpenIndex] << ", got " << CLOSED_SET[index] << std::endl;
-                return { CLOSED_SET[index] };
+                invalidCharacters.push_back(CLOSED_SET[index]);
+                break;
             }
         }
     }
@@ -114,9 +117,16 @@ std::vector<char> getInvalidCharacters(const std::string& line)
     if (openIndices.size() > 0) 
     {
         std::cout << "Error: open pairs detected" << std::endl;
+
+        //populate the auto fill characters
+        for (int i = openIndices.size() - 1; i >= 0; i--)
+        {
+            //choose the corresponding closed index for each open index
+            autoFilledCharacters.push_back(CLOSED_SET[openIndices[i]]);
+        }
     }
 
-    return {};
+    return SyntaxResult(invalidCharacters, autoFilledCharacters);
 }
 
 int getInvalidCharacterScore(const std::vector<char>& characters) 
@@ -134,12 +144,16 @@ int getInvalidCharacterScore(const std::vector<char>& characters)
     return total;
 }
 
-int getAutoCompleteCharacterScore(const std::vector<char>& characters)
+unsigned long long getAutoCompleteCharacterScore(const std::vector<char>& characters)
 {
-    int total = 0;
+    unsigned long long total = 0;
 
     for (const auto& c : characters)
     {
+        //multiply total by 5
+        total *= 5;
+
+        //add the character score
         if      (c == ')') total += 1;
         else if (c == ']') total += 2;
         else if (c == '}') total += 3;
@@ -151,24 +165,38 @@ int getAutoCompleteCharacterScore(const std::vector<char>& characters)
 
 int main()
 {
-    std::vector<std::string> input = parseInput("D:\\repos\\adventofcode\\10\\input");
+    std::vector<std::string> input = parseInput("./input");
 
-    std::vector<char> invalidCharacters;
+    //std::vector<char> invalidCharacters;
+    //for (int i = 0; i < input.size(); i++)
+    //{
+    //    SyntaxResult syntaxResult = getInvalidCharacters(input[i]);
+    //    invalidCharacters.insert(invalidCharacters.end(), syntaxResult.invalidCharacters.begin(), syntaxResult.invalidCharacters.end());
+    //}
+    //
+    ////solution A
+    //int result = getInvalidCharacterScore(invalidCharacters);
+
+    std::vector<unsigned long long> autoFilledScores;
+    std::vector<char> autoFilledCharacters;
     for (int i = 0; i < input.size(); i++)
     {
-        std::vector<char> output = getInvalidCharacters(input[i]);
-        invalidCharacters.insert(invalidCharacters.end(), output.begin(), output.end());
+        SyntaxResult syntaxResult = getInvalidCharacters(input[i]);
+         
+        //don't process lines with syntax errors
+        if (syntaxResult.invalidCharacters.size() > 0) continue;
+
+        autoFilledCharacters.insert(autoFilledCharacters.end(), syntaxResult.autoFilledCharacters.begin(), syntaxResult.autoFilledCharacters.end());
+
+        unsigned long long scorePerLine = getAutoCompleteCharacterScore(syntaxResult.autoFilledCharacters);
+        autoFilledScores.push_back(scorePerLine);
     }
+
+    //sort scores and take the middle score
+    std::sort(autoFilledScores.begin(), autoFilledScores.end());
     
-    //solution A
-    int result = getInvalidCharacterScore(invalidCharacters);
-
-
-
-
-
     //solution B
-    //int result = 0;
+    unsigned long long result = autoFilledScores[(int)((float)autoFilledScores.size()/2)];
 
     std::cout << "--- ANSWER IS ---" << std::endl;
     std::cout << result << std::endl;
