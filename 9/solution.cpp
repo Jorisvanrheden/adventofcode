@@ -229,7 +229,7 @@ int getMultipliedLastItems(const std::vector<int>& items, int count)
 
 int main()
 {
-    std::vector<std::vector<Coordinate*>> input = parseInput("D:\\repos\\adventofcode\\9\\input");
+    std::vector<std::vector<Coordinate*>> input = parseInput("./input");
 
     //solution A
     //int result = getTotalRiskValue(input);
