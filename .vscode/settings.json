@@ -38,6 +38,8 @@
         "xstddef": "cpp",
         "xtr1common": "cpp",
         "algorithm": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "map": "cpp",
+        "xtree": "cpp"
     }
 }
