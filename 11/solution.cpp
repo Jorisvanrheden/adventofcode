@@ -12,7 +12,7 @@ struct Coordinate
     int y;
     int value;
 
-    bool visited = false;
+    bool flashed = false;
 
     Coordinate(int x, int y, int value)
         : x(x), y(y), value(value)
@@ -105,20 +105,139 @@ std::vector<Coordinate*> getNeighbors(const std::vector<std::vector<Coordinate*>
     return neighbors;
 }
 
+bool canFlash(Coordinate* coordinate)
+{
+    if(coordinate->value <= 9) return false;
+    if(coordinate->flashed) return false;
+
+    return true;
+}
+
+int checkAndApplyFlash(const std::vector<std::vector<Coordinate*>>& map, Coordinate* coordinate)
+{
+    int flashes = 1;   
+
+    //a flash sets the current value to 0
+    coordinate->value = 0;
+    coordinate->flashed = true;
+
+    //for all surrounding values, increment the value by 1, but only if it hasn't flashed that step
+    std::vector<Coordinate*> neighbors = getNeighbors(map, coordinate);
+    for(int i=0;i<neighbors.size();i++)
+    {    
+        //if the neighbor already flashed, it cannot increment the value
+        if(!neighbors[i]->flashed)
+        {
+            neighbors[i]->value++;
+
+            if(neighbors[i]->value > 9)
+            {
+                flashes += checkAndApplyFlash(map, neighbors[i]);
+            }
+        }        
+    }
+
+    return flashes;
+}
+
+int processStep(std::vector<std::vector<Coordinate*>>& map)
+{
+    //increment all entries with 1
+    for(int i=0;i<map.size();i++)
+    {
+        for(int j=0;j<map[i].size();j++)
+        {
+            //reset the flashed flag
+            map[i][j]->flashed = false;
+
+            map[i][j]->value++;
+        }
+    }
+
+    int flashes = 0;
+
+    //foreach entry with a value higher than 9, it should flash
+    for(int i=0;i<map.size();i++)
+    {
+        for(int j=0;j<map[i].size();j++)
+        {
+            if(canFlash(map[i][j]))
+            {
+                flashes += checkAndApplyFlash(map, map[i][j]);
+            }
+        }
+    }
+
+    return flashes;
+}
+
+void printMap(const std::vector<std::vector<Coordinate*>>& map)
+{
+    for(int i=0;i<map.size();i++)
+    {
+        std::string row;
+        for(int j=0;j<map[i].size();j++)
+        {
+            row += std::to_string(map[i][j]->value);
+            row += ", ";
+        }
+        std::cout<<row<<std::endl;
+    }
+}
+
 int main()
 {
     std::vector<std::vector<Coordinate*>> input = parseInput("./input");
 
-    std::cout<<input.size()<<std::endl;
+    int totalCoordinates = 0;
+    for(int i=0;i<input.size();i++)
+    {
+        for(int j=0;j<input[i].size();j++)
+        {
+            totalCoordinates++;
+        }
+    }
+
+
+
+    // int totalFlashes = 0;
+    // for(int i=0;i<100;i++)
+    // {
+    //     printMap(input);
+
+    //     int flashes = processStep(input);
+    //     totalFlashes += flashes;
+
+
+    //     std::cout<<"Total flashes after index " << i<<" is: "<< totalFlashes<<std::endl;
+    // }
+
 
     //solution A
-    int result = 0;
+    //int result = 0;
+
+
+
+    int iter = 0;
+    while(true)
+    {
+        int flashes = processStep(input);
+
+        if(flashes == totalCoordinates)
+        {
+            break;
+        }
+
+        iter++;
+    }
 
     //solution B
-    //int result = 0;
+    int result = iter;
 
     std::cout << "--- ANSWER IS ---" << std::endl;
     std::cout << result << std::endl;
+
+    getchar();
 
     return 0;
 }
