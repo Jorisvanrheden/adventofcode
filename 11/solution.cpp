@@ -237,7 +237,5 @@ int main()
     std::cout << "--- ANSWER IS ---" << std::endl;
     std::cout << result << std::endl;
 
-    getchar();
-
     return 0;
 }
