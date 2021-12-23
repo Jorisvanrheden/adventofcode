@@ -2,5 +2,11 @@
 bin/
 x64/
 x86/
-.vscode/
 adventofcode/x64/
+adventofcode/x86/
+adventofcode/.vs/
+.vscode/
+*.opendb
+*.ipch
+*.suo
+*.db
