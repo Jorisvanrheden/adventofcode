@@ -68,5 +68,8 @@
     <ClInclude Include="Assignment_13.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Assignment_14.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

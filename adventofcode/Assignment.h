@@ -13,9 +13,9 @@ public:
         initialize();
 
         std::string solution1 = getSolutionPart1();
-        std::string solution2 = getSolutionPart2();
-
         printSolution(1, solution1);
+
+        std::string solution2 = getSolutionPart2();
         printSolution(2, solution2);
     }
 
