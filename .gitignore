@@ -1,1 +1,6 @@
 *.exe
+bin/
+x64/
+x86/
+.vscode/
+adventofcode/x64/
