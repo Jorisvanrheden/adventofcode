@@ -10,3 +10,4 @@ adventofcode/.vs/
 *.ipch
 *.suo
 *.db
+*.bak
