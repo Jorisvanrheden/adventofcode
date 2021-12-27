@@ -39,6 +39,7 @@
     <ClInclude Include="Assignment_7.h" />
     <ClInclude Include="Assignment_8.h" />
     <ClInclude Include="Assignment_9.h" />
+    <ClInclude Include="Assignment_17.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>
