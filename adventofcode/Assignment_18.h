@@ -32,12 +32,6 @@ private:
         }
     };
 
-    void findClosestOpenClosePair(const std::vector<int>& open, const std::vector<int>& closed) 
-    {
-        //open start from left
-        //closed start from right
-    }
-
     Pair* parsePair(const std::string& input, Pair* parentNode) 
     {
         std::string mutableInput = input;
@@ -136,31 +130,18 @@ private:
         return NULL;
     }
 
-    std::string exportToString(Pair* pair, std::string& output) 
+    std::vector<Pair*> parseInput(const std::vector<std::string>& input)
     {
-        if (pair->children.size() > 0)
+        std::vector<Pair*> data;
+
+        for (const auto& entry : input)
         {
-            output += "[";
+            Pair* pair = parsePair(entry, NULL);
 
-            for (int i = 0;i<pair->children.size();i++)
-            {
-                exportToString(pair->children[i], output);
-
-                if(i<pair->children.size()-1)
-                {
-                    output += ",";
-                }
-            }
-
-            output += "]";
-
-        }
-        else 
-        {
-            output += std::to_string(pair->value);
+            data.push_back(pair);
         }
 
-        return output;
+        return data;
     }
 
     void addToCollection(Pair* pair, std::vector<Pair*>& collection) 
@@ -320,27 +301,40 @@ private:
         return pair;
     }
 
+    std::string exportToString(Pair* pair, std::string& output)
+    {
+        if (pair->children.size() > 0)
+        {
+            output += "[";
+
+            for (int i = 0; i < pair->children.size(); i++)
+            {
+                exportToString(pair->children[i], output);
+
+                if (i < pair->children.size() - 1)
+                {
+                    output += ",";
+                }
+            }
+
+            output += "]";
+
+        }
+        else
+        {
+            output += std::to_string(pair->value);
+        }
+
+        return output;
+    }
+
     void printPair(Pair* pair) 
     {
         std::string s;
         std::cout << exportToString(pair, s) << std::endl;
     }
 
-    std::vector<Pair*> parseInput(const std::vector<std::string>& input) 
-    {
-        std::vector<Pair*> data;
-
-        for (const auto& entry : input)
-        {
-            Pair* pair = parsePair(entry, NULL);
-
-            data.push_back(pair);
-        }
-
-        return data;
-    }
-
-    unsigned long long getMagnitude(Pair* pair) 
+    int getMagnitude(Pair* pair) 
     {
         if (pair->children.size() > 0) 
         {
@@ -353,6 +347,8 @@ private:
     std::string getSolutionPart1()
     {
         int result = 0;
+
+        auto data = parseInput(input);
 
         Pair* input = data[0];
 
@@ -372,9 +368,9 @@ private:
 
     std::string getSolutionPart2()
     {
-        unsigned long long largestMagnitude = 0;
+        int largestMagnitude = 0;
 
-        std::vector<std::string> input = Utilities::readFile("../18/input");
+        auto data = parseInput(input);
 
         for (int i = 0; i < data.size(); i++) 
         {
@@ -386,7 +382,7 @@ private:
 
                 input = calculateSum(input);
                 
-                unsigned long long magnitude = getMagnitude(input);
+                int magnitude = getMagnitude(input);
                 if (magnitude > largestMagnitude) 
                 {
                     largestMagnitude = magnitude;
@@ -399,12 +395,11 @@ private:
         return std::to_string(result);
     }
 
-    std::vector<Pair*> data;
+    std::vector<std::string> input;
 
 public:
     void initialize()
     {
-        std::vector<std::string> input = Utilities::readFile("../18/input");
-        data = parseInput(input);
+        input = Utilities::readFile("../18/input");
     }
 };
