@@ -83,5 +83,11 @@
     <ClInclude Include="Assignment_18.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Assignment_19.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
