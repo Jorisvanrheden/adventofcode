@@ -22,6 +22,26 @@ private:
         }
     };
 
+    struct OverlayData
+    {
+        bool hasData;
+
+        Vector3D relativePosition = Vector3D(0, 0, 0);
+        std::vector<Vector3D> transformedCoordinates;
+
+        OverlayData(bool hasData)
+            : hasData(hasData)
+        {
+
+        }
+
+        OverlayData(bool hasData, const Vector3D& relativePosition, const std::vector<Vector3D>& transformedCoordinates)
+            : hasData(hasData), relativePosition(relativePosition), transformedCoordinates(transformedCoordinates)
+        {
+
+        }
+    };
+
     struct Scanner 
     {
         std::vector<Vector3D> coordinates;
@@ -260,42 +280,22 @@ private:
         return connections;
     }
 
-    std::string getBestKey(const std::map<std::string, int>& map) 
+    std::string getMostOccurringKey(const std::map<std::string, int>& map) 
     {
-        std::string bestKey;
+        std::string mostOccurringKey;
         int count = 0;
 
         for (const auto& pair : map)
         {
             if (pair.second > count)
             {
-                bestKey = pair.first;
+                mostOccurringKey = pair.first;
                 count = pair.second;
             }
         }
 
-        return bestKey;
+        return mostOccurringKey;
     }
-
-    struct OverlayData 
-    {
-        bool hasData;
-
-        Vector3D relativePosition = Vector3D(0, 0, 0);
-        std::vector<Vector3D> transformedCoordinates;
-
-        OverlayData(bool hasData)
-            : hasData(hasData)
-        {
-        
-        }
-
-        OverlayData(bool hasData, const Vector3D& relativePosition, const std::vector<Vector3D>& transformedCoordinates)
-            : hasData(hasData), relativePosition(relativePosition), transformedCoordinates(transformedCoordinates)
-        {
-
-        }
-    };
 
     OverlayData getOverlayData(const Scanner& activeScanner, const std::vector<Vector3D> transformedCoordinates, int minimumRequiredOverlapCount)
     {
@@ -349,19 +349,19 @@ private:
 
         if (beacons.size() >= minimumRequiredOverlapCount)
         {
-            std::string bestKey = getBestKey(map);
-            int bestValue = map.at(bestKey);
+            std::string mostOccurringKey = getMostOccurringKey(map);
+            int bestValue = map.at(mostOccurringKey);
 
             //store the value of the best key
             //then remove the best key entry from the map, just to make sure that the second-best is not equally good
-            map.erase(bestKey);
+            map.erase(mostOccurringKey);
 
-            std::string secondbestKey = getBestKey(map);
+            std::string secondbestKey = getMostOccurringKey(map);
             int secondBestValue = map.at(secondbestKey);
 
             if (bestValue == secondBestValue) return false;
 
-            std::vector<std::string> parts = Utilities::splitString(bestKey, ",");
+            std::vector<std::string> parts = Utilities::splitString(mostOccurringKey, ",");
 
             int posX = std::stoi(parts[0]) + activeScanner.position.x;
             int posY = std::stoi(parts[1]) + activeScanner.position.y;
@@ -487,7 +487,7 @@ private:
 
         std::vector<Scanner> scanners = generateProcessedScanners(data, 12);
 
-        auto beacons = getUniqueBeacons(scanners);
+        std::vector<Vector3D> beacons = getUniqueBeacons(scanners);
 
         return std::to_string(beacons.size());
     }
