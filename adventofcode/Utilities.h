@@ -61,4 +61,9 @@ class Utilities
 
             return true;
         }
+
+        static unsigned long long binaryToDecimal(const std::string& binary)
+        {
+            return std::stoll(binary, 0, 2);
+        }
 };

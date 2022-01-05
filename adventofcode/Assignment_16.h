@@ -178,11 +178,6 @@ private:
         return binary;
     }
 
-    unsigned long long binaryToDecimal(const std::string& binary) 
-    {
-        return std::stoll(binary, 0, 2);
-    }
-
     std::string readNextBits(const std::string& input, int& index, int length)
     {
         std::string binary = input.substr(index, length);
@@ -225,7 +220,7 @@ private:
 
         if (lengthTypeID == "0")
         {
-            unsigned long long bits = binaryToDecimal(readNextBits(binary, index, 15));
+            unsigned long long bits = Utilities::binaryToDecimal(readNextBits(binary, index, 15));
 
             int cachedIndex = index;
 
@@ -239,7 +234,7 @@ private:
         }
         else if (lengthTypeID == "1")
         {
-            unsigned long long packetCount = binaryToDecimal(readNextBits(binary, index, 11));
+            unsigned long long packetCount = Utilities::binaryToDecimal(readNextBits(binary, index, 11));
 
             for (int i = 0; i < packetCount; i++)
             {
@@ -254,15 +249,15 @@ private:
     LiteralPacket parsePackets(const std::string& binary, int& index)
     {
         //first three bits of each packet is the packet version
-        unsigned long long version = binaryToDecimal(readNextBits(binary, index, 3));
-        unsigned long long typeID = binaryToDecimal(readNextBits(binary, index, 3));
+        unsigned long long version = Utilities::binaryToDecimal(readNextBits(binary, index, 3));
+        unsigned long long typeID = Utilities::binaryToDecimal(readNextBits(binary, index, 3));
 
         if (typeID == 4) 
         {
             std::string literalValue = parseLiteral(binary, index);
 
             //std::cout << binaryToDecimal(literalValue) << std::endl;
-            return LiteralPacket(version, typeID, literalValue, binaryToDecimal(literalValue), {});
+            return LiteralPacket(version, typeID, literalValue, Utilities::binaryToDecimal(literalValue), {});
         }
         else 
         {
