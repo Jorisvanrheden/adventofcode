@@ -130,31 +130,30 @@ private:
         return algorithm[algorithmIndex];
     }
 
-    std::vector<std::vector<int>> getEnhancedImage(const std::vector<int>& algorithm, const std::vector<std::vector<int>>& pixels, int additionalValue)
+    std::vector<std::vector<int>> getEnhancedImage(const std::vector<int>& algorithm, const std::vector<std::vector<int>>& pixels, int infinityValue)
     {
         //copy the original matrix
         std::vector<std::vector<int>> copy = pixels;
 
-        const int ADDITION = 3;
+        const int ADDITION = 2;
 
         //we can't just add zeroes, but we need to calculate what the 'infinite' value was after x amount of turns, given that the start value is 0
-
         //expanding the matrix to support 'infinite growth'
-        //for each row, add one zero before and after the existing row
+        //for each row, add one 'infinityValue' before and after the existing row
         for (int i = 0; i < copy.size(); i++) 
         {
             for (int j = 0; j < ADDITION; j++)
             {
-                copy[i].insert(copy[i].begin(), additionalValue);
-                copy[i].insert(copy[i].end(), additionalValue);
+                copy[i].insert(copy[i].begin(), infinityValue);
+                copy[i].insert(copy[i].end(), infinityValue);
             }
         }
 
         //insert rows top and bottom with rowSize, and fill them with all zeroes
         for (int j = 0; j < ADDITION; j++) 
         {
-            copy.insert(copy.begin(), std::vector<int>(copy[0].size(), additionalValue));
-            copy.insert(copy.end(), std::vector<int>(copy[0].size(), additionalValue));
+            copy.insert(copy.begin(), std::vector<int>(copy[0].size(), infinityValue));
+            copy.insert(copy.end(), std::vector<int>(copy[0].size(), infinityValue));
         }
 
         std::vector<std::vector<int>> copyOriginal = copy;
@@ -263,6 +262,15 @@ private:
     std::string getSolutionPart2()
     {
         int result = 0;
+
+        std::vector<std::vector<int>> enhancedImage = data.pixels;
+
+        for (int i = 0; i < 50; i++)
+        {
+            enhancedImage = getEnhancedImage(data.algorithm, enhancedImage, getInfiniteValue(data.algorithm, i));
+        }
+
+        result = getImageLightCount(enhancedImage);
 
         return std::to_string(result);
     }
