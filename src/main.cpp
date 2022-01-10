@@ -24,9 +24,10 @@
 #include "../adventofcode/Assignment_19.h"
 #include "../adventofcode/Assignment_20.h"
 #include "../adventofcode/Assignment_21.h"
+#include "../adventofcode/Assignment_22.h"
 
 int main()
 {
-    Assignment_21 assignment;
+    Assignment_22 assignment;
     assignment.run();
 }
