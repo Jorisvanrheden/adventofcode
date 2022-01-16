@@ -10,123 +10,36 @@ private:
 
     struct Range 
     {
-        int min;
-        int max;
-        int range;
+        long long min;
+        long long max;
+        unsigned long long range;
 
         Range() {}
-        Range(int min, int max) 
+        Range(long long min, long long max)
             : min(min), max(max)
         {
-            range = max - min;
+            range = max - min + 1;
         }
     };
+
     struct Cuboid
     {
-        bool enabled;
+        int value;
 
         Range xRange;
         Range yRange;
         Range zRange;
 
-        std::vector<std::vector<std::vector<int>>> matrix;
-        bool isValid = false;
-
         Cuboid() {}
-        Cuboid(bool enabled, const Range& xRange, const Range& yRange, const Range& zRange)
-            : enabled(enabled), xRange(xRange), yRange(yRange), zRange(zRange)
+        Cuboid(const Range& xRange, const Range& yRange, const Range& zRange, int value)
+            : xRange(xRange), yRange(yRange), zRange(zRange), value(value)
         {
-            isValid = validate();
 
-            if (isValid) 
-            {
-                int deltaX = xRange.max - xRange.min;
-                int deltaY = yRange.max - yRange.min;
-                int deltaZ = zRange.max - zRange.min;
-
-                matrix = std::vector<std::vector<std::vector<int>>>(deltaX);
-
-                for (int i = 0; i < deltaX; i++) 
-                {
-                    std::vector<std::vector<int>> row(deltaY);
-
-                    for (int j = 0; j < deltaY; j++) 
-                    {
-                        std::vector<int> column(deltaZ);
-                        for (int k = 0; k < deltaZ; k++) 
-                        {
-                            column[k] = enabled;
-                        }
-                        row[j] = column;
-                    }
-                    matrix[i] = row;
-                }
-            }
         }
 
-        bool validate() 
+        unsigned long long getVolume()
         {
-            if (xRange.min < -50 && xRange.max < -50) return false;
-            if (xRange.min > 50  && xRange.max > 50) return false;
-
-            if (yRange.min < -50 && yRange.max < -50) return false;
-            if (yRange.min > 50 &&  yRange.max > 50)  return false;
-
-            if (zRange.min < -50 && zRange.max < -50) return false;
-            if (zRange.min > 50 &&  zRange.max > 50)  return false;
-
-            return true;
-        }
-
-        void setValue(int value, const Vector3D& coordinate) 
-        {
-            int localX = coordinate.x - xRange.min;
-            int localY = coordinate.y - yRange.min;
-            int localZ = coordinate.z - zRange.min;
-
-            if (localX < 0 || localX >= xRange.range) return;
-            if (localY < 0 || localY >= yRange.range) return;
-            if (localZ < 0 || localZ >= zRange.range) return;
-
-            matrix[localX][localY][localZ] = value;
-        }
-
-        int addCountToMap(std::map<std::string, int>& map)
-        {
-            if (!isValid) return 0;
-
-            int deltaX = xRange.max - xRange.min;
-            int deltaY = yRange.max - yRange.min;
-            int deltaZ = zRange.max - zRange.min;
-            
-            int count = 0;
-
-            for (int i = 0; i < deltaX; i++)
-            {
-                for (int j = 0; j < deltaY; j++)
-                {
-                    for (int k = 0; k < deltaZ; k++)
-                    {
-                        int value = matrix[i][j][k];
-
-                        if (value) 
-                        {
-                            int x = xRange.min + i;
-                            int y = yRange.min + j;
-                            int z = zRange.min + k;
-
-                            std::string key = std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z);
-                            if (map.find(key) == map.end()) 
-                            {
-                                map[key] = 0;
-                            }
-                            map[key]++;
-                        }
-                    }
-                }
-            }
-
-            return count;
+            return xRange.range * yRange.range * zRange.range;
         }
     };
 
@@ -138,7 +51,7 @@ private:
         {
             std::vector<std::string> parts = Utilities::splitString(entry, " ");
 
-            bool enabled = (parts[0] == "on") ? true : false;
+            int value = (parts[0] == "on") ? 1 : 0;
             Range rangeX, rangeY, rangeZ;
 
             std::vector<std::string> dimensions = Utilities::splitString(parts[1], ",");
@@ -151,12 +64,12 @@ private:
                 int min = std::stoi(minMax[0]);
                 int max = std::stoi(minMax[1]);
 
-                if      (ranges[0] == "x") rangeX = Range(min, max + 1);
-                else if (ranges[0] == "y") rangeY = Range(min, max + 1);
-                else if (ranges[0] == "z") rangeZ = Range(min, max + 1);
+                if      (ranges[0] == "x") rangeX = Range(min, max);
+                else if (ranges[0] == "y") rangeY = Range(min, max);
+                else if (ranges[0] == "z") rangeZ = Range(min, max);
             }
 
-            data.push_back(Cuboid(enabled, rangeX, rangeY, rangeZ));
+            data.push_back(Cuboid(rangeX, rangeY, rangeZ, value));
         }
 
         return data;
@@ -164,8 +77,6 @@ private:
 
     bool hasOverlap(const Cuboid& a, const Cuboid& b) 
     {
-        if (!a.isValid || !b.isValid) return false;
-
         if (a.xRange.max < b.xRange.min || a.xRange.min > b.xRange.max) return false;
         if (a.yRange.max < b.yRange.min || a.yRange.min > b.yRange.max) return false;
         if (a.zRange.max < b.zRange.min || a.zRange.min > b.zRange.max) return false;
@@ -173,66 +84,245 @@ private:
         return true;
     }
 
-    void processOverlap(Cuboid& a, const Cuboid& b) 
+    Range getOverlappingRange(const Range& a, const Range& b) 
     {
-        if (!hasOverlap(a, b)) return;
+        //create the overlapping area
+        int min, max;
 
-        for (int i = 0; i < b.xRange.range; i++)
+        if (a.min >= b.min && a.min <= b.max)
         {
-            for (int j = 0; j < b.yRange.range; j++)
+            if (a.min == b.max) 
             {
-                for (int k = 0; k < b.zRange.range; k++)
+                min = b.min;
+                max = b.min;
+            }
+            else 
+            {
+                min = a.min;
+                max = std::min(a.max, b.max);
+            }
+        }
+        else if (a.max <= b.max && a.max >= b.min)
+        {
+            if (a.max == b.min) 
+            {
+                min = a.max;
+                max = a.max;
+            }
+            else 
+            {
+                min = std::max(a.min, b.min);
+                max = a.max;
+            }
+        }
+        else 
+        {
+            //take the smallest
+            if (a.range < b.range) return a;
+            else return b;
+        }
+
+        return Range(min, max);
+    }
+
+    bool areEqualCuboids(const Cuboid& a, const Cuboid& b) 
+    {
+        if (a.xRange.min != b.xRange.min || a.xRange.max != b.xRange.max) return false;
+        if (a.yRange.min != b.yRange.min || a.yRange.max != b.yRange.max) return false;
+        if (a.zRange.min != b.zRange.min || a.zRange.max != b.zRange.max) return false;
+
+        return true;
+    }
+
+    bool containsCuboid(const std::vector<Cuboid>& areas, const Cuboid& cuboid) 
+    {
+        for (const auto& area : areas) 
+        {
+            if (areEqualCuboids(area, cuboid)) return true;
+        }
+        return false;
+    }
+
+    void getBounds(const std::vector<long long>& coordinates, int index, long long& min, long long& max)
+    { 
+        //initialize at default values;
+        min = coordinates[index];
+        max = coordinates[index + 1];
+       
+        if (index == 0)
+        {
+            max -= 1;
+        }
+        
+        if (index == coordinates.size() - 2)
+        {
+            min += 1;
+        }
+    }
+
+    std::vector<Cuboid> splitAreaFromOverlap(const Cuboid& originalCuboid, const Cuboid& overlapCuboid) 
+    {
+        //for a 2D square, if it's split up, you get 3x3 = 9 new areas
+        //for a 3D square, this is 3x3x3 = 27 new areas
+        std::vector<Cuboid> areas;
+
+        //store all unique x,y and z coordinates, so we can loop through them and easily compute the new areas
+        std::vector<long long> xCoordinates = { originalCuboid.xRange.min, overlapCuboid.xRange.min, overlapCuboid.xRange.max, originalCuboid.xRange.max };
+        std::vector<long long> yCoordinates = { originalCuboid.yRange.min, overlapCuboid.yRange.min, overlapCuboid.yRange.max, originalCuboid.yRange.max };
+        std::vector<long long> zCoordinates = { originalCuboid.zRange.min, overlapCuboid.zRange.min, overlapCuboid.zRange.max, originalCuboid.zRange.max };
+
+        for (int i = 0; i < xCoordinates.size() - 1; i++) 
+        {
+            long long xMin, xMax;
+            getBounds(xCoordinates, i, xMin, xMax);
+
+            if (xMin > xMax) continue;
+
+            for (int j = 0; j < yCoordinates.size() - 1; j++) 
+            {
+                long long yMin, yMax;
+                getBounds(yCoordinates, j, yMin, yMax);
+
+                if (yMin > yMax) continue;
+
+                for (int k = 0; k < zCoordinates.size() - 1; k++) 
                 {
-                    //check if the coordinate is within bounds
-                    int x = b.xRange.min + i;
-                    int y = b.yRange.min + j;
-                    int z = b.zRange.min + k;
+                    long long zMin, zMax;
+                    getBounds(zCoordinates, k, zMin, zMax);
 
-                    Vector3D coordinate(x, y, z);
+                    if (zMin > zMax) continue;
 
-                    a.setValue(b.enabled, coordinate);
+                    //validation to make sure the given coordinates are in range of the active area
+                    if (xMin < originalCuboid.xRange.min || xMax > originalCuboid.xRange.max) continue;
+                    if (yMin < originalCuboid.yRange.min || yMax > originalCuboid.yRange.max) continue;
+                    if (zMin < originalCuboid.zRange.min || zMax > originalCuboid.zRange.max) continue;
+
+                    Range xRange(xMin, xMax);
+                    Range yRange(yMin, yMax);
+                    Range zRange(zMin, zMax);
+
+                    //this method only splits the existing area in smaller areas with the same value, so use create a new cuboid with the original value
+                    Cuboid area(xRange, yRange, zRange, originalCuboid.value);
+
+                    //if the dimensions are the same as the overlapping cuboid, skip it
+                    if (areEqualCuboids(area, overlapCuboid)) 
+                    {
+                        continue;
+                    }
+                    else 
+                    {
+                        areas.push_back(area);
+                    }
                 }
             }
         }
+
+        return areas;
     }
 
-    int getEnabledCount(std::vector<Cuboid>& cuboids) 
+    std::vector<Cuboid> processOverlap(const Cuboid& overlap, Cuboid& original)
     {
-        std::map<std::string, int> map;
+        //create the overlapping area
+        Range xRange = getOverlappingRange(overlap.xRange, original.xRange);
+        Range yRange = getOverlappingRange(overlap.yRange, original.yRange);
+        Range zRange = getOverlappingRange(overlap.zRange, original.zRange);
 
+        //calculate the overlapping area
+        Cuboid overlappingArea(xRange, yRange, zRange, overlap.value);
+
+        //Only split up the original cube
+        //The overlapping one keeps the original value
+        return splitAreaFromOverlap(original, overlappingArea);
+    }
+
+    unsigned long long getEnabledCount(std::vector<Cuboid> cuboids)
+    {
+        unsigned long long total = 0;
         for (auto& cuboid : cuboids) 
         {
-            cuboid.addCountToMap(map);
+            total += cuboid.getVolume() * cuboid.value;
         }
-
-        return map.size();
+        return total;
     }
 
-    std::vector<Cuboid> getProcessedCuboids(std::vector<Cuboid>& cuboids)
+    std::vector<Cuboid> getProcessedCuboids(std::vector<Cuboid> input)
     {
-        //apply all cuboids from top to bottom
+        //logic:
+        //for each iteration, we have an area A that overlaps with area B
+        //when the overlap occurs, we split area B into multiple parts, and delete the overlapping part
+        //so that the addition of area A + area B results in non-repeating points
+
+        //at the end of each iteration (going through all areas in the stack), the current overlapping area (input[i])
+        //gets added to the processed list.
+        //by adding the area to the list at the end, all processed cubes up until that points get impacted by the 
+        //original size of the active overlapping cube
+
+        //also, the overlapping does not need to be split up. If it gets added to the queue either way, any overlapping
+        //areas that follow and overlap with this area would cause the area to split up anyway.
+        //if it's the last area in the total list, no splitting up is required
+
         std::vector<Cuboid> processedCuboids;
-        for (int i = 0; i < data.size(); i++)
+
+        for (int i = 0; i < input.size(); i++)
         {
             //apply the current cuboid to all processed cuboids
-            for (auto& cuboid : processedCuboids)
+            for (int j=0;j<processedCuboids.size();j++)
             {
-                processOverlap(cuboid, data[i]);
+                if (!hasOverlap(input[i], processedCuboids[j])) continue;     
+
+                std::vector<Cuboid> originalSplitInAreas = processOverlap(input[i], processedCuboids[j]);
+
+                //remove the cuboids[i], and add the split parts
+                processedCuboids.erase(processedCuboids.begin() + j);
+                processedCuboids.insert(processedCuboids.begin() + j, originalSplitInAreas.begin(), originalSplitInAreas.end());
+
+                //increment j to point behind the latest addition
+                j += originalSplitInAreas.size() - 1;
             }
 
             //add the current cuboid to the processed cuboids list
-            processedCuboids.push_back(data[i]);
+            processedCuboids.push_back(input[i]);
         }
 
         return processedCuboids;
+    }
+
+    bool hasSmallRange(const Cuboid& cuboid) 
+    {
+        if (cuboid.xRange.min < -50 && cuboid.xRange.max < -50) return false;
+        if (cuboid.xRange.min > 50 && cuboid.xRange.max > 50) return false;
+
+        if (cuboid.yRange.min < -50 && cuboid.yRange.max < -50) return false;
+        if (cuboid.yRange.min > 50 && cuboid.yRange.max > 50)  return false;
+
+        if (cuboid.zRange.min < -50 && cuboid.zRange.max < -50) return false;
+        if (cuboid.zRange.min > 50 && cuboid.zRange.max > 50)  return false;
+
+        return true;
+    }
+
+    std::vector<Cuboid> getSmallCuboids(const std::vector<Cuboid>& cuboids) 
+    {
+        std::vector<Cuboid> smallCuboids;
+
+        for (int i = 0; i < cuboids.size(); i++) 
+        {
+            if (!hasSmallRange(cuboids[i])) continue;
+
+            smallCuboids.push_back(cuboids[i]);
+        }
+
+        return smallCuboids;
     }
 
     std::string getSolutionPart1()
     {
         int result = 0;
 
-        auto processedCuboids = getProcessedCuboids(data);
+        auto smallCubes = getSmallCuboids(data);
 
+        std::vector<Cuboid> processedCuboids = getProcessedCuboids(smallCubes);
+        
         result = getEnabledCount(processedCuboids);
 
         return std::to_string(result);
@@ -240,7 +330,11 @@ private:
 
     std::string getSolutionPart2()
     {
-        int result = 0;
+        unsigned long long result = 0;
+
+        std::vector<Cuboid> processedCuboids = getProcessedCuboids(data);
+
+        result = getEnabledCount(processedCuboids);
 
         return std::to_string(result);
     }
