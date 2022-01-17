@@ -18,84 +18,75 @@
     <ClCompile Include="..\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="23\Assignment_23.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Utilities.h">
+    <ClInclude Include="1\Assignment_1.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="2\Assignment_2.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="3\Assignment_3.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="4\Assignment_4.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="5\Assignment_5.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="6\Assignment_6.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="7\Assignment_7.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="8\Assignment_8.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="9\Assignment_9.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="10\Assignment_10.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="11\Assignment_11.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="12\Assignment_12.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="13\Assignment_13.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="14\Assignment_14.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="15\Assignment_15.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="16\Assignment_16.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="17\Assignment_17.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="18\Assignment_18.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="19\Assignment_19.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="20\Assignment_20.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2D.h">
+    <ClInclude Include="21\Assignment_21.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Assignment.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_1.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_2.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_3.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_4.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_5.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_6.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_7.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_8.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_9.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_10.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_11.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_12.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_13.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_14.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_15.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_16.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_17.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_18.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_19.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_20.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_21.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Assignment_22.h">
+    <ClInclude Include="22\Assignment_22.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

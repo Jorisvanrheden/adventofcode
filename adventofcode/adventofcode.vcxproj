@@ -20,34 +20,31 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="23\Assignment_23.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Assignment.h" />
-    <ClInclude Include="Assignment_1.h" />
-    <ClInclude Include="Assignment_10.h" />
-    <ClInclude Include="Assignment_11.h" />
-    <ClInclude Include="Assignment_12.h" />
-    <ClInclude Include="Assignment_13.h" />
-    <ClInclude Include="Assignment_14.h" />
-    <ClInclude Include="Assignment_15.h" />
-    <ClInclude Include="Assignment_16.h" />
-    <ClInclude Include="Assignment_18.h" />
-    <ClInclude Include="Assignment_19.h" />
-    <ClInclude Include="Assignment_2.h" />
-    <ClInclude Include="Assignment_20.h" />
-    <ClInclude Include="Assignment_21.h" />
-    <ClInclude Include="Assignment_22.h" />
-    <ClInclude Include="Assignment_3.h" />
-    <ClInclude Include="Assignment_4.h" />
-    <ClInclude Include="Assignment_5.h" />
-    <ClInclude Include="Assignment_6.h" />
-    <ClInclude Include="Assignment_7.h" />
-    <ClInclude Include="Assignment_8.h" />
-    <ClInclude Include="Assignment_9.h" />
-    <ClInclude Include="Assignment_17.h" />
-    <ClInclude Include="Utilities.h" />
-    <ClInclude Include="Vector2D.h" />
-    <ClInclude Include="Vector3D.h" />
+    <ClInclude Include="1\Assignment_1.h" />
+    <ClInclude Include="10\Assignment_10.h" />
+    <ClInclude Include="11\Assignment_11.h" />
+    <ClInclude Include="12\Assignment_12.h" />
+    <ClInclude Include="13\Assignment_13.h" />
+    <ClInclude Include="14\Assignment_14.h" />
+    <ClInclude Include="15\Assignment_15.h" />
+    <ClInclude Include="16\Assignment_16.h" />
+    <ClInclude Include="18\Assignment_18.h" />
+    <ClInclude Include="19\Assignment_19.h" />
+    <ClInclude Include="2\Assignment_2.h" />
+    <ClInclude Include="20\Assignment_20.h" />
+    <ClInclude Include="21\Assignment_21.h" />
+    <ClInclude Include="22\Assignment_22.h" />
+    <ClInclude Include="3\Assignment_3.h" />
+    <ClInclude Include="4\Assignment_4.h" />
+    <ClInclude Include="5\Assignment_5.h" />
+    <ClInclude Include="6\Assignment_6.h" />
+    <ClInclude Include="7\Assignment_7.h" />
+    <ClInclude Include="8\Assignment_8.h" />
+    <ClInclude Include="9\Assignment_9.h" />
+    <ClInclude Include="17\Assignment_17.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -137,6 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)/inc;$(ProjectDir)/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -174,7 +172,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
