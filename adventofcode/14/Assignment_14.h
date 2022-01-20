@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Assignment.h"
-#include <algorithm>
-#include <map>
 
 class Assignment_14 : public Assignment
 {

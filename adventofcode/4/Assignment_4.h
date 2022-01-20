@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Assignment.h"
-#include <algorithm>
 
 struct Entry
 {

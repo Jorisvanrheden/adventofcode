@@ -1,8 +1,6 @@
 #pragma once
 
 #include "Assignment.h"
-#include <math.h>
-#include "Vector3D.h"
 
 class Assignment_19 : public Assignment
 {

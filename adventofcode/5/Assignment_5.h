@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Assignment.h"
-#include "Vector2D.h"
 
 class Assignment_5 : public Assignment
 {

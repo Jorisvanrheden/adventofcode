@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Assignment.h"
-#include <algorithm>
 
 class Assignment_10 : public Assignment
 {
