@@ -185,7 +185,7 @@ private:
         map[17] = new Unit(3);
         map[18] = new Unit(0);
 
-       /* map[11] = new Unit(3);
+        /*map[11] = new Unit(3);
         map[12] = new Unit(1);
 
         map[13] = new Unit(0);
