@@ -13,7 +13,7 @@ private:
         // 1 = type B
         // 2 = type C
         // 3 = type D
-        int unitValue;
+        int roomValue;
 
         //once a unit stops in the hallway, it will stay in that spot 
         //until it can move into its destination room
@@ -22,16 +22,28 @@ private:
         int totalDistance = 0;
 
         Unit() {}
-        Unit(int unitValue)
-            : unitValue(unitValue)
+        Unit(int roomValue)
+            : roomValue(roomValue)
         {
             
         }
         Unit(Unit* clone) 
         {
-            this->unitValue = clone->unitValue;
+            this->roomValue = clone->roomValue;
             this->hasMovedToHallway = clone->hasMovedToHallway; 
             this->totalDistance = clone->totalDistance;
+        }
+
+        int getCost()
+        {
+            int multiplier = 1;
+
+            if      (roomValue == 0) multiplier = 1;
+            else if (roomValue == 1) multiplier = 10;
+            else if (roomValue == 2) multiplier = 100;
+            else if (roomValue == 3) multiplier = 1000;
+
+            return multiplier * totalDistance;
         }
     };
     struct Node
@@ -63,7 +75,7 @@ private:
     struct Input 
     {
         std::vector<Node*> nodes;
-        std::map<int, Unit*> map;
+        std::vector<Unit*> map;
     };
 
     void createLinks(std::vector<Node*>& nodes) 
@@ -153,7 +165,7 @@ private:
         nodes.push_back(roomD_1);
         nodes.push_back(roomD_2);
 
-        std::map<int, Unit*> map;
+        std::vector<Unit*> map(nodes.size());
         for (int i = 0; i < nodes.size(); i++) 
         {
             nodes[i]->id = i;
@@ -173,12 +185,25 @@ private:
         map[17] = new Unit(3);
         map[18] = new Unit(0);
 
+       /* map[11] = new Unit(3);
+        map[12] = new Unit(1);
+
+        map[13] = new Unit(0);
+        map[14] = new Unit(2);
+
+        map[15] = new Unit(3);
+        map[16] = new Unit(1);
+
+        map[17] = new Unit(2);
+        map[18] = new Unit(0);*/
+
+
         data.nodes = nodes;
         data.map = map;
         return data;
     }
 
-    std::vector<Node*> getNodesWithUnits(const std::vector<Node*>& nodes, std::map<int, Unit*>& map)
+    std::vector<Node*> getNodesWithUnits(const std::vector<Node*>& nodes, const std::vector<Unit*>& map)
     {
         std::vector<Node*> nodesWithUnits;
 
@@ -193,74 +218,75 @@ private:
         return nodesWithUnits;
     }
 
-    bool isDestinationValid(const Node* activeNode, const Node* targetNode, std::map<int, Unit*>& map)
+    bool isRoomComplete(const Node* node, const std::vector<Unit*>& map)
+    {
+        for (const auto& neighbor : node->neighbors)
+        {
+            //check if the neighboring nodes in the same room
+            if (neighbor->roomValue == node->roomValue)
+            {
+                //if there is no unit on the node, the room is not complete
+                Unit* neighborUnit = map[neighbor->id];
+                if (!neighborUnit) return false;
+
+                if (neighborUnit->roomValue != node->roomValue) return false;
+            }
+        }
+        return true;
+    }
+
+    bool isDestinationValid(const Node* activeNode, const Node* targetNode, const std::vector<Unit*>& map)
     {
         Unit* unit = map[activeNode->id];
 
-        //first check if the active node is in the correct room
-        if (activeNode->roomValue == unit->unitValue) 
-        {
-            //if the active node only has 1 neighbor, it's already at the bottom position
-            if (activeNode->neighbors.size() == 1) return false;
+        //check if the unit ends up at a node that is connected to a room
+        //if that's the case, it should not be allowed (blocks others)
+        if (targetNode->connectsToRoom) return false;
 
-            //if the active node has 2 neighbors and has a neighbor that is also in the right location, the room is filled and complete
-            if (activeNode->neighbors.size() == 2) 
+        //if the unit has already moved, the next move should be the destination room
+        if (unit->hasMovedToHallway) 
+        {
+            if (unit->roomValue != targetNode->roomValue) return false;
+        }
+
+        //if the destination target is of the correct type,
+        //the unit should not block any non-correct units in that room
+        if (unit->roomValue == targetNode->roomValue) 
+        {
+            for (const auto& neighbor : targetNode->neighbors) 
             {
-                for (const auto& neighbor : activeNode->neighbors) 
+                //find the neighbor with the same room value
+                if (neighbor->roomValue == neighbor->roomValue) 
                 {
-                    //find the UNIT on the neighbor
-                    Unit* neighborUnit = map[neighbor->id];
-                    if (neighborUnit) 
+                    if (neighbor->neighbors.size() == 1) 
                     {
-                        if (neighborUnit->unitValue == activeNode->roomValue) return false;
+                        Unit* neighborUnit = map[neighbor->id];
+                        if (neighborUnit) 
+                        {
+                            if (neighborUnit->roomValue != targetNode->roomValue) return false;
+                        }
                     }
                 }
             }
         }
 
+        //if the unit is on the active node is already in the correct position, don't process move
+        if (unit->roomValue == activeNode->roomValue) 
+        {
+            //corner position validation
+            if (activeNode->neighbors.size() == 1) return false;
+
+            //check if the room is complete
+            if (isRoomComplete(activeNode, map)) return false;
+        }
+        
         //check if the active and target are both in the room already
         //if they are, the only valid move is to go to the node that only has 1 neigbor
         //it's basically allowing moving from the top room position to the bottom room position
         if (activeNode->roomValue == targetNode->roomValue)
         {
             if (targetNode->neighbors.size() > 1) return false;
-        }        
-
-        //if the unit is already in the hallway, it can only move if it
-        //goes straight to the destination node
-        if (unit->hasMovedToHallway)
-        {
-            //also make sure that the target position doesnt' have a unit stuck in the corner
-            if (targetNode->roomValue == unit->unitValue) 
-            {
-                //if only 1 neighbor, the unit at that node must be of the correct type
-                if (targetNode->neighbors.size() == 1) 
-                {
-                    Unit* neighborUnit = map[targetNode->id];
-                    if (neighborUnit)
-                    {
-                        if (neighborUnit->unitValue != targetNode->roomValue) return false;
-                    }
-                }
-                if (targetNode->neighbors.size() == 2) 
-                {
-                    for (const auto& neighbor : targetNode->neighbors)
-                    {
-                        //find the UNIT on the neighbor
-                        Unit* neighborUnit = map[neighbor->id];
-                        if (neighborUnit)
-                        {
-                            if (neighborUnit->unitValue != targetNode->roomValue) return false;
-                        }
-                    }
-                }
-            }
-            else return false;
-        }
-
-        //check if the unit ends up at a node that is connected to a room
-        //if that's the case, it should not be allowed (blocks others)
-        if (targetNode->connectsToRoom) return false;
+        }     
 
         return true;
     }
@@ -274,7 +300,7 @@ private:
         return false;
     }
 
-    void getPossibleMoves(const Node* activeNode, std::vector<Move>& moves, std::map<int, Unit*>& map, int distance)
+    void getPossibleMoves(const Node* activeNode, std::vector<Move>& moves, const std::vector<Unit*>& map, int distance)
     {
         for (const auto& node : activeNode->neighbors)
         {
@@ -294,7 +320,7 @@ private:
         }
     }
 
-    std::vector<Move> getValidatedMoves(const Node* activeNode, const std::vector<Move>& moves, std::map<int, Unit*>& map)
+    std::vector<Move> getValidatedMoves(const Node* activeNode, const std::vector<Move>& moves, const std::vector<Unit*>& map)
     {
         std::vector<Move> validatedMoves;
 
@@ -312,17 +338,7 @@ private:
         return validatedMoves;
     }
 
-    int getIndex(const Node* node, const std::vector<Node*> nodes) 
-    {
-        auto it = std::find(nodes.begin(), nodes.end(), node);
-        if (it != nodes.end())
-        {
-            return it - nodes.begin();
-        }
-        return -1;
-    }
-
-    std::vector<std::map<int, Unit*>> getNextStartingConfigurations(const Node* activeNode, const std::vector<Node*>& nodes, std::map<int, Unit*>& map)
+    std::vector<std::vector<Unit*>> getNextStartingConfigurations(const Node* activeNode, const std::vector<Node*>& nodes, const std::vector<Unit*>& map)
     {
         //basically you want to find all possible moves that the active node can go to
         //for each of these moves, we create a new set of nodes and apply the moved node
@@ -333,17 +349,17 @@ private:
 
 
 
-        std::vector<std::map<int, Unit*>> configurations;
+        std::vector<std::vector<Unit*>> configurations;
 
         //create a copy of each configuration, but then replace the activeNode with the validatedNode
         //and set all properties as necessary
         for (int i = 0; i < validatedMoves.size(); i++) 
         {
-            std::map<int, Unit*> copy = map;
+            std::vector<Unit*> copy = map;
             
             //get the active node iterator
-            int activeIndex = getIndex(activeNode, nodes);
-            int targetIndex = getIndex(validatedMoves[i].target, nodes);
+            int activeIndex = activeNode->id; 
+            int targetIndex = validatedMoves[i].target->id;
 
             if (activeIndex == -1 || targetIndex == -1) continue;
 
@@ -362,7 +378,7 @@ private:
         return configurations;
     }
 
-    bool isConfigurationComplete(const std::vector<Node*> nodes, std::map<int, Unit*>& map)
+    bool isConfigurationComplete(const std::vector<Node*> nodes, const std::vector<Unit*>& map)
     {
         //retrieve all nodes that have units on them
         std::vector<Node*> nodesWithUnits = getNodesWithUnits(nodes, map);
@@ -373,39 +389,68 @@ private:
             Unit* unit = map[node->id];
             if (!unit) return false;
 
-            if (node->roomValue != unit->unitValue) return false;
+            if (node->roomValue != unit->roomValue) return false;
         }
 
         return true;
     }
 
-    int getCost(const Unit* unit) 
-    {
-        if (!unit) return 0;
-
-        int multiplier = 1;
-
-        if      (unit->unitValue == 0) multiplier = 1;
-        else if (unit->unitValue == 1) multiplier = 10;
-        else if (unit->unitValue == 2) multiplier = 100;
-        else if (unit->unitValue == 3) multiplier = 1000;
-
-        return multiplier * unit->totalDistance;
-    }
-
     int lowestCost = INT_MAX;
 
-    void processConfiguration(const std::vector<Node*> nodes, std::map<int, Unit*> map) 
+    std::map<std::string, int> occurrences;
+
+    std::string mapToKey(std::map<int, Unit*>& map) 
     {
+        std::string key;
+        for (const auto& pair : map) 
+        {
+            std::string input = "x";
+
+            //get the unit code of each input
+            Unit* unit = map[pair.first];
+            if (unit) 
+            {
+                input = std::to_string(unit->roomValue);
+            }
+
+            input += ";";
+
+            key += input;
+        }
+        return key;
+    }
+
+    int getCost(std::vector<Unit*> map)
+    {
+        int totalCost = 0;
+        for (const auto& unit : map)
+        {
+            if (unit) 
+            {
+                totalCost += unit->getCost();
+            }
+        }
+        return totalCost;
+    }
+
+    void processConfiguration(const std::vector<Node*> nodes, const std::vector<Unit*>& map) 
+    {
+       /* std::string key = mapToKey(map);
+        if (occurrences.find(key) == occurrences.end()) 
+        {
+            occurrences[key] = 1;
+
+        }
+        occurrences[key]++;
+
+        std::cout << key << " -> " << occurrences[key] << std::endl;*/
+
+        int totalCost = getCost(map);
+        if (totalCost >= lowestCost) return;
+
         //check if the configuration is complete
         if (isConfigurationComplete(nodes, map))
         {
-            int totalCost = 0;
-            for (const auto& pair : map) 
-            {
-                totalCost += getCost(pair.second);
-            }
-
             if (totalCost < lowestCost) 
             {
                 lowestCost = totalCost;
