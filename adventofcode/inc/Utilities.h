@@ -52,6 +52,23 @@ class Utilities
             return substrings;
         }
 
+        static std::string ltrim(const std::string& input, const std::string trimChar)
+        {
+            size_t start = input.find_first_not_of(trimChar);
+            return (start == std::string::npos) ? "" : input.substr(start);
+        }
+
+        static std::string rtrim(const std::string& input, const std::string trimChar)
+        {
+            size_t end = input.find_last_not_of(trimChar);
+            return (end == std::string::npos) ? "" : input.substr(0, end + 1);
+        }
+
+        static std::string trim(const std::string& input, const std::string trimChar) 
+        {
+            return rtrim(ltrim(input, trimChar), trimChar);
+        }
+
         static bool isUpperCase(const std::string& input)
         {
             for (const auto& c : input)
@@ -66,4 +83,5 @@ class Utilities
         {
             return std::stoll(binary, 0, 2);
         }
+private:
 };
