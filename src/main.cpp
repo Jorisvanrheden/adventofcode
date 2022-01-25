@@ -29,7 +29,7 @@ int main()
 {
     Assignment_23 assignment;
 
-    std::vector<std::string> input = Utilities::readFile("../../adventofcode/" + assignment.getInput());
+    std::vector<std::string> input = Utilities::readFile(assignment.getInput());
 
     std::cout << input.size() << std::endl;
 

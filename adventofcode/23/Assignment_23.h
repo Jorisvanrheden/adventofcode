@@ -97,6 +97,7 @@ private:
         nodeB->neighbors.push_back(nodeA);
     }
 
+    //TODO: make this dynamic for both part 1 and 2
     std::vector<Node*> createRoomNodes(int roomValue) 
     {
         Node* node1 = new Node();
@@ -135,6 +136,7 @@ private:
 
         createLinks(nodes);
 
+        //TODO: make this dynamic based on the input file, don't hard code it
         auto roomA = createRoomNodes(0);
         auto roomB = createRoomNodes(1);
         auto roomC = createRoomNodes(2);
@@ -417,7 +419,7 @@ private:
 
             if (isValidUnit(unit))
             {
-                input = std::to_string(unit.roomValue) + "_" + std::to_string(unit.totalDistance);
+                input = std::to_string(unit.roomValue);
             }
 
             input += ";";
@@ -440,9 +442,34 @@ private:
         return totalCost;
     }
 
+    std::map<std::string, int> history;
+
     void processConfiguration(const std::vector<Node*> nodes, const std::vector<Unit>& map) 
     {
         int totalCost = getCost(map);
+
+        //check if the current configuration has already been executed once
+        std::string key = mapToKey(map);
+        if (history.find(key) == history.end()) 
+        {
+            history[key] = totalCost;
+        }
+        else 
+        {
+            //if it has, check the cost of that configuration
+            //if the current cost is lower, overwrite the cost and continue
+            //otherwise return, because a more cheaper option is already considered
+            if (totalCost >= history[key]) 
+            {
+                return;
+            }
+            else 
+            {
+                history[key] = totalCost;
+            }
+        }
+
+
         if (totalCost >= lowestCost) return;
 
         //check if the configuration is complete
@@ -504,6 +531,6 @@ public:
 
     std::string getInput() 
     {
-        return "23/input";
+        return "23/input_example_2";
     }
 };
