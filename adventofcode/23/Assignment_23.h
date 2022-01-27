@@ -73,6 +73,13 @@ private:
         std::vector<Unit> map;
     };
 
+    //TODO: GLOBALS that need to be processed differently
+    int lowestCost = INT_MAX;
+    std::map<int, std::vector<Node*>> roomMap;
+    std::map<std::string, int> history;
+
+    
+
     void createLinks(std::vector<Node*>& nodes) 
     {
         for (int i = 0; i < nodes.size(); i++)
@@ -91,24 +98,23 @@ private:
         }
     }
 
-    void createConnection(Node* nodeA, Node* nodeB) 
-    {
-        nodeA->neighbors.push_back(nodeB);
-        nodeB->neighbors.push_back(nodeA);
-    }
-
     //TODO: make this dynamic for both part 1 and 2
-    std::vector<Node*> createRoomNodes(int roomValue) 
+    std::vector<Node*> createRoomNodes(int roomValue, int nodeCount) 
     {
-        Node* node1 = new Node();
-        Node* node2 = new Node();
+        std::vector<Node*> roomNodes(nodeCount);
+        for (int i = 0; i < roomNodes.size(); i++) 
+        {
+            Node* node = new Node();
+            node->roomValue = roomValue;
 
-        node1->roomValue = roomValue;
-        node2->roomValue = roomValue;
+            roomNodes[i] = node;
+        }
 
-        createConnection(node1, node2);
+        createLinks(roomNodes);
 
-        return { node1, node2 };
+        roomMap[roomValue] = roomNodes;
+
+        return roomNodes;
     }
 
     int roomNameToID(const std::string& name) 
@@ -120,6 +126,16 @@ private:
         
         return -1;
     }
+
+    std::string IDToRoomName(int id)
+    {
+        if      (id == 0) return "A";
+        else if (id == 1) return "B";
+        else if (id == 2) return "C";
+        else if (id == 3) return "D";
+
+        return ".";
+    }
     
     Input parseInput(const std::vector<std::string>& input)
     {
@@ -127,6 +143,7 @@ private:
 
         const int NODE_COUNT = 11;
         const int ROOM_COUNT = 4;
+        std::vector<int> connectionIndices = { 2, 4, 6, 8 };
 
         std::vector<Node*> nodes;
         for (int i = 0; i < NODE_COUNT; i++)
@@ -136,45 +153,15 @@ private:
 
         createLinks(nodes);
 
-        //TODO: make this dynamic based on the input file, don't hard code it
-        auto roomA = createRoomNodes(0);
-        auto roomB = createRoomNodes(1);
-        auto roomC = createRoomNodes(2);
-        auto roomD = createRoomNodes(3);
 
-        //define the connections to the rooms
-        createConnection(nodes[2], roomA[0]);
-        nodes[2]->connectsToRoom = true;
-
-        createConnection(nodes[4], roomB[0]);
-        nodes[4]->connectsToRoom = true;
-
-        createConnection(nodes[6], roomC[0]);
-        nodes[6]->connectsToRoom = true;
-
-        createConnection(nodes[8], roomD[0]);
-        nodes[8]->connectsToRoom = true;
-
-        nodes.insert(nodes.end(), roomA.begin(), roomA.end());
-        nodes.insert(nodes.end(), roomB.begin(), roomB.end());
-        nodes.insert(nodes.end(), roomC.begin(), roomC.end());
-        nodes.insert(nodes.end(), roomD.begin(), roomD.end());
-
-        std::vector<Unit> map(nodes.size());
-        for (int i = 0; i < nodes.size(); i++) 
-        {
-            nodes[i]->id = i;
-
-            map[i] = Unit(-1);
-        }
-
+        //parse input file to determine amount of nodes in each room
         std::vector<std::vector<int>> roomValues(ROOM_COUNT);
-        for (int i = 0; i < roomValues.size(); i++) 
+        for (int i = 0; i < roomValues.size(); i++)
         {
             roomValues[i] = std::vector<int>();
         }
 
-        for (const auto& line : input) 
+        for (const auto& line : input)
         {
             std::string nLine = Utilities::trim(line, " \n\r\t\f\v");
             std::vector<std::string> parts = Utilities::splitString(nLine, "#");
@@ -187,6 +174,26 @@ private:
                     roomValues[i].push_back(id);
                 }
             }
+        }
+
+        for (int i = 0; i < roomValues.size(); i++)
+        {
+            std::vector<Node*> roomNodes = createRoomNodes(i, roomValues[i].size());
+
+            std::vector<Node*> nodeLinks = { nodes[connectionIndices[i]], roomNodes[0] };
+            createLinks(nodeLinks);
+
+            nodes[connectionIndices[i]]->connectsToRoom = true;
+
+            nodes.insert(nodes.end(), roomNodes.begin(), roomNodes.end());
+        }
+
+        std::vector<Unit> map(nodes.size());
+        for (int i = 0; i < nodes.size(); i++) 
+        {
+            nodes[i]->id = i;
+
+            map[i] = Unit(-1);
         }
 
         int roomUnitIndex = NODE_COUNT;
@@ -226,24 +233,31 @@ private:
         return nodesWithUnits;
     }
 
-    bool isRoomComplete(const Node* node, const std::vector<Unit>& map)
+    std::vector<Node*> getRoomNodes(const std::vector<Node*>& nodes, int roomValue) 
     {
-        for (const auto& neighbor : node->neighbors)
+        if (roomMap.find(roomValue) != roomMap.end()) 
         {
-            //check if the neighboring nodes in the same room
-            if (neighbor->roomValue == node->roomValue)
-            {
-                //if there is no unit on the node, the room is not complete
-                Unit neighborUnit = map[neighbor->id];
-                if (!isValidUnit(neighborUnit)) return false;
-
-                if (neighborUnit.roomValue != node->roomValue) return false;
-            }
+            return roomMap[roomValue];
         }
+
+        return {};
+    }
+
+    bool isRoomComplete(const std::vector<Node*>& roomNodes, const std::vector<Unit>& map)
+    {
+        for (const auto& node : roomNodes)
+        {
+            //check if the node contains a unit with the same roomValue as the node
+            Unit unit = map[node->id];
+            if (!isValidUnit(unit)) return false;
+
+            if (unit.roomValue != node->roomValue) return false;
+        }
+
         return true;
     }
 
-    bool isDestinationValid(const Node* activeNode, const Node* targetNode, const std::vector<Unit>& map)
+    bool isDestinationValid(const Node* activeNode, const Node* targetNode, const std::vector<Node*>& nodes, const std::vector<Unit>& map)
     {
         Unit unit = map[activeNode->id];
 
@@ -265,44 +279,44 @@ private:
             if (targetNode->neighbors.size() > 1) return false;
         }
 
-        //if the unit is on the active node is already in the correct position, don't process move
-        if (unit.roomValue == activeNode->roomValue)
-        {
-            //corner position validation
-            if (activeNode->neighbors.size() == 1) return false;
-
-            //check if the room is complete
-            if (isRoomComplete(activeNode, map)) return false;
-
-            //else if the active node is in the right location, and the corner position is empty,
-            //that should be the only allowed move
-            Unit neighborUnit = map[activeNode->neighbors[0]->id];
-            if (!isValidUnit(neighborUnit)) 
-            {
-                //if the target position is not this neighboring node, then don't allow the move
-                if (targetNode != activeNode->neighbors[0]) return false;
-            }
-        }
-
-        //if the destination target is of the correct type,
-        //the unit should not block any non-correct units in that room
+        //detect whether the target node is in a room
         if (unit.roomValue == targetNode->roomValue) 
         {
-            for (const auto& neighbor : targetNode->neighbors) 
+            std::vector<Node*> roomNodes = getRoomNodes(nodes, targetNode->roomValue);
+
+            //if the room is already complete, don't process the move
+            if (isRoomComplete(roomNodes, map)) return false;
+
+            //corner position validation
+            if (activeNode->id == roomNodes[roomNodes.size() - 1]->id) return false;
+
+            //if the room is not complete yet, the move might be considered, but depends on the following checks:
+            //- if the target position is valid, but it blocks another unit that needs to leave the room: INVALID
+            //- if the target position is valid, the active unit is already in the room, it can only move to the 'deepest' node
+            //- if the active unit is already at it's 'deepest' position, it shouldn't move again
+            
+            //nodes are added sequentially, so the next room node always has an ID of (previousID + 1)
+            
+            //loop backwards, for each iteration check:
+            //- is the current node NOT empty and is the unit of that node NOT in the room right, return false
+            int endIndex = targetNode->id - roomNodes[0]->id;
+            for (int i = roomNodes.size() - 1; i >= endIndex; i--)
             {
-                //find the neighbor with the same room value
-                if (neighbor->roomValue == neighbor->roomValue) 
+                Unit unit = map[roomNodes[i]->id];
+                if (isValidUnit(unit))
                 {
-                    if (neighbor->neighbors.size() == 1) 
-                    {
-                        Unit neighborUnit = map[neighbor->id];
-                        if (isValidUnit(neighborUnit))
-                        {
-                            if (neighborUnit.roomValue != targetNode->roomValue) return false;
-                        }
-                    }
+                    if (unit.roomValue != roomNodes[i]->roomValue) return false;
                 }
+
+                //if the roomNode id is lower than the active node id, it moves up, which isn't allowed in a room
+                if (roomNodes[i]->id < activeNode->id) return false;
             }
+        }
+        
+        //don't move from one room directly into another, first has to go to the hallway
+        if (activeNode->roomValue != -1 && targetNode->roomValue != -1) 
+        {
+            if (activeNode->roomValue == targetNode->roomValue) return false;
         }
 
         return true;
@@ -337,7 +351,7 @@ private:
         }
     }
 
-    std::vector<Move> getValidatedMoves(const Node* activeNode, const std::vector<Move>& moves, const std::vector<Unit>& map)
+    std::vector<Move> getValidatedMoves(const Node* activeNode, const std::vector<Node*>& nodes, const std::vector<Move>& moves, const std::vector<Unit>& map)
     {
         std::vector<Move> validatedMoves;
 
@@ -345,7 +359,7 @@ private:
         for (const auto& move : moves)
         {
             //check if the move is valid
-            bool isValid = isDestinationValid(activeNode, move.target, map);
+            bool isValid = isDestinationValid(activeNode, move.target, nodes, map);
             if (isValid)
             {
                 validatedMoves.push_back(move);
@@ -355,6 +369,13 @@ private:
         return validatedMoves;
     }
 
+    //TODO: 
+    //IDEA: instead of storing the full configuration, 
+    // what if you only store the steps to get to that configuration?
+    // a couple of from-to actions are stored and that should be about it 
+    // I guess that is easier to backtrack
+    // and how would that go with memory?
+    // something to think about
     std::vector<std::vector<Unit>> getNextStartingConfigurations(const Node* activeNode, const std::vector<Node*>& nodes, const std::vector<Unit>& map)
     {
         //basically you want to find all possible moves that the active node can go to
@@ -362,7 +383,7 @@ private:
         std::vector<Move> moves;
         getPossibleMoves(activeNode, moves, map, 1);
 
-        std::vector<Move> validatedMoves = getValidatedMoves(activeNode, moves, map);
+        std::vector<Move> validatedMoves = getValidatedMoves(activeNode, nodes, moves, map);
 
         std::vector<std::vector<Unit>> configurations(validatedMoves.size());
 
@@ -382,7 +403,7 @@ private:
             unit.totalDistance += validatedMoves[i].distance;
 
             copy[targetIndex] = unit;
-            copy[activeIndex].roomValue = -1;
+            copy[activeIndex] = Unit(-1);
 
             configurations[i] = copy;
         }
@@ -408,11 +429,10 @@ private:
         return true;
     }
 
-    int lowestCost = INT_MAX;
-
     std::string mapToKey(const std::vector<Unit>& map) 
     {
         std::string key;
+
         for (const auto& unit : map) 
         {
             std::string input = "x";
@@ -442,44 +462,91 @@ private:
         return totalCost;
     }
 
-    std::map<std::string, int> history;
-
-    void processConfiguration(const std::vector<Node*> nodes, const std::vector<Unit>& map) 
+    bool hasBetterConfiguration(int cost, const std::vector<Unit>& map) 
     {
-        int totalCost = getCost(map);
-
         //check if the current configuration has already been executed once
         std::string key = mapToKey(map);
-        if (history.find(key) == history.end()) 
+        if (history.find(key) == history.end())
         {
-            history[key] = totalCost;
+            history[key] = cost;
         }
-        else 
+        else
         {
             //if it has, check the cost of that configuration
             //if the current cost is lower, overwrite the cost and continue
             //otherwise return, because a more cheaper option is already considered
-            if (totalCost >= history[key]) 
+            if (cost >= history[key])
             {
-                return;
+                return true;
             }
-            else 
+            else
             {
-                history[key] = totalCost;
+                history[key] = cost;
             }
         }
 
+        return false;
+    }
 
-        if (totalCost >= lowestCost) return;
+    void printMap(const std::vector<Unit>& map)
+    {
+        const int HALLWAY_LENGTH = 11;
+        std::vector<int> connections = { 2,4,6,8 };
+
+        std::cout << "\n" << std::endl;
+
+        std::string hallway;
+        for (int i = 0; i < HALLWAY_LENGTH; i++)
+        {
+            Unit unit = map[i];
+            hallway += IDToRoomName(unit.roomValue);
+        }
+        std::cout << hallway << std::endl;
+
+        int nodesPerRoom = (map.size() - HALLWAY_LENGTH) / 4;
+
+        for (int n = 0; n < nodesPerRoom; n++) 
+        {
+            std::string roomLine(HALLWAY_LENGTH, '#');
+            for (int i = 0; i < HALLWAY_LENGTH; i++)
+            {
+                //overwrite indices in roomline with unit values
+                for (int c = 0; c < connections.size(); c++) 
+                {
+                    if (i == connections[c])
+                    {
+                        int index = HALLWAY_LENGTH + c * connections.size() + n;
+                        Unit unit = map[index];
+                        if (isValidUnit(unit)) 
+                        {
+                            roomLine[i] = IDToRoomName(unit.roomValue)[0];
+                        }
+                    }
+                }
+            }
+            std::cout << roomLine << std::endl;
+        }
+
+        std::cout << "\n" << std::endl;
+    }
+
+    void processConfiguration(const std::vector<Node*> nodes, const std::vector<Unit>& map) 
+    {
+        int cost = getCost(map);
+
+        if (hasBetterConfiguration(cost, map)) return;
+        if (cost >= lowestCost) return;
 
         //check if the configuration is complete
         if (isConfigurationComplete(nodes, map))
         {
-            if (totalCost < lowestCost) 
+            if (cost < lowestCost)
             {
-                lowestCost = totalCost;
+                lowestCost = cost;
 
                 std::cout << "Lowest cost so far: " << lowestCost << std::endl;
+
+                printMap(map);
             }
 
             return;
