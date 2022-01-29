@@ -316,7 +316,7 @@ private:
         //don't move from one room directly into another, first has to go to the hallway
         if (activeNode->roomValue != -1 && targetNode->roomValue != -1) 
         {
-            if (activeNode->roomValue == targetNode->roomValue) return false;
+            if (activeNode->roomValue != targetNode->roomValue) return false;
         }
 
         return true;
@@ -376,36 +376,54 @@ private:
     // I guess that is easier to backtrack
     // and how would that go with memory?
     // something to think about
-    std::vector<std::vector<Unit>> getNextStartingConfigurations(const Node* activeNode, const std::vector<Node*>& nodes, const std::vector<Unit>& map)
+    struct MoveSet 
+    {
+        int from;
+        int to;
+
+        MoveSet(int from, int to)
+            : from(from), to(to)
+        {
+            
+        }
+    };
+    struct MoveEntry 
+    {
+        std::vector<Unit> map;
+        std::vector<MoveSet> moves;
+    };
+    std::vector<MoveEntry> getNextStartingConfigurations(const Node* activeNode, const std::vector<Node*>& nodes, const MoveEntry& map)
     {
         //basically you want to find all possible moves that the active node can go to
         //for each of these moves, we create a new set of nodes and apply the moved node
         std::vector<Move> moves;
-        getPossibleMoves(activeNode, moves, map, 1);
+        getPossibleMoves(activeNode, moves, map.map, 1);
 
-        std::vector<Move> validatedMoves = getValidatedMoves(activeNode, nodes, moves, map);
+        std::vector<Move> validatedMoves = getValidatedMoves(activeNode, nodes, moves, map.map);
 
-        std::vector<std::vector<Unit>> configurations(validatedMoves.size());
+        std::vector<MoveEntry> configurations(validatedMoves.size());
 
         //create a copy of each configuration, but then replace the activeNode with the validatedNode
         //and set all properties as necessary
         for (int i = 0; i < validatedMoves.size(); i++) 
         {
-            std::vector<Unit> copy = map;
-            
+            MoveEntry entry = map;
+
             //get the active node iterator
             int activeIndex = activeNode->id; 
             int targetIndex = validatedMoves[i].target->id;
 
             //apply unit to target, and remove the original index unit
-            Unit unit = map[activeIndex];
+            Unit unit = map.map[activeIndex];
             unit.hasMovedToHallway = true;
             unit.totalDistance += validatedMoves[i].distance;
 
-            copy[targetIndex] = unit;
-            copy[activeIndex] = Unit(-1);
+            entry.map[targetIndex] = unit;
+            entry.map[activeIndex] = Unit(-1);
 
-            configurations[i] = copy;
+            entry.moves.push_back(MoveSet(activeIndex, targetIndex));
+
+            configurations[i] = entry;
         }
 
         //create a new list of starting configurations
@@ -515,12 +533,9 @@ private:
                 {
                     if (i == connections[c])
                     {
-                        int index = HALLWAY_LENGTH + c * connections.size() + n;
+                        int index = HALLWAY_LENGTH + c * nodesPerRoom + n;
                         Unit unit = map[index];
-                        if (isValidUnit(unit)) 
-                        {
-                            roomLine[i] = IDToRoomName(unit.roomValue)[0];
-                        }
+                        roomLine[i] = IDToRoomName(unit.roomValue)[0];
                     }
                 }
             }
@@ -530,36 +545,48 @@ private:
         std::cout << "\n" << std::endl;
     }
 
-    void processConfiguration(const std::vector<Node*> nodes, const std::vector<Unit>& map) 
+    void printProgress(const std::vector<MoveSet>& moves, std::vector<Unit> originalMap) 
     {
-        int cost = getCost(map);
+        for (const auto& move : moves) 
+        {
+            //apply unit to target, and remove the original index unit
+            Unit unit = originalMap[move.from];
 
-        if (hasBetterConfiguration(cost, map)) return;
+            originalMap[move.to]    = unit;
+            originalMap[move.from]  = Unit(-1);
+
+            printMap(originalMap);
+        }
+    }
+
+    void processConfiguration(const std::vector<Node*> nodes, const MoveEntry& entry)
+    {
+        int cost = getCost(entry.map);
+
+        if (hasBetterConfiguration(cost, entry.map)) return;
         if (cost >= lowestCost) return;
 
         //check if the configuration is complete
-        if (isConfigurationComplete(nodes, map))
+        if (isConfigurationComplete(nodes, entry.map))
         {
             if (cost < lowestCost)
             {
                 lowestCost = cost;
 
                 std::cout << "Lowest cost so far: " << lowestCost << std::endl;
-
-                printMap(map);
             }
 
             return;
         }
 
         //retrieve all nodes that have units on them
-        std::vector<Node*> nodesWithUnits = getNodesWithUnits(nodes, map);
+        std::vector<Node*> nodesWithUnits = getNodesWithUnits(nodes, entry.map);
 
         //for each node, find all configurations that have processed one of the 
         //available moves for that node
         for (const auto& node : nodesWithUnits)
         {
-            auto configs = getNextStartingConfigurations(node, nodes, map);
+            auto configs = getNextStartingConfigurations(node, nodes, entry);
 
             //if a configuration is 'invalid', meaning it can't progress, it will simply
             //not regenerate any new starting configurations and will therefore terminate
@@ -574,7 +601,11 @@ private:
     {
         int result = 0;
 
-        processConfiguration(data.nodes, data.map);
+        MoveEntry entry;
+        entry.map = data.map;
+        entry.moves = {};
+
+        processConfiguration(data.nodes, entry);
 
         result = lowestCost;
 
@@ -598,6 +629,6 @@ public:
 
     std::string getInput() 
     {
-        return "23/input_example_2";
+        return "23/input_2";
     }
 };

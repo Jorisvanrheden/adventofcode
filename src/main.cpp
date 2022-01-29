@@ -31,8 +31,6 @@ int main()
 
     std::vector<std::string> input = Utilities::readFile(assignment.getInput());
 
-    std::cout << input.size() << std::endl;
-
     assignment.initialize(input);
     assignment.run();
 
