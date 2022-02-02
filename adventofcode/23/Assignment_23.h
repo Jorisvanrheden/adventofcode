@@ -74,7 +74,6 @@ private:
     };
 
     //TODO: GLOBALS that need to be processed differently
-    int lowestCost = INT_MAX;
     std::map<int, std::vector<Node*>> roomMap;
     std::map<std::string, int> history;
 
@@ -559,7 +558,7 @@ private:
         }
     }
 
-    void processConfiguration(const std::vector<Node*> nodes, const MoveEntry& entry)
+    void processConfiguration(const std::vector<Node*> nodes, const MoveEntry& entry, int& lowestCost)
     {
         int cost = getCost(entry.map);
 
@@ -592,22 +591,29 @@ private:
             //not regenerate any new starting configurations and will therefore terminate
             for(const auto& config : configs)
             {
-                processConfiguration(nodes, config);
+                processConfiguration(nodes, config, lowestCost);
             }
         }
+    }
+
+    int getLowestCostConfiguration(const Input& input) 
+    {
+        int lowestCost = INT_MAX;
+
+        MoveEntry entry;
+        entry.map = input.map;
+        entry.moves = {};
+
+        processConfiguration(input.nodes, entry, lowestCost);
+
+        return lowestCost;
     }
 
     std::string getSolutionPart1()
     {
         int result = 0;
 
-        MoveEntry entry;
-        entry.map = data.map;
-        entry.moves = {};
-
-        processConfiguration(data.nodes, entry);
-
-        result = lowestCost;
+        result = getLowestCostConfiguration(data);
 
         return std::to_string(result);
     }
@@ -615,6 +621,8 @@ private:
     std::string getSolutionPart2()
     {
         int result = 0;
+
+        result = getLowestCostConfiguration(data);
 
         return std::to_string(result);
     }

@@ -79,6 +79,16 @@ class Utilities
             return true;
         }
 
+        static char intToChar(int x) 
+        {
+            return x + '0';
+        }
+
+        static int charToInt(int c) 
+        {
+            return c - '0';
+        }
+
         static unsigned long long binaryToDecimal(const std::string& binary)
         {
             return std::stoll(binary, 0, 2);
