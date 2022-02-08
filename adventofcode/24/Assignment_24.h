@@ -7,12 +7,12 @@ class Assignment_24 : public Assignment
 private:
     struct ALU
     {
-        unsigned long long w = 0;
-        unsigned long long x = 0;
-        unsigned long long y = 0;
-        unsigned long long z = 0;
+        long long w = 0;
+        long long x = 0;
+        long long y = 0;
+        long long z = 0;
 
-        unsigned long long& getParam(int type)
+        long long& getParam(int type)
         {
             if      (type == 0) return w;
             else if (type == 1) return x;
@@ -23,7 +23,7 @@ private:
 
     struct IValueGetter 
     {
-        virtual unsigned long long& getValue(ALU& alu) = 0;
+        virtual long long& getValue(ALU& alu) = 0;
     };
 
     struct ParamValueGetter : IValueGetter
@@ -36,7 +36,7 @@ private:
 
         }
 
-        unsigned long long& getValue(ALU& alu)
+        long long& getValue(ALU& alu)
         {
             return alu.getParam(type);
         }
@@ -44,15 +44,15 @@ private:
 
     struct DefaultValueGetter : IValueGetter
     {
-        unsigned long long value;
+        long long value;
 
-        DefaultValueGetter(unsigned long long value)
+        DefaultValueGetter(long long value)
             : value(value)
         {
         
         }
 
-        unsigned long long& getValue(ALU& alu)
+        long long& getValue(ALU& alu)
         {
             return value;
         }
@@ -60,21 +60,29 @@ private:
 
     struct IInstruction 
     {
-        virtual void process(ALU& alu, unsigned long long value, int& index) = 0;
+        virtual void process(ALU& alu, long long value, int& index) = 0;
+        virtual long long reverse(ALU& alu, long long input) { return input; };
+    };
+
+    struct InstructionGroup 
+    {
+        std::vector<IInstruction*> instructions;
+
+        IInstruction* special = NULL;
     };
 
     struct InputInstruction : IInstruction
     {
-        int type;
+        IValueGetter* getter;
 
-        InputInstruction(int type)
-            : type(type)
+        InputInstruction(IValueGetter* getter)
+            : getter(getter)
         {
         }
 
-        void process(ALU& alu, unsigned long long value, int& index)
+        void process(ALU& alu, long long value, int& index)
         {
-            unsigned long long& param = alu.getParam(type);
+            long long& param = getter->getValue(alu);
             param = value;
 
             index++;
@@ -91,10 +99,10 @@ private:
         {
         }
 
-        void process(ALU& alu, unsigned long long value, int& index)
+        void process(ALU& alu, long long value, int& index)
         {
-            unsigned long long& param1 = getter1->getValue(alu);
-            unsigned long long& param2 = getter2->getValue(alu);
+            long long& param1 = getter1->getValue(alu);
+            long long& param2 = getter2->getValue(alu);
 
             param1 += param2;
         }
@@ -110,10 +118,10 @@ private:
         {
         }
 
-        void process(ALU& alu, unsigned long long value, int& index)
+        void process(ALU& alu, long long value, int& index)
         {
-            unsigned long long& param1 = getter1->getValue(alu);
-            unsigned long long& param2 = getter2->getValue(alu);
+            long long& param1 = getter1->getValue(alu);
+            long long& param2 = getter2->getValue(alu);
 
             param1 *= param2;
         }
@@ -129,10 +137,10 @@ private:
         {
         }
 
-        void process(ALU& alu, unsigned long long value, int& index)
+        void process(ALU& alu, long long value, int& index)
         {
-            unsigned long long& param1 = getter1->getValue(alu);
-            unsigned long long& param2 = getter2->getValue(alu);
+            long long& param1 = getter1->getValue(alu);
+            long long& param2 = getter2->getValue(alu);
 
             if (param1 < 0)
             {
@@ -157,10 +165,10 @@ private:
         {
         }
 
-        void process(ALU& alu, unsigned long long value, int& index)
+        void process(ALU& alu, long long value, int& index)
         {
-            unsigned long long& param1 = getter1->getValue(alu);
-            unsigned long long& param2 = getter2->getValue(alu);
+            long long& param1 = getter1->getValue(alu);
+            long long& param2 = getter2->getValue(alu);
             
             if (param2 == 0) 
             {
@@ -168,6 +176,11 @@ private:
             }
 
             param1 = trunc((float)param1 / (float)param2);
+        }
+
+        long long reverse(ALU& alu, long long input) 
+        {
+            return input * getter2->getValue(alu) + 1;
         }
     };
 
@@ -181,10 +194,10 @@ private:
         {
         }
 
-        void process(ALU& alu, unsigned long long value, int& index)
+        void process(ALU& alu, long long value, int& index)
         {
-            unsigned long long& param1 = getter1->getValue(alu);
-            unsigned long long& param2 = getter2->getValue(alu);
+            long long& param1 = getter1->getValue(alu);
+            long long& param2 = getter2->getValue(alu);
 
             param1 = (param1 == param2);
         }
@@ -200,19 +213,30 @@ private:
         return -1;
     }
 
-    std::vector<IInstruction*> parseInput(const std::vector<std::string>& input)
+    std::vector<InstructionGroup> parseInput(const std::vector<std::string>& input)
     {
-        std::vector<IInstruction*> data;
+        std::vector<InstructionGroup> data;
 
-        for (const auto& entry : input)
+        std::vector<IInstruction*> instructions;
+
+        for (int i=0;i<input.size();i++)
         {
-            std::vector<std::string> parts = Utilities::splitString(entry, " ");
+            std::vector<std::string> parts = Utilities::splitString(input[i], " ");
 
             //process an input instruction
             if (parts.size() == 2) 
             {
+                if (instructions.size() > 0) 
+                {
+                    InstructionGroup group;
+                    group.instructions = instructions;
+                    data.push_back(group);
+
+                    instructions = {};
+                }
+
                 int param = typeToParam(parts[1]);
-                data.push_back(new InputInstruction(param));
+                instructions.push_back(new InputInstruction(new ParamValueGetter(param)));
             }
             //process a mul/add/mod/div instruction
             if (parts.size() == 3) 
@@ -228,19 +252,31 @@ private:
                 //check if the instruction has a var or value for the second param
                 if (param2 == -1) 
                 {
-                    valueGetter2 = new DefaultValueGetter(std::stoi(parts[2]));
+                    valueGetter2 = new DefaultValueGetter(std::stoll(parts[2]));
                 }
                 else 
                 {
                     valueGetter2 = new ParamValueGetter(param2);
                 }
 
-                if      (type == "add") data.push_back(new AddInstruction(valueGetter1, valueGetter2));
-                else if (type == "mul") data.push_back(new MultiplyInstruction(valueGetter1, valueGetter2));
-                else if (type == "div") data.push_back(new DivInstruction(valueGetter1, valueGetter2));
-                else if (type == "mod") data.push_back(new ModInstruction(valueGetter1, valueGetter2));
-                else if (type == "eql") data.push_back(new EqualsInstruction(valueGetter1, valueGetter2));
+                if      (type == "add") instructions.push_back(new AddInstruction(valueGetter1, valueGetter2));
+                else if (type == "mul") instructions.push_back(new MultiplyInstruction(valueGetter1, valueGetter2));
+                else if (type == "div") instructions.push_back(new DivInstruction(valueGetter1, valueGetter2));
+                else if (type == "mod") instructions.push_back(new ModInstruction(valueGetter1, valueGetter2));
+                else if (type == "eql") instructions.push_back(new EqualsInstruction(valueGetter1, valueGetter2));
+
+                if (instructions.size() == 5) 
+                {
+                    if (data.size() > 0) data[data.size() - 1].special = instructions[instructions.size() - 1];
+                }
             }
+        }
+
+        if (instructions.size() > 0)
+        {
+            InstructionGroup group;
+            group.instructions = instructions;
+            data.push_back(group);
         }
 
         return data;
@@ -251,26 +287,35 @@ private:
         std::cout << alu.w << ", " << alu.x << ", " << alu.y << ", " << alu.z << std::endl;
     }
 
-    ALU processModelNumber(const std::string modelNumber, std::vector<IInstruction*>& instructions)
+    void processModelNumber(const std::string& modelNumber, const std::vector<IInstruction*>& instructions, ALU& alu, int& index)
     {
-        int index = 0;
-
-        ALU alu;
-
-        //process all instructions
         for (auto& instruction : instructions) 
         {
             int modelInput = Utilities::charToInt(modelNumber[index]);
 
             instruction->process(alu, modelInput, index);
         }
+    }
+
+    ALU processGroups(const std::string& modelNumber, const std::vector<InstructionGroup>& groups) 
+    {
+        ALU alu;
+
+        int index = 0;
+
+        for (const auto& group : groups)
+        {
+            processModelNumber(modelNumber, group.instructions, alu, index);
+        }
+
+        printAlu(alu);
 
         return alu;
     }
 
-    char findBestNumberAtIndex(int index, std::string input) 
+    /*char findBestNumberAtIndex(int index, std::string input) 
     {
-        unsigned long long score = LLONG_MAX;
+        long long score = LLONG_MAX;
         char bestChar = input[index];
 
         for (int j = 1; j <= 9; j++)
@@ -278,7 +323,7 @@ private:
             char tempChar = Utilities::intToChar(j);
             input[index] = tempChar;
 
-            unsigned long long newScore = processModelNumber(input, data).z;
+            long long newScore = processModelNumber(input, data).z;
             if (newScore < score)
             {
                 score = newScore;
@@ -286,50 +331,179 @@ private:
             }
         }
         return bestChar;
-    }
+    }*/
 
-    std::string getModelNumber(std::string input) 
+    //std::string getModelNumber(std::string input) 
+    //{
+    //    //for each of the indices, iterate the number and check the z-score
+    //    for (int i = 0; i < input.size(); i++)
+    //    {
+    //        char bestNumber = findBestNumberAtIndex(i, input);
+
+    //        input[i] = bestNumber;
+    //    }
+
+    //    return input;
+    //}
+
+    struct IRequirement 
     {
-        //for each of the indices, iterate the number and check the z-score
-        for (int i = 0; i < input.size(); i++)
+        virtual bool meetsRequirement(const ALU& alu) = 0;
+    };
+    struct ZRequirement : IRequirement 
+    {
+        bool meetsRequirement(const ALU& alu) 
         {
-            char bestNumber = findBestNumberAtIndex(i, input);
-
-            input[i] = bestNumber;
+            return alu.z == 0;
+        }
+    };
+    struct DefaultRequirement : IRequirement
+    {
+        std::vector<Vector2D> configs;
+        DefaultRequirement(const std::vector<Vector2D>& configs)
+            : configs(configs)
+        {
+        
         }
 
-        return input;
+        bool meetsRequirement(const ALU& alu)
+        {
+            //should meet one of the requirements
+            for (int i = 0; i < configs.size(); i++) 
+            {
+                if (alu.z == configs[i].x && alu.w == i + 1) return true;
+            }
+
+            return false;
+        }
+    };
+
+    long long getZForW(int w, long long& z, std::vector<IInstruction*> instructions, IRequirement* requirement)
+    {
+        //keep incrementing for z until a key is found
+        while (true)
+        {
+            ALU alu;
+            //x and y will be initialized automatically
+
+            alu.z = z;
+
+            for (const auto& instruction : instructions)
+            {
+                int test;
+                instruction->process(alu, w, test);
+            }
+
+            if (requirement->meetsRequirement(alu))
+            {
+                return z;
+            }
+
+            z++;
+        }
+    }
+
+    long long getZDiff(const InstructionGroup& group, long long previousZDiff)
+    {
+        ALU alu;
+
+        if (group.special) 
+        {
+            return group.special->reverse(alu, previousZDiff);
+        }
+
+        return 1;
+    }
+
+    std::vector<Vector2D> getInputForRequirement(const InstructionGroup& group, IRequirement* requirement, long long& z, long long& previousZDiff)
+    {
+        std::vector<Vector2D> alus;
+
+        long long test = getZDiff(group, previousZDiff);
+
+
+        //BRUTE FORCE
+        long long z1 = getZForW(1, z, group.instructions, requirement);
+        long long z2 = getZForW(2, z, group.instructions, requirement);
+
+        //calculate the diff that will be applied to all remaining w values
+        long long zDiff = z2 - z1;
+
+        previousZDiff = zDiff;
+
+        for (int w = 1; w <= 2; w++) 
+        {
+            long long z = z1 + (w - 1) * zDiff;
+
+            alus.push_back(Vector2D(z, zDiff));
+        }
+        
+        return alus;
     }
 
     std::string getSolutionPart1()
     {
         int result = 0;
 
-        std::string digit = "11111111111111";
+        std::vector<std::vector<Vector2D>> answersCollection(data.size());
 
-        while (true) 
+        std::vector<Vector2D> answers;
+        for (int i = 1; i <= 2; i++) 
         {
-            for (int i = 0; i < digit.size(); i++)
-            {
-                digit[i] = findBestNumberAtIndex(i, digit);
-
-                std::cout << digit << ": ";
-                printAlu(processModelNumber(digit, data));
-            }
+            //creating all possible combinations for z and w with z = 0
+            answers.push_back(Vector2D(0, 0));
         }
 
-        
+        long long z = 0;
+        long long prevZ = 0;
 
-        //TODO
-        //- set requirements for when each next input starts
-        //- backtrack (start from the last index)
+        for (int i = data.size() - 1; i >= 0; i--) 
+        {
+            answersCollection[i] = answers;
+
+            answers = getInputForRequirement(data[i], new DefaultRequirement(answers), z, prevZ);
+
+            std::cout << i << std::endl;
+        }
+
+        /*const long long MIN = 11111111111111;
+        const long long MAX = 99999999999999;
+
+        long long iterations = MAX - MIN;
+
+        for (long long i = 0; i < MAX; i++) 
+        {
+            std::string input = std::to_string(i + MIN);
+            processGroups(input, data);
+        }*/
+
+        /*ALU alu = processModelNumber(digit, data);
+        printAlu(alu);*/
+
+
+        //TODO:
+        //- find out for which Z each input-block in combination with a given input results in Z = 0
 
         //Findings:
         //- every block always starts with;
-        // inp w
-        // mul x 0
-        // add x z
-        // mod x 26
+        //1.  inp w
+        //2.  mul x 0
+        //3.  add x z
+        //4.  mod x 26
+        //5.  ----
+        //6.  ----
+        //7.  eql x w
+        //8.  eql x 0
+        //9.  mul y 0
+        //10. add y 25
+        //11. mul y x
+        //12. add y 1
+        //13. mul z y
+        //14. mul y 0
+        //15. add y w
+        //16. ----
+        //17. mul y x
+        //18. add z y
 
         return std::to_string(result);
     }
@@ -341,7 +515,7 @@ private:
         return std::to_string(result);
     }
 
-    std::vector<IInstruction*> data;
+    std::vector<InstructionGroup> data;
 
 public:
     void initialize(const std::vector<std::string>& input)

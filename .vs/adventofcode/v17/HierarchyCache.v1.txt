@@ -1,0 +1,509 @@
+﻿++Solution 'adventofcode' ‎(1 of 1 project)
+i:{00000000-0000-0000-0000-000000000000}:adventofcode.sln
+++adventofcode ‎(Visual Studio 2017)
+i:{00000000-0000-0000-0000-000000000000}:adventofcode
+++External Dependencies
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:{02355171-F400-41E0-B48D-4B5E143AC9AE}
+++1
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\1
+++Assignment_1.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\1\Assignment_1.h
+++description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\1\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\2\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\3\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\4\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\5\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\6\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\7\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\8\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\9\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\10\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\11\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\12\description
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\13\description
+++input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\1\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\2\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\3\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\4\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\5\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\6\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\7\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\8\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\9\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\10\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\11\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\12\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\13\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\14\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\15\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\16\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\17\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\18\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\19\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\20\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\21\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\22\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\23\input
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\24\input
+++2
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\2
+++Assignment_2.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\2\Assignment_2.h
+++3
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\3
+++Assignment_3.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\3\Assignment_3.h
+++4
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\4
+++Assignment_4.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\4\Assignment_4.h
+++5
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\5
+++Assignment_5.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\5\Assignment_5.h
+++6
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\6
+++Assignment_6.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\6\Assignment_6.h
+++7
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\7
+++Assignment_7.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\7\Assignment_7.h
+++8
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\8
+++Assignment_8.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\8\Assignment_8.h
+++9
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\9
+++Assignment_9.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\9\Assignment_9.h
+++10
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\10
+++Assignment_10.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\10\Assignment_10.h
+++11
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\11
+++Assignment_11.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\11\Assignment_11.h
+++12
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\12
+++Assignment_12.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\12\Assignment_12.h
+++13
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\13
+++Assignment_13.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\13\Assignment_13.h
+++14
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\14
+++Assignment_14.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\14\Assignment_14.h
+++15
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\15
+++Assignment_15.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\15\Assignment_15.h
+++16
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\16
+++Assignment_16.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\16\Assignment_16.h
+++notes
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\16\notes
+++17
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\17
+++Assignment_17.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\17\Assignment_17.h
+++18
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\18
+++Assignment_18.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\18\Assignment_18.h
+++19
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\19
+++Assignment_19.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\19\Assignment_19.h
+++input_example
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\19\input_example
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\20\input_example
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\21\input_example
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\22\input_example
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\23\input_example
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\24\input_example
+++20
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\20
+++Assignment_20.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\20\Assignment_20.h
+++21
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\21
+++Assignment_21.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\21\Assignment_21.h
+++22
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\22
+++Assignment_22.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\22\Assignment_22.h
+++input_example_simple
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\22\input_example_simple
+++23
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\23
+++Assignment_23.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\23\Assignment_23.h
+++input_2
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\23\input_2
+++input_example.bak
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\23\input_example.bak
+++input_example_2
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\23\input_example_2
+++input_example_2.bak
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\23\input_example_2.bak
+++24
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\24
+++Assignment_24.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\24\Assignment_24.h
+++25
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\25
+++inc
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\inc
+++Assignment.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\inc\Assignment.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\REPOS\ADVENTOFCODE\ADVENTOFCODE\INC\ASSIGNMENT.H
+++Utilities.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\inc\Utilities.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\REPOS\ADVENTOFCODE\ADVENTOFCODE\INC\UTILITIES.H
+++Vector2D.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\inc\Vector2D.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\REPOS\ADVENTOFCODE\ADVENTOFCODE\INC\VECTOR2D.H
+++Vector3D.h
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\inc\Vector3D.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\REPOS\ADVENTOFCODE\ADVENTOFCODE\INC\VECTOR3D.H
+++x64
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64
+++main.cpp
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\src\main.cpp
+++__msvc_system_error_abi.hpp
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\__MSVC_SYSTEM_ERROR_ABI.HPP
+++__msvc_xlocinfo_types.hpp
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\__MSVC_XLOCINFO_TYPES.HPP
+++algorithm
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ALGORITHM
+++ammintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\AMMINTRIN.H
+++arm_neon.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ARM_NEON.H
+++arm64_neon.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ARM64_NEON.H
+++arm64intr.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ARM64INTR.H
+++armintr.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ARMINTR.H
+++atomic
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ATOMIC
+++bit
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\BIT
+++cctype
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CCTYPE
+++cerrno
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CERRNO
+++cfloat
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CFLOAT
+++climits
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CLIMITS
+++clocale
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CLOCALE
+++cmath
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CMATH
+++compare
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\COMPARE
+++concepts
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CONCEPTS
+++concurrencysal.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CONCURRENCYSAL.H
+++corecrt.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT.H
+++corecrt_malloc.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_MALLOC.H
+++corecrt_math.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_MATH.H
+++corecrt_math_defines.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_MATH_DEFINES.H
+++corecrt_memcpy_s.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_MEMCPY_S.H
+++corecrt_memory.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_MEMORY.H
+++corecrt_search.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_SEARCH.H
+++corecrt_share.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_SHARE.H
+++corecrt_stdio_config.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_STDIO_CONFIG.H
+++corecrt_terminate.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_TERMINATE.H
+++corecrt_wconio.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_WCONIO.H
+++corecrt_wctype.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_WCTYPE.H
+++corecrt_wdirect.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_WDIRECT.H
+++corecrt_wio.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_WIO.H
+++corecrt_wprocess.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_WPROCESS.H
+++corecrt_wstdio.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_WSTDIO.H
+++corecrt_wstdlib.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_WSTDLIB.H
+++corecrt_wstring.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_WSTRING.H
+++corecrt_wtime.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CORECRT_WTIME.H
+++crtdbg.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CRTDBG.H
+++crtdefs.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CRTDEFS.H
+++cstddef
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CSTDDEF
+++cstdint
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CSTDINT
+++cstdio
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CSTDIO
+++cstdlib
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CSTDLIB
+++cstring
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CSTRING
+++ctime
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CTIME
+++ctype.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\CTYPE.H
+++cwchar
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CWCHAR
+++eh.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\EH.H
+++emmintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\EMMINTRIN.H
+++errno.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\ERRNO.H
+++exception
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\EXCEPTION
+++float.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\FLOAT.H
+++fstream
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\FSTREAM
+++immintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\IMMINTRIN.H
+++initializer_list
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\INITIALIZER_LIST
+++intrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\INTRIN.H
+++intrin0.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\INTRIN0.H
+++intrin0.inl.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\INTRIN0.INL.H
+++ios
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\IOS
+++iosfwd
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\IOSFWD
+++iostream
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\IOSTREAM
+++isa_availability.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ISA_AVAILABILITY.H
+++istream
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ISTREAM
+++iterator
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ITERATOR
+++limits
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\LIMITS
+++limits.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\LIMITS.H
+++locale.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\LOCALE.H
+++malloc.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\MALLOC.H
+++map
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\MAP
+++math.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\MATH.H
+++memory
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\MEMORY
+++mm3dnow.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\MM3DNOW.H
+++mmintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\MMINTRIN.H
+++new
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\NEW
+++nmmintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\NMMINTRIN.H
+++ostream
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\OSTREAM
+++pmmintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\PMMINTRIN.H
+++sal.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\SAL.H
+++setjmp.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\SETJMP.H
+++setjmpex.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\SETJMPEX.H
+++share.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\SHARE.H
+++smmintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\SMMINTRIN.H
+++sourceannotations.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\CODEANALYSIS\SOURCEANNOTATIONS.H
+++stat.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\SYS\STAT.H
+++stddef.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\STDDEF.H
+++stdexcept
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\STDEXCEPT
+++stdint.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\STDINT.H
+++stdio.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\STDIO.H
+++stdlib.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\STDLIB.H
+++streambuf
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\STREAMBUF
+++string
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\STRING
+++string.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\STRING.H
+++system_error
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\SYSTEM_ERROR
+++time.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\TIME.H
+++tmmintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\TMMINTRIN.H
+++tuple
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\TUPLE
+++type_traits
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\TYPE_TRAITS
+++typeinfo
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\TYPEINFO
+++types.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\SYS\TYPES.H
+++use_ansi.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\USE_ANSI.H
+++utility
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\UTILITY
+++vadefs.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\VADEFS.H
+++vcruntime.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\VCRUNTIME.H
+++vcruntime_exception.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\VCRUNTIME_EXCEPTION.H
+++vcruntime_new.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\VCRUNTIME_NEW.H
+++vcruntime_new_debug.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\VCRUNTIME_NEW_DEBUG.H
+++vcruntime_string.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\VCRUNTIME_STRING.H
+++vcruntime_typeinfo.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\VCRUNTIME_TYPEINFO.H
+++vector
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\VECTOR
+++wchar.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\UCRT\WCHAR.H
+++winapifamily.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\SHARED\WINAPIFAMILY.H
+++winpackagefamily.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\WINDOWS KITS\10\INCLUDE\10.0.19041.0\SHARED\WINPACKAGEFAMILY.H
+++wmmintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\WMMINTRIN.H
+++xatomic.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XATOMIC.H
+++xatomic_wait.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XATOMIC_WAIT.H
+++xcall_once.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XCALL_ONCE.H
+++xerrc.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XERRC.H
+++xfacet
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XFACET
+++xiosbase
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XIOSBASE
+++xkeycheck.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XKEYCHECK.H
+++xlocale
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XLOCALE
+++xlocinfo
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XLOCINFO
+++xlocnum
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XLOCNUM
+++xmemory
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XMEMORY
+++xmmintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XMMINTRIN.H
+++xnode_handle.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XNODE_HANDLE.H
+++xpolymorphic_allocator.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XPOLYMORPHIC_ALLOCATOR.H
+++xstddef
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XSTDDEF
+++xstring
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XSTRING
+++xthreads.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XTHREADS.H
+++xtimec.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XTIMEC.H
+++xtr1common
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XTR1COMMON
+++xtree
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XTREE
+++xutility
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\XUTILITY
+++yvals.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\YVALS.H
+++yvals_core.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\YVALS_CORE.H
+++zmmintrin.h
+e:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:C:\PROGRAM FILES\MICROSOFT VISUAL STUDIO\2022\COMMUNITY\VC\TOOLS\MSVC\14.30.30705\INCLUDE\ZMMINTRIN.H
+++Debug
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug
+++Release
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release
+++adventofcode.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.tlog
+++adventofcode.Build.CppClean.log
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.Build.CppClean.log
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.Build.CppClean.log
+++adventofcode.exe.recipe
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.exe.recipe
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.exe.recipe
+++adventofcode.log
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.log
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.log
+++adventofcode.vcxproj.FileListAbsolute.txt
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.vcxproj.FileListAbsolute.txt
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.vcxproj.FileListAbsolute.txt
+++Assignment_23.obj
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\Assignment_23.obj
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\Assignment_23.obj
+++main.obj
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\main.obj
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\main.obj
+++vc141.idb
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\vc141.idb
+++vc141.pdb
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\vc141.pdb
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\vc141.pdb
+++adventofcode.lastbuildstate
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.tlog\adventofcode.lastbuildstate
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.tlog\adventofcode.lastbuildstate
+++CL.command.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.tlog\CL.command.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.tlog\CL.command.1.tlog
+++CL.read.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.tlog\CL.read.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.tlog\CL.read.1.tlog
+++CL.write.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.tlog\CL.write.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.tlog\CL.write.1.tlog
+++link.command.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.tlog\link.command.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.tlog\link.command.1.tlog
+++link.read.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.tlog\link.read.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.tlog\link.read.1.tlog
+++link.write.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Debug\adventofcode.tlog\link.write.1.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.tlog\link.write.1.tlog
+++adventofcode.write.1u.tlog
+i:{a8aac8f1-8dd3-4df9-905b-dacbc8e6fdf9}:D:\repos\adventofcode\adventofcode\x64\Release\adventofcode.tlog\adventofcode.write.1u.tlog

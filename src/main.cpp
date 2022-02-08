@@ -24,10 +24,11 @@
 #include "../21/Assignment_21.h"
 #include "../22/Assignment_22.h"
 #include "../23/Assignment_23.h"
+#include "../24/Assignment_24.h"
 
 int main()
 {
-    Assignment_23 assignment;
+    Assignment_24 assignment;
 
     std::vector<std::string> input = Utilities::readFile(assignment.getInput());
 
