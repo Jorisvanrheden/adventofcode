@@ -67,8 +67,6 @@ private:
     struct InstructionGroup 
     {
         std::vector<IInstruction*> instructions;
-
-        IInstruction* special = NULL;
     };
 
     struct InputInstruction : IInstruction
@@ -264,11 +262,6 @@ private:
                 else if (type == "div") instructions.push_back(new DivInstruction(valueGetter1, valueGetter2));
                 else if (type == "mod") instructions.push_back(new ModInstruction(valueGetter1, valueGetter2));
                 else if (type == "eql") instructions.push_back(new EqualsInstruction(valueGetter1, valueGetter2));
-
-                if (instructions.size() == 5) 
-                {
-                    if (data.size() > 0) data[data.size() - 1].special = instructions[instructions.size() - 1];
-                }
             }
         }
 
@@ -284,7 +277,7 @@ private:
 
     void printAlu(const ALU& alu) 
     {
-        std::cout << alu.w << ", " << alu.x << ", " << alu.y << ", " << alu.z << std::endl;
+        std::cout <<"\nw: " << alu.w << "\nx: " << alu.x <<"\ny: " << alu.y << "\nz: " << alu.z << std::endl;
     }
 
     void processModelNumber(const std::string& modelNumber, const std::vector<IInstruction*>& instructions, ALU& alu, int& index)
@@ -308,7 +301,7 @@ private:
             processModelNumber(modelNumber, group.instructions, alu, index);
         }
 
-        printAlu(alu);
+        //printAlu(alu);
 
         return alu;
     }
@@ -371,15 +364,17 @@ private:
             //should meet one of the requirements
             for (int i = 0; i < configs.size(); i++) 
             {
-                if (alu.z == configs[i].x && alu.w == i + 1) return true;
+                if (alu.z == configs[i].x && alu.w == configs[i].y) return true;
             }
 
             return false;
         }
     };
 
-    long long getZForW(int w, long long& z, std::vector<IInstruction*> instructions, IRequirement* requirement)
+    long long getZForW(int w, std::vector<IInstruction*> instructions, IRequirement* requirement)
     {
+        long long z = 0;
+
         //keep incrementing for z until a key is found
         while (true)
         {
@@ -392,6 +387,8 @@ private:
             {
                 int test;
                 instruction->process(alu, w, test);
+
+                printAlu(alu);
             }
 
             if (requirement->meetsRequirement(alu))
@@ -403,81 +400,127 @@ private:
         }
     }
 
-    long long getZDiff(const InstructionGroup& group, long long previousZDiff)
-    {
-        ALU alu;
-
-        if (group.special) 
-        {
-            return group.special->reverse(alu, previousZDiff);
-        }
-
-        return 1;
-    }
-
-    std::vector<Vector2D> getInputForRequirement(const InstructionGroup& group, IRequirement* requirement, long long& z, long long& previousZDiff)
+    std::vector<Vector2D> getInputForRequirement(const InstructionGroup& group, IRequirement* requirement, long long& previousZDiff)
     {
         std::vector<Vector2D> alus;
 
-        long long test = getZDiff(group, previousZDiff);
-
-
         //BRUTE FORCE
-        long long z1 = getZForW(1, z, group.instructions, requirement);
-        long long z2 = getZForW(2, z, group.instructions, requirement);
+        long long z1 = getZForW(1, group.instructions, requirement);
+        long long z2 = getZForW(2, group.instructions, requirement);
 
         //calculate the diff that will be applied to all remaining w values
         long long zDiff = z2 - z1;
 
         previousZDiff = zDiff;
 
-        for (int w = 1; w <= 2; w++) 
+        for (int w = 1; w <= 9; w++) 
         {
             long long z = z1 + (w - 1) * zDiff;
 
-            alus.push_back(Vector2D(z, zDiff));
+            alus.push_back(Vector2D(z, w));
         }
         
         return alus;
+    }
+
+    //Findings:         13          12
+    //1.  inp w                          
+    //2.  mul x 0                        
+    //3.  add x z                        
+    //4.  mod x 26                       
+    //5.  ----          div z 26    div z 26
+    //6.  ----          add x -2    add x -4
+    //7.  eql x w                        
+    //8.  eql x 0                        
+    //9.  mul y 0                        
+    //10. add y 25                       
+    //11. mul y x                        
+    //12. add y 1                        
+    //13. mul z y                        
+    //14. mul y 0                        
+    //15. add y w                        
+    //16. ----          add y 9     add y 4
+    //17. mul y x                        
+    //18. add z y     
+
+    //you need to find out what these additional steps mean for the START pos of 
+    //the next iteration
+
+    //multiply by 26 (div)
+
+    //x - (first special) should be 1 (for w == 1)
+
+    int64_t search(std::vector<int32_t>& divisors, std::vector<int32_t>& offsets, std::vector<int32_t>& modifiers) {
+        std::unordered_map<int64_t, int64_t> z_values;
+        std::unordered_map<int64_t, int64_t> z_values_new;
+        z_values.insert(std::make_pair(0, 0));
+
+        for (int64_t index = 0; index < 14; index++) {
+            for (auto z0 : z_values) {
+                for (int64_t digit = 9; digit > 0; digit--) {
+                    int64_t candidate = z0.second * 10 + digit;
+                    int64_t z = z0.first / divisors[index];
+                    if (z0.first % 26 + offsets[index] != digit)
+                        z = z * 26 + digit + modifiers[index];
+                    auto [it, flag] = z_values_new.emplace(z, candidate);
+                    if (!flag)
+                        it->second = std::max(it->second, candidate);
+                }
+            }
+            z_values = std::move(z_values_new);
+        }
+        return z_values[0];
     }
 
     std::string getSolutionPart1()
     {
         int result = 0;
 
-        std::vector<std::vector<Vector2D>> answersCollection(data.size());
+        //std::vector<std::vector<Vector2D>> answersCollection(data.size());
 
-        std::vector<Vector2D> answers;
-        for (int i = 1; i <= 2; i++) 
-        {
-            //creating all possible combinations for z and w with z = 0
-            answers.push_back(Vector2D(0, 0));
-        }
+        //std::vector<Vector2D> answers;
+        //for (int i = 1; i <= 9; i++) 
+        //{
+        //    //creating all possible combinations for z and w
+        //    answers.push_back(Vector2D(0, i));
+        //}
 
-        long long z = 0;
-        long long prevZ = 0;
+        //long long prevZ = 0;
 
-        for (int i = data.size() - 1; i >= 0; i--) 
-        {
-            answersCollection[i] = answers;
+        //for (int i = data.size() - 1; i >= 0; i--) 
+        //{
+        //    answersCollection[i] = answers;
 
-            answers = getInputForRequirement(data[i], new DefaultRequirement(answers), z, prevZ);
+        //    answers = getInputForRequirement(data[i], new DefaultRequirement(answers), prevZ);
 
-            std::cout << i << std::endl;
-        }
+        //    std::cout << i << std::endl;
+        //}
 
-        /*const long long MIN = 11111111111111;
+        const long long MIN = 11111111111111;
         const long long MAX = 99999999999999;
 
         long long iterations = MAX - MIN;
 
-        for (long long i = 0; i < MAX; i++) 
-        {
-            std::string input = std::to_string(i + MIN);
-            processGroups(input, data);
-        }*/
+        int p = 0;
 
-        /*ALU alu = processModelNumber(digit, data);
+        for (long long i = 0; i < iterations; i++)
+        {
+            int resu = 0;
+
+            int percentage = (int)(((double)i / (double)iterations) * 100);
+            if (percentage != p) 
+            {
+                p = percentage;
+                std::cout << p << std::endl;
+            }
+
+            /*std::string input = std::to_string(i + MIN);
+            ALU alu = processGroups(input, data);
+
+            std::cout << input<<" -> " <<alu.z << std::endl;*/
+        }
+
+       /* ALU alu = processModelNumber(digit, data);
         printAlu(alu);*/
 
 

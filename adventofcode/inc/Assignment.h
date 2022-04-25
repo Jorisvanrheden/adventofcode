@@ -4,8 +4,10 @@
 #include <string>
 #include <algorithm>
 #include <map>
+#include <unordered_map>
 #include <math.h>
 #include <iostream>
+#include <stdint.h>
 
 #include "Utilities.h"
 #include "Vector2D.h"
