@@ -1,0 +1,7 @@
+bin/
+x64/
+x86/
+adventofcode/x64/
+adventofcode/x86/
+adventofcode/.vs/
+.vscode/

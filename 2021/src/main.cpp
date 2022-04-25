@@ -28,7 +28,7 @@
 
 int main()
 {
-    Assignment_24 assignment;
+    Assignment_22 assignment;
 
     std::vector<std::string> input = Utilities::readFile(assignment.getInput());
 
