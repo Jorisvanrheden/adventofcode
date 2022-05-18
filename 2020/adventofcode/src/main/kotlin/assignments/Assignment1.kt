@@ -1,10 +1,6 @@
 package assignments
 
-import java.util.Arrays
-import kotlin.math.exp
-import kotlin.math.pow
-
-class Assignment_1 : Assignment()
+class Assignment1 : Assignment()
 {
     private lateinit var expenseReport:List<Int>
 
