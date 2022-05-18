@@ -1,9 +1,8 @@
 package assignments
-
-data class PasswordEntry(val min:Int, val max:Int, val letter:Char, val password:String)
-
 class Assignment2 : Assignment()
 {
+    data class PasswordEntry(val min:Int, val max:Int, val letter:Char, val password:String)
+
     private lateinit var passwordEntries:List<PasswordEntry>
 
     override fun getInput(): String {
