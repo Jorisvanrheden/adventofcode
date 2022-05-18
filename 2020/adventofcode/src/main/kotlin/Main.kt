@@ -3,7 +3,7 @@ import utilities.Utilities
 
 fun main(args: Array<String>) {
 
-    val assignment:Assignment = Assignment3()
+    val assignment:Assignment = Assignment4()
 
     val input:List<String> = Utilities.readFile("src/main/resources/" + assignment.getInput())
 
