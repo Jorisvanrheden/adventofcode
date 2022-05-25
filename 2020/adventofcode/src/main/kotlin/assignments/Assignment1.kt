@@ -1,8 +1,7 @@
 package assignments
 
-class Assignment1 : Assignment()
-{
-    private lateinit var expenseReport:List<Int>
+class Assignment1 : Assignment() {
+    private lateinit var expenseReport: List<Int>
 
     override fun getInput(): String {
         return "input_1"
@@ -13,10 +12,9 @@ class Assignment1 : Assignment()
     }
 
     override fun calculateSolutionA(): String {
-        for(x in expenseReport){
-            for(y in expenseReport){
-                if(x + y == 2020)
-                {
+        for (x in expenseReport) {
+            for (y in expenseReport) {
+                if (x + y == 2020) {
                     return (x * y).toString()
                 }
             }
@@ -25,11 +23,10 @@ class Assignment1 : Assignment()
     }
 
     override fun calculateSolutionB(): String {
-        for(x in expenseReport){
-            for(y in expenseReport){
-                for(z in expenseReport){
-                    if(x + y + z == 2020)
-                    {
+        for (x in expenseReport) {
+            for (y in expenseReport) {
+                for (z in expenseReport) {
+                    if (x + y + z == 2020) {
                         return (x * y * z).toString()
                     }
                 }
