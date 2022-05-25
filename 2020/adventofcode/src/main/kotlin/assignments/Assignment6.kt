@@ -21,13 +21,13 @@ class Assignment6 : Assignment() {
     }
 
     private fun getAnswerCountPerChunk(chunk: List<String>): Int {
-        val alphabet: String = "abcdefghijklmnopqrstuvwxyz"
+        val alphabet = "abcdefghijklmnopqrstuvwxyz"
 
         return alphabet.count { allEntriesContain(chunk, it) }
     }
 
     override fun calculateSolutionA(): String {
-        var answers: MutableList<String> = mutableListOf()
+        val answers: MutableList<String> = mutableListOf()
         for (x in groupAnswers) {
             answers.add(x.joinToString { it }.replace(", ", ""))
         }
