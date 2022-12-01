@@ -1,5 +1,7 @@
 package assignments
 
+import utilities.Utilities
+
 class Assignment1 : Assignment() {
 
     data class Elf(val calories: List<Int>)
@@ -11,30 +13,40 @@ class Assignment1 : Assignment() {
     }
 
     override fun initialize(input: List<String>) {
-        expenseReport = input.map { it.toInt() }
+        val chunks = Utilities.packageByEmptyLine(input)
+        elves = chunks.map { calories -> Elf(calories.map { it.toInt() }) }
+    }
+
+    private fun getTotalFromCollection(collection: List<Int>): Int {
+        var total = 0
+        for (value in collection) {
+            total += value
+        }
+        return total
+    }
+
+    private fun findHeighestCaloryCount(elves: List<Elf>): Int {
+        var highestValue = Int.MIN_VALUE
+        for (i in elves.indices) {
+            val total = getTotalFromCollection(elves[i].calories)
+            if (total > highestValue) {
+                highestValue = total
+            }
+        }
+        return highestValue
     }
 
     override fun calculateSolutionA(): String {
-        for (x in expenseReport) {
-            for (y in expenseReport) {
-                if (x + y == 2020) {
-                    return (x * y).toString()
-                }
-            }
-        }
-        return "answer not found"
+        return findHeighestCaloryCount(elves).toString()
     }
 
     override fun calculateSolutionB(): String {
-        for (x in expenseReport) {
-            for (y in expenseReport) {
-                for (z in expenseReport) {
-                    if (x + y + z == 2020) {
-                        return (x * y * z).toString()
-                    }
-                }
-            }
+        val sortedElves = elves.sortedBy { getTotalFromCollection(it.calories) }
+
+        var topTotal = 0
+        for(i in sortedElves.size - 3 until sortedElves.size){
+            topTotal += getTotalFromCollection(sortedElves[i].calories)
         }
-        return "answer not found"
+        return topTotal.toString()
     }
 }
