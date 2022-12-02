@@ -17,36 +17,22 @@ class Assignment1 : Assignment() {
         elves = chunks.map { calories -> Elf(calories.map { it.toInt() }) }
     }
 
-    private fun getTotalFromCollection(collection: List<Int>): Int {
-        var total = 0
-        for (value in collection) {
-            total += value
-        }
-        return total
-    }
-
-    private fun findHeighestCaloryCount(elves: List<Elf>): Int {
-        var highestValue = Int.MIN_VALUE
-        for (i in elves.indices) {
-            val total = getTotalFromCollection(elves[i].calories)
-            if (total > highestValue) {
-                highestValue = total
-            }
-        }
-        return highestValue
-    }
-
     override fun calculateSolutionA(): String {
-        return findHeighestCaloryCount(elves).toString()
+        // Find the elf that has the highest total calories
+        return elves.maxOf {
+            it.calories.sumOf { x -> x }
+        }.toString()
     }
 
     override fun calculateSolutionB(): String {
-        val sortedElves = elves.sortedBy { getTotalFromCollection(it.calories) }
+        // Sort the elves based on calories, and then take the top 3 values
+        val topElvesSortedByCalories = elves.sortedBy { x ->
+            x.calories.sumOf { it }
+        }.let { it.subList(it.size - 3, it.size) }
 
-        var topTotal = 0
-        for (i in sortedElves.size - 3 until sortedElves.size) {
-            topTotal += getTotalFromCollection(sortedElves[i].calories)
-        }
-        return topTotal.toString()
+        // Return the sum of the top 3 elves' calories
+        return topElvesSortedByCalories.sumOf { x ->
+            x.calories.sumOf { it }
+        }.toString()
     }
 }
