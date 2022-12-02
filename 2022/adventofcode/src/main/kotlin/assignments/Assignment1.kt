@@ -44,7 +44,7 @@ class Assignment1 : Assignment() {
         val sortedElves = elves.sortedBy { getTotalFromCollection(it.calories) }
 
         var topTotal = 0
-        for(i in sortedElves.size - 3 until sortedElves.size){
+        for (i in sortedElves.size - 3 until sortedElves.size) {
             topTotal += getTotalFromCollection(sortedElves[i].calories)
         }
         return topTotal.toString()
