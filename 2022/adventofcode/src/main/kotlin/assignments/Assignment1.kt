@@ -18,21 +18,25 @@ class Assignment1 : Assignment() {
     }
 
     override fun calculateSolutionA(): String {
+        val calorySumsSorted = elves.map { x ->
+            x.calories.sumOf { it }
+        }.sortedBy { it }
+
         // Find the elf that has the highest total calories
-        return elves.maxOf {
-            it.calories.sumOf { x -> x }
-        }.toString()
+        return calorySumsSorted
+            .last()
+            .toString()
     }
 
     override fun calculateSolutionB(): String {
-        // Sort the elves based on calories, and then take the top 3 values
-        val topElvesSortedByCalories = elves.sortedBy { x ->
+        val calorySumsSorted = elves.map { x ->
             x.calories.sumOf { it }
-        }.let { it.subList(it.size - 3, it.size) }
+        }.sortedBy { it }
 
         // Return the sum of the top 3 elves' calories
-        return topElvesSortedByCalories.sumOf { x ->
-            x.calories.sumOf { it }
-        }.toString()
+        return calorySumsSorted
+            .takeLast(3)
+            .sum()
+            .toString()
     }
 }
