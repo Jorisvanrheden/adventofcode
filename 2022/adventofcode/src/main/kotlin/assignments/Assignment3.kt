@@ -48,13 +48,16 @@ class Assignment3 : Assignment() {
     }
 
     override fun calculateSolutionA(): String {
-        return rucksacks.sumOf {
+        // get all match types for each entry
+        val matchingTypesPerEntry = rucksacks.map {
             getMatchingTypes(
                 it.compartmentA,
                 it.compartmentB
-            ).sumOf { x ->
-                getTypeScore(x)
-            }
+            )
+        }
+
+        return matchingTypesPerEntry.sumOf {
+            it.sumOf { x -> getTypeScore(x) }
         }.toString()
     }
 
