@@ -55,7 +55,6 @@ class Assignment2 : Assignment() {
     override fun initialize(input: List<String>) {
         val enemyValues = listOf("A", "B", "C")
         val ownValues = listOf("X", "Y", "Z")
-
         matches = input.map {
             val chunks = it.split(' ')
             Match(
