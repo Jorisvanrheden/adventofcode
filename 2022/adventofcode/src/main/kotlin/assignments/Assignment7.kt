@@ -43,30 +43,25 @@ class Assignment7 : Assignment() {
     }
 
     private fun addContentToDirectory(directory: Directory, index: Int, input: List<String>): Int {
-        // add content until the next command to the current directory
-
         var i = index
 
-        var line = input[i]
-        while (!line.startsWith("$")) {
-            val parts = line.split(' ')
+        // add content until the next command to the current directory
+        while (!input[i].startsWith("$")) {
+            val parts = input[i].split(' ')
             if (parts[0] == "dir") {
                 directory.addFolder(parts[1])
             } else {
                 directory.addFile(parts[1], parts[0].toInt())
             }
 
-            i++
-            if (i == input.size) break
-
-            line = input[i]
+            if (i >= input.size - 1) break
+            i += 1
         }
         return i
     }
 
     private fun processInput(index: Int, input: List<String>): Int {
         val line = input[index]
-
         val parts = line.split(' ')
 
         if (line == "$ cd /") {
@@ -78,7 +73,7 @@ class Assignment7 : Assignment() {
         } else if (line.startsWith("$ cd") && parts.size == 3) {
             // set the active folder to be the parent of the current one
             if (parts[2] == "..") {
-                activeDir = activeDir.parent!!
+                if (activeDir.parent != null) activeDir = activeDir.parent!!
             }
             // set the active folder to be the child directory of the current folder
             else {
