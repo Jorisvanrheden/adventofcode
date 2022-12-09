@@ -84,25 +84,21 @@ class Assignment8 : Assignment() {
     }
 
     override fun calculateSolutionA(): String {
-        var total = 0
-        for (i in 0 until trees.rows) {
-            for (j in 0 until trees.columns) {
-                if (isVisibleFromOutside(trees, i, j)) total += 1
-            }
+        return trees.foreach { it, i, j ->
+            if (isVisibleFromOutside(it, i, j)) 1
+            else 0
         }
-        return total.toString()
+            .flatten()
+            .sum()
+            .toString()
     }
 
     override fun calculateSolutionB(): String {
-        var maxDistance = 0
-        for (i in 0 until trees.rows) {
-            for (j in 0 until trees.columns) {
-                val distance = getScenicViewDistance(trees, i, j)
-                if (distance > maxDistance) {
-                    maxDistance = distance
-                }
-            }
+        return trees.foreach { it, i, j ->
+            getScenicViewDistance(it, i, j)
         }
-        return maxDistance.toString()
+            .flatten()
+            .maxOrNull()
+            .toString()
     }
 }

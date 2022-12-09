@@ -103,11 +103,9 @@ class Assignment7 : Assignment() {
     override fun calculateSolutionB(): String {
         val spaceLeft = 70000000 - dir.getSize()
         val spaceRequired = 30000000
-        val sortedDirectoriesBySize = dir.listSubFolders()
+        return dir.listSubFolders()
             .map { it.getSize() }
             .sortedBy { it }
-
-        return sortedDirectoriesBySize
             .first { it >= abs(spaceLeft - spaceRequired) }
             .toString()
     }

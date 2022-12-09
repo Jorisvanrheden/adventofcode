@@ -6,4 +6,12 @@ class Matrix(val rows: Int, val columns: Int) {
             0
         }
     }
+
+    fun foreach(delegate: (Matrix, Int, Int) -> Int): List<List<Int>> {
+        return values.mapIndexed { i, row ->
+            row.mapIndexed { j, _ ->
+                delegate(this, i, j)
+            }
+        }
+    }
 }
