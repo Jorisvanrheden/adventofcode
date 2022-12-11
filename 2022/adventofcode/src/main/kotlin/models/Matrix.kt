@@ -7,11 +7,15 @@ class Matrix(val rows: Int, val columns: Int) {
         }
     }
 
-    fun foreach(delegate: (Matrix, Int, Int) -> Int): List<List<Int>> {
-        return values.mapIndexed { i, row ->
-            row.mapIndexed { j, _ ->
-                delegate(this, i, j)
+    override fun toString(): String {
+        var output = "\n"
+        for (i in 0 until rows) {
+            for (j in 0 until columns) {
+                if (values[i][j] == 0) output += " "
+                else output += "#"
             }
+            output += "\n"
         }
+        return output
     }
 }

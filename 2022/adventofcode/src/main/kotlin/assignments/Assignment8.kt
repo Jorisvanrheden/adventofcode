@@ -84,9 +84,11 @@ class Assignment8 : Assignment() {
     }
 
     override fun calculateSolutionA(): String {
-        return trees.foreach { it, i, j ->
-            if (isVisibleFromOutside(it, i, j)) 1
-            else 0
+        return trees.values.mapIndexed { i, row ->
+            row.mapIndexed { j, _ ->
+                if (isVisibleFromOutside(trees, i, j)) 1
+                else 0
+            }
         }
             .flatten()
             .sum()
@@ -94,8 +96,10 @@ class Assignment8 : Assignment() {
     }
 
     override fun calculateSolutionB(): String {
-        return trees.foreach { it, i, j ->
-            getScenicViewDistance(it, i, j)
+        return trees.values.mapIndexed { i, row ->
+            row.mapIndexed { j, _ ->
+                getScenicViewDistance(trees, i, j)
+            }
         }
             .flatten()
             .maxOrNull()
