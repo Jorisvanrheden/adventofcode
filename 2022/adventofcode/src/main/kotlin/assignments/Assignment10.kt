@@ -39,7 +39,7 @@ class Assignment10 : Assignment() {
     override fun initialize(input: List<String>) {
         cycles = input.map {
             it.split(' ').let { parts ->
-                if(parts.size == 1) Cycle(1, 0)
+                if (parts.size == 1) Cycle(1, 0)
                 else Cycle(2, parts[1].toInt())
             }
         }
