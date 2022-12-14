@@ -202,7 +202,7 @@ class Assignment14 : Assignment() {
         val rounds = applySandUntilStop(
             bounds,
             matrix,
-            Vector2D(500, 0),
+            sandSource,
             Vector2D(sandSource.x - bounds.xMin, sandSource.y - bounds.yMin)
         )
 
