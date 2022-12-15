@@ -204,7 +204,7 @@ class Assignment14 : Assignment() {
             matrix,
             sandSource,
             Vector2D(sandSource.x - bounds.xMin, sandSource.y - bounds.yMin)
-        )
+        ) + 1
 
         return rounds.toString()
     }
