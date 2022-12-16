@@ -3,11 +3,10 @@ package assignments
 class Assignment16 : Assignment() {
 
     data class Valve(val name: String, val flowRate: Int, val valves: List<String>)
-    data class State(var totalPressure: Int, var totalFlowRate: Int, var activeValve: Valve, var turn: Int, var openedValves: MutableSet<Valve>) {
+    data class State(var totalPressure: Int, var activeValve: Valve, var turn: Int, var openedValves: MutableSet<Valve>) {
         fun copy(): State =
             State(
                 totalPressure,
-                totalFlowRate,
                 activeValve.copy(),
                 turn,
                 openedValves.toMutableSet()
@@ -21,7 +20,6 @@ class Assignment16 : Assignment() {
     private lateinit var valves: List<Valve>
 
     private fun parseInputToValve(input: String): Valve {
-        // Valve AA has flow rate=0; tunnels lead to valves DD, II, BB
         val chunks = input.split(';')
 
         val valveInfo = chunks[0]
@@ -58,8 +56,7 @@ class Assignment16 : Assignment() {
         // Beginning of the turn:
         // - process the pressure that is being released
 //        println("${state.totalFlowRate} <--> ${state.openedValves.sumOf { it.flowRate }}")
-        state.totalPressure += state.totalFlowRate
-//        state.totalPressure += state.openedValves.sumOf { it.flowRate }
+        state.totalPressure += state.openedValves.sumOf { it.flowRate }
 
         if (state.turn == 30) {
             return state
@@ -71,7 +68,6 @@ class Assignment16 : Assignment() {
             val updatedState = state.copy()
             // label the active valve as 'open'
             updatedState.openedValves.add(updatedState.activeValve)
-            updatedState.totalFlowRate += updatedState.activeValve.flowRate
 
             updatedState.turn++
 
@@ -94,7 +90,7 @@ class Assignment16 : Assignment() {
         }
 
         // only return the one with the highest value
-        val r = possibleStates.minByOrNull { it.totalPressure }!!
+        val r = possibleStates.maxByOrNull { it.totalPressure }!!
         if (r.totalPressure > highestTotalPressure) {
             highestTotalPressure = r.totalPressure
             println(highestTotalPressure)
@@ -110,11 +106,11 @@ class Assignment16 : Assignment() {
         // only the t(minuteOfOpeningValve) + 1 starts releasing pressure
 
         // so each action takes one minute
-        var state = State(0, 0, valves[0], 0, mutableSetOf())
+        var state = State(0, valves[0], 0, mutableSetOf())
 
         state = simulateState(valves, state)
 
-        return ""
+        return state.totalPressure.toString()
     }
 
     override fun calculateSolutionB(): String {
