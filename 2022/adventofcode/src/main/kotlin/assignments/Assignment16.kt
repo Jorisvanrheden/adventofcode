@@ -53,10 +53,7 @@ class Assignment16 : Assignment() {
         // -- Beginning of the turn --
 
         // 1.) process the pressure that is being released
-        if (turn >= 30) return total
-//        var maxPossiblePressure = total + getFlowRate(openSet) * (30 - turn)
-
-        var outcomes = mutableListOf<Int>()
+        var maxPossiblePressure = total + getFlowRate(openSet) * (30 - turn)
 
         // Loop through all open valves and validate usage
         for (index in usefulValves) {
@@ -78,16 +75,58 @@ class Assignment16 : Assignment() {
             openSet.add(index)
 
             val outcome = simulateState(index, turn + requiredTime, newTotal, openSet)
-            outcomes.add(outcome)
+            if (outcome > maxPossiblePressure) {
+                maxPossiblePressure = outcome
+            }
             openSet.remove(index)
         }
 
-        return if (outcomes.isEmpty()) {
-            simulateState(position, turn + 1, total + getFlowRate(openSet), openSet)
-        } else {
-            outcomes.maxOrNull()!!
-        }
+        return maxPossiblePressure
     }
+
+    private fun simulateState2(start: Int, position: Int, turn: Int, total: Int, useful: List<Int>, openSet: MutableSet<Int>, elephant: Boolean): Int {
+        // -- Beginning of the turn --
+
+        // 1.) process the pressure that is being released
+        var max = total + getFlowRate(openSet) * (26 - turn)
+
+        if (!elephant) {
+            // get all useful valves, but remove the open ones
+            var candidates = useful.filter { !openSet.contains(it) }
+            max += simulateState2(start, start, 0, 0, candidates, mutableSetOf(), true)
+        }
+
+        for (index in useful) {
+            if (openSet.contains(index)) {
+                continue
+            }
+
+            // no need to process a valve that's too far away
+            // also add 1 for the time it takes to open the valve
+            val requiredTime = distanceMatrix.values[position][index] + 1
+            if (turn + requiredTime >= 26) {
+                continue
+            }
+
+            // increment total pressure and label the valve as opened
+            val newTotal = total + requiredTime * getFlowRate(openSet)
+            openSet.add(index)
+
+            val outcome = simulateState2(start, index, turn + requiredTime, newTotal, useful, openSet, elephant)
+
+            if (outcome > max) {
+                max = outcome
+            }
+            openSet.remove(index)
+        }
+        if (max > h) {
+            h = max
+            println(h)
+        }
+        return max
+    }
+
+    private var h = 0
 
     private lateinit var distanceMatrix: Matrix
     private lateinit var usefulValves: List<Int>
@@ -155,6 +194,11 @@ class Assignment16 : Assignment() {
     }
 
     override fun calculateSolutionB(): String {
-        return ""
+        // so each action takes one minute
+        val startIndex = valves.indexOfFirst { it.name == "AA" }
+        var openSet = mutableSetOf<Int>()
+        val result = simulateState2(startIndex, startIndex, 0, 0, usefulValves.toMutableList(), openSet, false)
+
+        return result.toString()
     }
 }
