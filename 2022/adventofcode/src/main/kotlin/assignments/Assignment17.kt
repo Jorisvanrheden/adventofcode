@@ -2,6 +2,7 @@ package assignments
 
 import toolkit.Matrix
 import toolkit.Vector2D
+import kotlin.math.abs
 
 class Assignment17 : Assignment() {
 
@@ -151,12 +152,25 @@ class Assignment17 : Assignment() {
         return block
     }
 
+    private fun Matrix.rowsToString(rowCount: Int): String {
+        val lowestY = getBottomY()
+        if (abs(rows - lowestY) <= rowCount) return ""
+
+        var output = ""
+        for (i in 0..rowCount) {
+            val rowIndex = i + lowestY
+            for (j in 0 until columns) {
+                var c = "."
+                if (values[rowIndex][j] > 0) c = "#"
+                output += c
+            }
+        }
+        return output
+    }
+
     override fun calculateSolutionA(): String {
         var currentBlockIndex = 0
         var matrix = Matrix(3500, 7)
-
-        var cachedShapes = mutableListOf<Block>()
-
         var activeBlock = getNextBlock(currentBlockIndex, matrix.getBottomY())
 
         var count = 1
@@ -166,7 +180,6 @@ class Assignment17 : Assignment() {
             matrix.moveBlock(activeBlock, Vector2D(directions[dirIndex], 0))
             dirIndex++
             dirIndex %= directions.size
-            println(dirIndex)
 
             // if the current block is already on the floor, get the next one
             if (matrix.isOnFloor(activeBlock)) {
@@ -174,12 +187,9 @@ class Assignment17 : Assignment() {
                 matrix.addBlock(activeBlock)
 
                 if (count == 2022) {
-//                    println(matrix.toString())
                     break
                 }
                 count++
-
-                cachedShapes.add(activeBlock)
 
                 currentBlockIndex++
                 currentBlockIndex %= shapes.size
@@ -194,6 +204,86 @@ class Assignment17 : Assignment() {
     }
 
     override fun calculateSolutionB(): String {
-        return ""
+        var map = HashMap<State, Answer>()
+
+        var currentBlockIndex = 0
+        var matrix = Matrix(3500, 7)
+        var activeBlock = getNextBlock(currentBlockIndex, matrix.getBottomY())
+
+        var rockDelta = 0
+
+        while (true) {
+            for ((dirIndex, direction) in directions.withIndex()) {
+                // process direction (only applicable to current block)
+                matrix.moveBlock(activeBlock, Vector2D(direction, 0))
+
+                // if the current block is already on the floor, get the next one
+                if (matrix.isOnFloor(activeBlock)) {
+                    // permanently etch the block in the matrix
+                    matrix.addBlock(activeBlock)
+
+                    rockDelta++
+
+                    currentBlockIndex++
+                    currentBlockIndex %= shapes.size
+                    activeBlock = getNextBlock(currentBlockIndex, matrix.getBottomY())
+                } else {
+                    // drop block one unit down
+                    matrix.moveBlock(activeBlock, Vector2D(0, 1))
+                }
+
+                var mCopy = matrix.copy()
+                mCopy.addBlock(activeBlock)
+                var mKey = mCopy.rowsToString(20)
+                var mBottom = mCopy.getBottomY()
+
+                val key = State(dirIndex, currentBlockIndex, mKey)
+
+                if (map.containsKey(key)) {
+                    val x = map[key]!!
+
+                    val requiredRocks = 1000000000000L
+                    var preLoopRockCount = rockDelta
+                    var preLoopHeight = mBottom
+
+                    var diffRocksPerLoop = abs(rockDelta - x.rocks).toLong()
+                    var diffHeightPerLoop = abs(mBottom - x.height).toLong()
+
+                    // this value is rounded down, so there is going to be some remainder
+                    var loopsNecessary = ((requiredRocks - preLoopRockCount) / diffRocksPerLoop)
+                    // 28571428569 ( - preloop)
+                    // 28571428571
+
+                    var afterLoopRockCount = loopsNecessary * diffRocksPerLoop// + preLoopRockCount
+                    var afterLoopHeight = loopsNecessary * diffHeightPerLoop// + preLoopHeight
+
+                    var remainderRocks = requiredRocks - afterLoopRockCount
+
+                    // find what percentage the remainder is of the diffRocksPerLoop
+                    var percentageRocksRemainder = remainderRocks.toFloat() / diffRocksPerLoop.toFloat()
+                    // then multiply that percentage with diffHeightPerLoop
+                    var remainderHeight = (percentageRocksRemainder * diffHeightPerLoop).toInt()
+
+                    // find how much height needs to be added
+                    var totalHeight = afterLoopHeight + remainderHeight
+
+                    println(totalHeight + 3)
+
+                    // 1514285717598
+                    // 1514285714288
+                    // 3310
+
+                    // 1514285714157
+
+                    return ""
+                } else {
+                    map[key] = Answer(rockDelta, mBottom, mKey)
+                }
+            }
+        }
+
+        return (matrix.rows - matrix.getBottomY()).toString()
     }
+    data class Answer(val rocks: Int, val height: Int, val fields: String)
+    data class State(val jet: Int, val block: Int, val fields: String)
 }
