@@ -251,8 +251,6 @@ class Assignment17 : Assignment() {
 
                     // this value is rounded down, so there is going to be some remainder
                     var loopsNecessary = ((requiredRocks - preLoopRockCount) / diffRocksPerLoop)
-                    // 28571428569 ( - preloop)
-                    // 28571428571
 
                     var afterLoopRockCount = loopsNecessary * diffRocksPerLoop// + preLoopRockCount
                     var afterLoopHeight = loopsNecessary * diffHeightPerLoop// + preLoopHeight
@@ -266,16 +264,10 @@ class Assignment17 : Assignment() {
 
                     // find how much height needs to be added
                     var totalHeight = afterLoopHeight + remainderHeight
+                    // adding 3 for the distance from the highest shape to the top of the 'map'
+                    totalHeight += 3
 
-                    println(totalHeight + 3)
-
-                    // 1514285717598
-                    // 1514285714288
-                    // 3310
-
-                    // 1514285714157
-
-                    return ""
+                    return totalHeight.toString()
                 } else {
                     map[key] = Answer(rockDelta, mBottom, mKey)
                 }
