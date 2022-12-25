@@ -8,12 +8,13 @@ import assignments.Assignment15
 import assignments.Assignment16
 import assignments.Assignment17
 import assignments.Assignment18
+import assignments.Assignment19
 import assignments.Assignment8
 import assignments.Assignment9
 import utilities.Utilities
 
 fun main(args: Array<String>) {
-    val assignment: Assignment = Assignment18()
+    val assignment: Assignment = Assignment19()
 
     val input: List<String> = Utilities.readFile("src/main/kotlin/input/" + assignment.getInput())
 
