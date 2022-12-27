@@ -6,13 +6,17 @@ class Assignment20 : Assignment() {
         return "input_20"
     }
 
-    data class Number(val name: String, val x: Int)
+    data class Number(val name: String, var x: Long) {
+        override fun equals(other: Any?): Boolean {
+            return name == (other as Number)?.name
+        }
+    }
 
     private lateinit var numbers: List<Number>
 
     override fun initialize(input: List<String>) {
         numbers = input.mapIndexed { index, it ->
-            Number(index.toString(), it.toInt())
+            Number(index.toString(), it.toLong())
         }
     }
 
@@ -22,15 +26,7 @@ class Assignment20 : Assignment() {
         var valueAtIndex = this[index]
 
         var destinationIndex = index + valueAtIndex.x
-        destinationIndex = destinationIndex.mod(size - 1)
-
-//        // wrap around the other side
-//        if (destinationIndex == 0) destinationIndex = size - 1
-//        else if (destinationIndex == size - 1) destinationIndex = 0
-//
-//        if (destinationIndex < 0 || destinationIndex > size - 1) {
-//            destinationIndex = destinationIndex.mod(size - 1)
-//        }
+        destinationIndex = destinationIndex.mod(size - 1).toLong()
 
         // see it like, a number is between index x1 and x2
         // example: size 7, index 1, value -2
@@ -51,10 +47,22 @@ class Assignment20 : Assignment() {
         // if destination index > size - 1
         // destination index = destination index % size
 
+        // just use mod for both cases?
+
         c.removeAt(index)
-        c.add(destinationIndex, valueAtIndex)
+        c.add(destinationIndex.toInt(), valueAtIndex)
 
         return c
+    }
+
+    private fun getGroveCoordinates(mixedList: List<Number>): Long {
+        val zeroIndex = mixedList.indexOfFirst { it.x == 0L }!!
+
+        return listOf(1000, 2000, 3000).map {
+            val index = (zeroIndex + it) % mixedList.size
+            mixedList[index]
+        }
+            .sumOf { it.x }
     }
 
     override fun calculateSolutionA(): String {
@@ -65,17 +73,21 @@ class Assignment20 : Assignment() {
             mixed = mixed.mix(numberIndex).toMutableList()
         }
 
-        val zeroIndex = mixed.indexOfFirst { it.x == 0 }!!
-
-        return listOf(1000, 2000, 3000).map {
-            val index = (zeroIndex + it) % mixed.size
-            mixed[index]
-        }
-            .sumOf { it.x }
-            .toString()
+        return getGroveCoordinates(mixed).toString()
     }
 
     override fun calculateSolutionB(): String {
-        return ""
+        var mixed = numbers.toMutableList().onEach {
+            it.x *= 811589153
+        }
+
+        for (i in 0 until 10) {
+            for (number in numbers) {
+                // get index in updated list
+                val numberIndex = mixed.indexOf(number)
+                mixed = mixed.mix(numberIndex).toMutableList()
+            }
+        }
+        return getGroveCoordinates(mixed).toString()
     }
 }
