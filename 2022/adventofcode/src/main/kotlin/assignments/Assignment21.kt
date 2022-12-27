@@ -1,10 +1,5 @@
 package assignments
 
-import kotlin.math.abs
-
-var shouldPrint = false
-var lastDelta = 0L
-
 class Assignment21 : Assignment() {
 
     override fun getInput(): String {
@@ -25,16 +20,6 @@ class Assignment21 : Assignment() {
         override fun equals(monkeys: Map<String, Monkey>): Boolean {
             val a = monkeys[monkeyA]!!.mathOperation.getResult(monkeys)
             val b = monkeys[monkeyB]!!.mathOperation.getResult(monkeys)
-
-            if (shouldPrint) {
-                println("Comparing $a with $b")
-                shouldPrint = false
-            }
-//            println("Comparing $a with $b")
-            val delta = abs(a - b)
-            println("Delta: ${abs(lastDelta - delta)}")
-            lastDelta = delta
-
             return a == b
         }
     }
@@ -100,18 +85,9 @@ class Assignment21 : Assignment() {
     override fun calculateSolutionB(): String {
         var yellValue = 3759569744800L
 
-        var its = 0
-
         // iterate yell values for 'humn', and check which one results in a passing evaluation for 'root'
         while (true) {
-            if (its % 100000 == 0){
-                shouldPrint = true
-                println("another hundred")
-            }
-            its++
-//            println(yellValue)
-            monkeys["humn"]!!
-                .mathOperation = StaticOperation(yellValue)
+            monkeys["humn"]!!.mathOperation = StaticOperation(yellValue)
 
             if (monkeys["root"]!!.mathOperation.equals(monkeys)) {
                 return yellValue.toString()
@@ -120,7 +96,7 @@ class Assignment21 : Assignment() {
             yellValue++
         }
 
-        // each 2 units higher, diff is 28
+        // cycle differences
 
         // per 100
         // a: 68634163965676
