@@ -36,16 +36,4 @@ class Matrix(val rows: Int, val columns: Int) {
         }
         return output
     }
-
-    fun toString2(): String {
-        var output = "\n"
-        for (j in 0 until columns) {
-            for (i in 0 until rows) {
-                if (values[i][j] == 0) output += " "
-                else output += "#"
-            }
-            output += "\n"
-        }
-        return output
-    }
 }
