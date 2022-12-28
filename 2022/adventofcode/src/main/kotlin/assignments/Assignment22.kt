@@ -219,6 +219,10 @@ class Assignment22 : Assignment() {
             }
         }
 
+//        val area4 = areas[3]
+//        areas[3] = areas[4]
+//        areas[4] = area4
+
         // add connections in order of direction
 
         // --- EXAMPLE INPUT MAPPING ---
@@ -262,38 +266,38 @@ class Assignment22 : Assignment() {
         // 1 -> 2, 3, 5, 6
         areas[0].connections.add(AreaConnection(areas[1], { c -> Vector2D(c.x, 0) }, Vector2D(0, 1)))
         areas[0].connections.add(AreaConnection(areas[2], { c -> Vector2D(0, c.y) }, Vector2D(1, 0)))
-        areas[0].connections.add(AreaConnection(areas[4], { c -> Vector2D(areaSize - 1 - c.x, 0) }, Vector2D(0, 1)))
+        areas[0].connections.add(AreaConnection(areas[3], { c -> Vector2D(areaSize - 1 - c.x, 0) }, Vector2D(0, 1)))
         areas[0].connections.add(AreaConnection(areas[5], { c -> Vector2D(c.y, 0) }, Vector2D(0, 1)))
 
         // 2 -> 1, 3, 4, 6
-        areas[1].connections.add(AreaConnection(areas[3], { c -> Vector2D(areaSize - 1 - c.x, areaSize - 1) }, Vector2D(0, -1)))
+        areas[1].connections.add(AreaConnection(areas[4], { c -> Vector2D(areaSize - 1 - c.x, areaSize - 1) }, Vector2D(0, -1)))
         areas[1].connections.add(AreaConnection(areas[2], { c -> Vector2D(c.y, areaSize - 1) }, Vector2D(0, -1)))
         areas[1].connections.add(AreaConnection(areas[0], { c -> Vector2D(c.x, areaSize - 1) }, Vector2D(0, -1)))
         areas[1].connections.add(AreaConnection(areas[5], { c -> Vector2D(areaSize - 1, c.y) }, Vector2D(-1, 0)))
 
         // 3 -> 1, 2, 4, 5
         areas[2].connections.add(AreaConnection(areas[1], { c -> Vector2D(areaSize - 1, c.x) }, Vector2D(-1, 0)))
-        areas[2].connections.add(AreaConnection(areas[3], { c -> Vector2D(0, c.y) }, Vector2D(1, 0)))
-        areas[2].connections.add(AreaConnection(areas[4], { c -> Vector2D(0, c.x) }, Vector2D(1, 0)))
+        areas[2].connections.add(AreaConnection(areas[4], { c -> Vector2D(0, c.y) }, Vector2D(1, 0)))
+        areas[2].connections.add(AreaConnection(areas[3], { c -> Vector2D(0, c.x) }, Vector2D(1, 0)))
         areas[2].connections.add(AreaConnection(areas[0], { c -> Vector2D(areaSize - 1, c.y) }, Vector2D(-1, 0)))
 
         // 4 -> 2, 3, 5, 6
-        areas[3].connections.add(AreaConnection(areas[1], { c -> Vector2D(areaSize - 1 - c.x, areaSize - 1) }, Vector2D(0, -1)))
-        areas[3].connections.add(AreaConnection(areas[5], { c -> Vector2D(c.y, areaSize - 1) }, Vector2D(0, -1)))
-        areas[3].connections.add(AreaConnection(areas[4], { c -> Vector2D(c.x, areaSize - 1) }, Vector2D(0, -1)))
-        areas[3].connections.add(AreaConnection(areas[2], { c -> Vector2D(areaSize - 1, c.y) }, Vector2D(-1, 0)))
+        areas[3].connections.add(AreaConnection(areas[4], { c -> Vector2D(c.x, 0) }, Vector2D(0, 1)))
+        areas[3].connections.add(AreaConnection(areas[5], { c -> Vector2D(0, c.y) }, Vector2D(1, 0)))
+        areas[3].connections.add(AreaConnection(areas[0], { c -> Vector2D(areaSize - 1 - c.x, 0) }, Vector2D(0, 1)))
+        areas[3].connections.add(AreaConnection(areas[2], { c -> Vector2D(c.y, 0) }, Vector2D(0, 1)))
 
         // 5 -> 1, 3, 4, 6
-        areas[4].connections.add(AreaConnection(areas[3], { c -> Vector2D(c.x, 0) }, Vector2D(0, 1)))
-        areas[4].connections.add(AreaConnection(areas[5], { c -> Vector2D(0, c.y) }, Vector2D(1, 0)))
-        areas[4].connections.add(AreaConnection(areas[0], { c -> Vector2D(areaSize - 1 - c.x, 0) }, Vector2D(0, 1)))
-        areas[4].connections.add(AreaConnection(areas[2], { c -> Vector2D(c.y, 0) }, Vector2D(0, 1)))
+        areas[4].connections.add(AreaConnection(areas[1], { c -> Vector2D(areaSize - 1 - c.x, areaSize - 1) }, Vector2D(0, -1)))
+        areas[4].connections.add(AreaConnection(areas[5], { c -> Vector2D(c.y, areaSize - 1) }, Vector2D(0, -1)))
+        areas[4].connections.add(AreaConnection(areas[3], { c -> Vector2D(c.x, areaSize - 1) }, Vector2D(0, -1)))
+        areas[4].connections.add(AreaConnection(areas[2], { c -> Vector2D(areaSize - 1, c.y) }, Vector2D(-1, 0)))
 
         // 6 -> 1, 2, 4, 5
-        areas[5].connections.add(AreaConnection(areas[3], { c -> Vector2D(areaSize - 1, c.x) }, Vector2D(-1, 0)))
+        areas[5].connections.add(AreaConnection(areas[4], { c -> Vector2D(areaSize - 1, c.x) }, Vector2D(-1, 0)))
         areas[5].connections.add(AreaConnection(areas[1], { c -> Vector2D(0, c.y) }, Vector2D(1, 0)))
         areas[5].connections.add(AreaConnection(areas[0], { c -> Vector2D(0, c.x) }, Vector2D(1, 0)))
-        areas[5].connections.add(AreaConnection(areas[4], { c -> Vector2D(areaSize - 1, c.y) }, Vector2D(-1, 0)))
+        areas[5].connections.add(AreaConnection(areas[3], { c -> Vector2D(areaSize - 1, c.y) }, Vector2D(-1, 0)))
 
         return areas
     }
@@ -347,16 +351,9 @@ class Assignment22 : Assignment() {
 
         for (instruction in instructions) {
             localDirection = directions[getNextDirectionIndex(localDirection, instruction.rotation)]
-            val g = activeArea.getGlobalPosition(localPosition)
-//            field.values[g.x][g.y].value = 10 + getNextDirectionIndex(localDirection, 0)
-//            println(field.toStringCustom())
 
             // get current area
             for (i in 0 until instruction.amount) {
-                val g = activeArea.getGlobalPosition(localPosition)
-//                field.values[g.x][g.y].value = 10 + getNextDirectionIndex(localDirection, 0)
-//                println(field.toStringCustom())
-
                 val nextPosition = localPosition + localDirection
 
                 if (activeArea.matrix.isWithinBounds(nextPosition)) {
@@ -383,7 +380,6 @@ class Assignment22 : Assignment() {
                 }
             }
         }
-        println(field.toStringCustom())
         val globalPosition = activeArea.getGlobalPosition(localPosition)
         return ((globalPosition.x + 1) * 1000 + (globalPosition.y + 1) * 4 + directions.indexOf(localDirection)).toString()
     }
