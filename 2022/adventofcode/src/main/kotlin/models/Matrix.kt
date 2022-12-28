@@ -30,6 +30,7 @@ class Matrix(val rows: Int, val columns: Int) {
             output += "|"
             for (j in 0 until columns) {
                 if (values[i][j] == 0) output += " "
+                else if(values[i][j] == 99) output += "x"
                 else output += "#"
             }
             output += "|\n"
