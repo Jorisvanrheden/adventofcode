@@ -19,8 +19,8 @@ class Matrix(val rows: Int, val columns: Int) {
     }
 
     fun isWithinBounds(vector2D: Vector2D): Boolean {
-        if (vector2D.x < 0 || vector2D.x >= columns) return false
-        if (vector2D.y < 0 || vector2D.y >= rows) return false
+        if (vector2D.x < 0 || vector2D.x >= rows) return false
+        if (vector2D.y < 0 || vector2D.y >= columns) return false
         return true
     }
 
@@ -29,9 +29,9 @@ class Matrix(val rows: Int, val columns: Int) {
         for (i in 0 until rows) {
             output += "|"
             for (j in 0 until columns) {
-                if (values[i][j] == 0) output += " "
-                else if(values[i][j] == 99) output += "x"
-                else output += "#"
+                if (values[i][j] == 0) output += "#"
+                else if (values[i][j] == 99) output += "x"
+                else output += "."
             }
             output += "|\n"
         }
