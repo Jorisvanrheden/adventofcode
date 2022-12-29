@@ -1,6 +1,5 @@
 package assignments
 
-import toolkit.Matrix
 import toolkit.Vector2D
 
 class Assignment23 : Assignment() {
@@ -11,17 +10,28 @@ class Assignment23 : Assignment() {
 
     data class Elf(
         var position: Vector2D,
-        var directions: MutableList<Vector2D> = mutableListOf(
-            Vector2D(-1, 0),
-            Vector2D(1, 0),
-            Vector2D(0, -1),
-            Vector2D(0, 1)
-        )
+        var directionIndex: Int = 0
     ) {
         override fun equals(other: Any?): Boolean {
             return position == (other as Elf).position
         }
+
+        fun copy() = Elf(Vector2D(position.x, position.y))
     }
+
+    private val directions = listOf(
+        Vector2D(-1, 0),
+        Vector2D(1, 0),
+        Vector2D(0, -1),
+        Vector2D(0, 1)
+    )
+
+    private val directionValidationPositions = mapOf(
+        Vector2D(0, 1) to listOf(Vector2D(-1, 1), Vector2D(0, 1), Vector2D(1, 1)),
+        Vector2D(0, -1) to listOf(Vector2D(-1, -1), Vector2D(0, -1), Vector2D(1, -1)),
+        Vector2D(1, 0) to listOf(Vector2D(1, -1), Vector2D(1, 0), Vector2D(1, 1)),
+        Vector2D(-1, 0) to listOf(Vector2D(-1, -1), Vector2D(-1, 0), Vector2D(-1, 1))
+    )
 
     private var elves: MutableSet<Elf> = mutableSetOf()
 
@@ -35,22 +45,7 @@ class Assignment23 : Assignment() {
         }
     }
 
-    private fun MutableSet<Elf>.toCustomString(): String {
-        val xMin = minOf { it.position.x }
-        val xMax = maxOf { it.position.x }
-        val yMin = minOf { it.position.y }
-        val yMax = maxOf { it.position.y }
-
-        var matrix = Matrix(xMax - xMin + 1, yMax - yMin + 1)
-        forEachIndexed { index, it ->
-            var value = 1
-            if (index == 5) value = 99
-            matrix.values[it.position.x - xMin][it.position.y - yMin] = value
-        }
-        return matrix.toString()
-    }
-
-    private fun MutableSet<Elf>.openPositionCount(): Int {
+    private fun Set<Elf>.openPositionCount(): Int {
         val xRange = maxOf { it.position.x } - minOf { it.position.x } + 1
         val yRange = maxOf { it.position.y } - minOf { it.position.y } + 1
 
@@ -58,7 +53,7 @@ class Assignment23 : Assignment() {
     }
 
     private fun hasSurroundingElves(elf: Elf, elves: Set<Elf>): Boolean {
-        // build a cube and check taken positions in that cube
+        // build a square and check taken positions in that square
         for (i in 0 until 3) {
             for (j in 0 until 3) {
                 val position = Vector2D(i - 1, j - 1) + elf.position
@@ -69,15 +64,6 @@ class Assignment23 : Assignment() {
         return false
     }
 
-    private fun getDirectionValidationSet(direction: Vector2D) =
-        when (direction) {
-            Vector2D(0, 1) -> listOf(Vector2D(-1, 1), Vector2D(0, 1), Vector2D(1, 1))
-            Vector2D(0, -1) -> listOf(Vector2D(-1, -1), Vector2D(0, -1), Vector2D(1, -1))
-            Vector2D(1, 0) -> listOf(Vector2D(1, -1), Vector2D(1, 0), Vector2D(1, 1))
-            Vector2D(-1, 0) -> listOf(Vector2D(-1, -1), Vector2D(-1, 0), Vector2D(-1, 1))
-            else -> emptyList()
-        }
-
     private fun isOnPosition(requiredOpenPositions: List<Vector2D>, elves: Set<Elf>): Boolean {
         for (position in requiredOpenPositions) {
             if (elves.any { it.position == position }) return true
@@ -86,30 +72,19 @@ class Assignment23 : Assignment() {
     }
 
     private fun findProposedDirection(elf: Elf, elves: Set<Elf>): Vector2D {
-        for (direction in elf.directions) {
-            val requiredOpenPositions = getDirectionValidationSet(direction).map { it + elf.position }
+        for (i in directions.indices) {
+            val index = (i + elf.directionIndex).mod(directions.size)
+            val requiredOpenPositions = directionValidationPositions[directions[index]]!!.map { it + elf.position }
             if (isOnPosition(requiredOpenPositions, elves)) continue
-            return direction
+            return directions[index]
         }
         return Vector2D(0, 0)
     }
 
-    override fun calculateSolutionA(): String {
-        return ""
-        for (i in 0 until 10) {
-            // only process elves that have surrounding elves
-            val elvesToProcess = elves.filter { hasSurroundingElves(it, elves) }
-
-            // store proposed positions per elf
-            var proposedPositions = elvesToProcess.map {
-                it.position + findProposedDirection(it, elves)
-            }
-            var proposedDirections = elvesToProcess.map {
-                findProposedDirection(it, elves)
-            }
-
-            elvesToProcess.forEachIndexed { index, it ->
-                val proposedDirection = proposedDirections[index]
+    private fun List<Elf>.updatePositions(proposedDirections: List<Vector2D>, proposedPositions: List<Vector2D>) {
+        forEachIndexed { index, it ->
+            val proposedDirection = proposedDirections[index]
+            if (proposedDirection != Vector2D(0, 0)) {
                 // only process the move if only one elf goes to the position
                 if (proposedPositions.count { pos ->
                     pos == (proposedDirection + it.position)
@@ -119,52 +94,48 @@ class Assignment23 : Assignment() {
                     it.position += proposedDirection
                 }
             }
+        }
+    }
 
-            elves.forEach {
-                // remove the first direction and place it at the end
-                it.directions.add(
-                    it.directions.removeAt(0)
-                )
-            }
+    private fun simulateRound(elvesToProcess: List<Elf>, elves: Set<Elf>) {
+        var proposedDirections = elvesToProcess.map {
+            findProposedDirection(it, elves)
         }
 
-        return elves.openPositionCount().toString()
+        // store proposed positions per elf
+        var proposedPositions = elvesToProcess.mapIndexed { index, it ->
+            it.position + proposedDirections[index]
+        }
+
+        elvesToProcess.updatePositions(proposedDirections, proposedPositions)
+
+        elves.forEach {
+            // increase the direction index (same as moving the first item to the back, but faster)
+            it.directionIndex++
+        }
+    }
+
+    override fun calculateSolutionA(): String {
+        var elvesCopy = elves.map { it.copy() }.toSet()
+
+        for (i in 0 until 10) {
+            // only process elves that have surrounding elves
+            val elvesToProcess = elvesCopy.filter { hasSurroundingElves(it, elvesCopy) }
+            simulateRound(elvesToProcess, elvesCopy)
+        }
+        return elvesCopy.openPositionCount().toString()
     }
 
     override fun calculateSolutionB(): String {
-        var turns = 0
-        while(elves.count { hasSurroundingElves(it, elves) } > 0) {
-            println(turns)
+        var elvesCopy = elves.map { it.copy() }.toSet()
+
+        var turns = 1
+        var elvesToProcess = elvesCopy.filter { hasSurroundingElves(it, elvesCopy) }
+        while (elvesToProcess.isNotEmpty()) {
             turns++
-            // only process elves that have surrounding elves
-            val elvesToProcess = elves.filter { hasSurroundingElves(it, elves) }
-
-            // store proposed positions per elf
-            var proposedPositions = elvesToProcess.map {
-                it.position + findProposedDirection(it, elves)
-            }
-            var proposedDirections = elvesToProcess.map {
-                findProposedDirection(it, elves)
-            }
-
-            elvesToProcess.forEachIndexed { index, it ->
-                val proposedDirection = proposedDirections[index]
-                // only process the move if only one elf goes to the position
-                if (proposedPositions.count { pos ->
-                        pos == (proposedDirection + it.position)
-                    } == 1
-                ) {
-                    // move elf to desired position
-                    it.position += proposedDirection
-                }
-            }
-
-            elves.forEach {
-                // remove the first direction and place it at the end
-                it.directions.add(
-                    it.directions.removeAt(0)
-                )
-            }
+            simulateRound(elvesToProcess, elvesCopy)
+            elvesToProcess = elvesCopy.filter { hasSurroundingElves(it, elvesCopy) }
+            println(turns)
         }
         return turns.toString()
     }
