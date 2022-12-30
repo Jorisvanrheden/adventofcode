@@ -8,7 +8,7 @@ class Assignment21 : Assignment() {
 
     interface MathOperation {
         fun getResult(monkeys: Map<String, Monkey>): Long
-        fun equals(monkeys: Map<String, Monkey>): Boolean = false
+        fun getValues(monkeys: Map<String, Monkey>): List<Long> = emptyList()
     }
     class StaticOperation(private val number: Long) : MathOperation {
         override fun getResult(monkeys: Map<String, Monkey>): Long = number
@@ -17,10 +17,10 @@ class Assignment21 : Assignment() {
         override fun getResult(monkeys: Map<String, Monkey>): Long =
             monkeys[monkeyA]!!.mathOperation.getResult(monkeys) + monkeys[monkeyB]!!.mathOperation.getResult(monkeys)
 
-        override fun equals(monkeys: Map<String, Monkey>): Boolean {
+        override fun getValues(monkeys: Map<String, Monkey>): List<Long> {
             val a = monkeys[monkeyA]!!.mathOperation.getResult(monkeys)
             val b = monkeys[monkeyB]!!.mathOperation.getResult(monkeys)
-            return a == b
+            return listOf(a, b)
         }
     }
     class SubtractOperation(private val monkeyA: String, private val monkeyB: String) : MathOperation {
@@ -83,39 +83,24 @@ class Assignment21 : Assignment() {
     }
 
     override fun calculateSolutionB(): String {
-        var yellValue = 3759569744800L
+        var yellMin = 0L
+        var yellMax = Long.MAX_VALUE / 1000000
+        var yellValue = 0L
 
-        // iterate yell values for 'humn', and check which one results in a passing evaluation for 'root'
         while (true) {
+            yellValue = (yellMax + yellMin) / 2
+
             monkeys["humn"]!!.mathOperation = StaticOperation(yellValue)
+            val values = monkeys["root"]!!.mathOperation.getValues(monkeys)
 
-            if (monkeys["root"]!!.mathOperation.equals(monkeys)) {
-                return yellValue.toString()
+            if (values[0] < values[1]) {
+                yellMax = yellValue
+            } else if (values[0] > values[1]) {
+                yellMin = yellValue
+            } else if (values[0] == values[1]) {
+                break
             }
-
-            yellValue++
         }
-
-        // cycle differences
-
-        // per 100
-        // a: 68634163965676
-        // b: 68634163964266
-        // diff = 1410
-
-        // per 10000
-        // a: 68634162566590
-        // b: 68634161156222
-        // diff = 1410368
-
-        // total diff
-        // 68634163976960
-        // 15610303684582
-        // 53023860292378
-
-        // 37595762,44808305350093
-        // 3759576200000,44808305350093
-
-        return "No answer found"
+        return yellValue.toString()
     }
 }
