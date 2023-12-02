@@ -1,8 +1,7 @@
 package assignments
 
 class Assignment2 : Assignment() {
-    data class Game(val id: Int, val gameSets: List<GameSet>)
-    data class GameSet(val cubes: List<GameCube>)
+    data class Game(val id: Int, val cubes: List<GameCube>)
     data class GameCube(val count: Int, val color: String)
 
     private lateinit var games: List<Game>
@@ -13,28 +12,33 @@ class Assignment2 : Assignment() {
 
     override fun initialize(input: List<String>) {
         games = input.map { line ->
-            Game(
-                line.split(':')[0].split(' ')[1].toInt(),
-                line.split(':')[1].toGameSets(),
-            )
+            line
+                .split(':')
+                .let {
+                    Game(
+                        it[0].split(' ')[1].toInt(),
+                        it[1].toGameCubes(),
+                    )
+                }
         }
     }
 
-    private fun String.toGameSets() =
+    private fun String.toGameCubes() =
         // 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-        split(';').map { section ->
-            GameSet(
-                section.split(',').map {
-                    it.toGameCube()
-                },
-            )
-        }
+        split(';')
+            .flatMap { section ->
+                section
+                    .split(',')
+                    .map { it.toGameCube() }
+            }
 
     private fun String.toGameCube() =
         // 3 blue
-        trim().split(' ').let {
-            GameCube(it[0].toInt(), it[1])
-        }
+        trim()
+            .split(' ')
+            .let {
+                GameCube(it[0].toInt(), it[1])
+            }
 
     override fun calculateSolutionA() =
         games.filter {
@@ -51,8 +55,7 @@ class Assignment2 : Assignment() {
         }.sumOf { it }.toString()
 
     private fun Game.countMostCubesWithColor(color: String) =
-        gameSets
-            .flatMap { it.cubes }
+        cubes
             .filter { it.color == color }
             .maxOf { it.count }
 }
