@@ -54,7 +54,7 @@ class Assignment5 : Assignment() {
 
         // then create a new range for each of those
         // break it down in x amount of ranges
-        val sections = 100000
+        val sections = 10000
 
         IntRange(0, sections)
             .mapIndexed { index, _ ->
@@ -99,21 +99,12 @@ class Assignment5 : Assignment() {
             }
     }
 
-    private fun AlamanacMap.transformInput(input: Long) =
-        entries.firstNotNullOfOrNull {
-            val diff = input - it.source
-            if (diff < it.range && diff >= 0) {
-                it.destination + diff
-            } else {
-                null
+    private fun AlamanacMap.transformInput(input: Long): Long {
+        entries.forEach {
+            if (input >= it.source && input < it.source + it.range) {
+                return it.destination + (input - it.source)
             }
-        } ?: input
+        }
+        return input
+    }
 }
-
-// attempt 1: 113239929
-// attempt 2: 65026305 (val rangeRight = last) vs (val rangeRight = last - 1)
-//            57592830
-//            57592831
-//            57451780
-//            57451709
-//            57451709
