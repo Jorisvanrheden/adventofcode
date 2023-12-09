@@ -16,54 +16,34 @@ class Assignment9 : Assignment() {
 
     override fun calculateSolutionA() =
         entries
-            .map { it.sumOfLastValues() }
+            .map { entry ->
+                entry
+                    .fetchNumbersFromAllLayers { it.last() }
+                    .sum()
+            }
             .sumOf { it }
             .toString()
 
     override fun calculateSolutionB() =
         entries
-            .map {
-                val deepestLevel = it.deepestLevel()
-                val startNumbers = mutableListOf<Int>()
-                it
-                    .subList(0, deepestLevel + 1)
-                    .startNumbers(startNumbers)
-
-                var newNumber = 0
-                startNumbers
-                    .reversed()
-                    .forEach {
-                        newNumber = it - newNumber
-                    }
-
-                newNumber
+            .map { entry ->
+                var total = 0
+                entry
+                    .fetchNumbersFromAllLayers { it.first() }
+                    .forEach { total = it - total }
+                total
             }
             .sumOf { it }
             .toString()
 
-    private fun List<Int>.deepestLevel(): Int {
+    private fun List<Int>.fetchNumbersFromAllLayers(predicate: (List<Int>) -> Int): List<Int> {
         var level = this
-        var levelDepth = 0
+        var numbers = mutableListOf<Int>()
         while (level.any { it != 0 }) {
+            numbers.add(predicate(level))
             level = level.nextLayer()
-            levelDepth++
         }
-        return levelDepth
-    }
-
-    private fun List<Int>.startNumbers(numbers: MutableList<Int>) {
-        if (any { it != 0 }) {
-            numbers.add(first())
-            nextLayer().startNumbers(numbers)
-        }
-    }
-
-    private fun List<Int>.sumOfLastValues(): Int {
-        var total = last()
-        if (any { it != 0 }) {
-            total += nextLayer().sumOfLastValues()
-        }
-        return total
+        return numbers.reversed()
     }
 
     private fun List<Int>.nextLayer() =
