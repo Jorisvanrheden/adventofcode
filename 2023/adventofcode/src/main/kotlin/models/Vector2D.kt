@@ -12,6 +12,11 @@ data class Vector2D(var x: Int, var y: Int) {
     override fun toString(): String {
         return "($x, $y)"
     }
+
+    fun up() = Vector2D(x - 1, y)
+    fun down() = Vector2D(x + 1, y)
+    fun right() = Vector2D(x, y + 1)
+    fun left() = Vector2D(x, y - 1)
 }
 
 data class Vector2DLong(var x: Long, var y: Long) {

@@ -1,21 +1,15 @@
-package toolkit
+package models
+
+import toolkit.Vector2D
+
+data class Node(var value: String, var neighbors: List<Vector2D> = emptyList())
 
 class Matrix(val rows: Int, val columns: Int) {
 
-    var values: Array<Array<Int>> = Array(rows) {
+    var values: Array<Array<Node>> = Array(rows) {
         Array(columns) {
-            0
+            Node(".", listOf())
         }
-    }
-
-    fun copy(): Matrix {
-        var m = Matrix(rows, columns)
-        for (i in 0 until rows) {
-            for (j in 0 until columns) {
-                m.values[i][j] = values[i][j]
-            }
-        }
-        return m
     }
 
     fun isWithinBounds(vector2D: Vector2D): Boolean {
@@ -24,17 +18,38 @@ class Matrix(val rows: Int, val columns: Int) {
         return true
     }
 
+    fun find(predicate: (Node) -> Boolean): Node {
+        for (i in 0 until rows) {
+            for (j in 0 until columns) {
+                if (predicate(values[i][j])) {
+                    return values[i][j]
+                }
+            }
+        }
+        throw Exception("Element with given predicate is not in the collection")
+    }
+
     override fun toString(): String {
         var output = "\n"
         for (i in 0 until rows) {
             output += "|"
             for (j in 0 until columns) {
-                if (values[i][j] == 0) {
-                    output += "#"
-                } else if (values[i][j] == 99) {
-                    output += "x"
+                output += values[i][j]
+            }
+            output += "|\n"
+        }
+        return output
+    }
+
+    fun toString(vector2D: Vector2D): String {
+        var output = "\n"
+        for (i in 0 until rows) {
+            output += "|"
+            for (j in 0 until columns) {
+                if (vector2D.x == i && vector2D.y == j) {
+                    output += "S"
                 } else {
-                    output += "."
+                    output += values[i][j]
                 }
             }
             output += "|\n"
