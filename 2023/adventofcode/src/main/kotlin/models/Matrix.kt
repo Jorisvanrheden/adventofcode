@@ -9,11 +9,20 @@ data class Node(
 )
 
 class Matrix(val rows: Int, val columns: Int) {
-
-    var values: Array<Array<Node>> = Array(rows) {
+    var values: Array<Array<Node?>> = Array(rows) {
         Array(columns) {
             Node(Vector2D(0, 0), ".", listOf())
         }
+    }
+
+    fun copy(): Matrix {
+        val copy = Matrix(rows, columns)
+        for (i in 0 until rows) {
+            for (j in 0 until columns) {
+                copy.values[i][j] = values[i][j]?.copy()
+            }
+        }
+        return copy
     }
 
     fun isWithinBounds(vector2D: Vector2D): Boolean {
@@ -22,11 +31,33 @@ class Matrix(val rows: Int, val columns: Int) {
         return true
     }
 
+    fun forEach(predicate: (Int, Int) -> Unit) {
+        for (i in 0 until rows) {
+            for (j in 0 until columns) {
+                predicate(i, j)
+            }
+        }
+    }
+
+    fun filterNotNull(): List<Node> {
+        val items = mutableListOf<Node>()
+        for (i in 0 until rows) {
+            for (j in 0 until columns) {
+                val value = values[i][j]
+                if (value != null) {
+                    items.add(value)
+                }
+            }
+        }
+        return items.toList()
+    }
+
     fun find(predicate: (Node) -> Boolean): Node {
         for (i in 0 until rows) {
             for (j in 0 until columns) {
-                if (predicate(values[i][j])) {
-                    return values[i][j]
+                val value = values[i][j]
+                if (value != null && predicate(value)) {
+                    return value
                 }
             }
         }
@@ -37,25 +68,9 @@ class Matrix(val rows: Int, val columns: Int) {
         var output = "\n"
         for (i in 0 until rows) {
             for (j in 0 until columns) {
-                output += values[i][j].value
+                output += values[i][j]?.value
             }
             output += "\n"
-        }
-        return output
-    }
-
-    fun toString(vector2D: Vector2D): String {
-        var output = "\n"
-        for (i in 0 until rows) {
-            output += "|"
-            for (j in 0 until columns) {
-                if (vector2D.x == i && vector2D.y == j) {
-                    output += "S"
-                } else {
-                    output += values[i][j].value
-                }
-            }
-            output += "|\n"
         }
         return output
     }

@@ -11,26 +11,16 @@ class Assignment10 : Assignment() {
     }
 
     private lateinit var nodeMap: Matrix
-    private lateinit var shiftedNodeMap: Matrix
 
     override fun initialize(input: List<String>) {
         nodeMap = Matrix(input.count(), input[0].count())
-        shiftedNodeMap = Matrix(input.count() + 1, input[0].count() + 1)
-
-        for (i in 0 until nodeMap.rows) {
-            for (j in 0 until nodeMap.columns) {
-                nodeMap.values[i][j] = Node(Vector2D(i, j), input[i][j].toString())
-            }
-        }
-        // construct neighbors
-        for (i in 0 until nodeMap.rows) {
-            for (j in 0 until nodeMap.columns) {
-                nodeMap.values[i][j].neighbors = nodeMap.neighbors(Vector2D(i, j))
-            }
+        nodeMap.forEach { i, j ->
+            nodeMap.values[i][j] = Node(Vector2D(i, j), input[i][j].toString())
         }
     }
 
     override fun calculateSolutionA(): String {
+        nodeMap.calculateNeighbors()
         return nodeMap
             .calculatePath()
             .let { it.size / 2 }
@@ -38,52 +28,35 @@ class Assignment10 : Assignment() {
     }
 
     override fun calculateSolutionB(): String {
-        val nodeMapNullable: Array<Array<Node?>> = Array(nodeMap.rows) {
-            Array(nodeMap.columns) { null }
-        }
-        for (i in 0 until nodeMap.rows) {
-            for (j in 0 until nodeMap.columns) {
-                nodeMapNullable[i][j] = nodeMap.values[i][j]
-            }
-        }
+        val path = nodeMap.calculatePath()
 
-        val path = nodeMap
-            .calculatePath()
-
-        path.forEach {
-            nodeMapNullable[it.coordinate.x][it.coordinate.y] = null
-        }
-
-        val nodesNotInPath = mutableListOf<Node>()
-        for (i in 0 until nodeMap.rows) {
-            for (j in 0 until nodeMap.columns) {
-                if (nodeMapNullable[i][j] != null) {
-                    nodesNotInPath.add(nodeMapNullable[i][j]!!)
+        val nodesNotInPath = nodeMap
+            .copy()
+            .apply {
+                // retrieve the non-path nodes by setting all path nodes to null
+                for (node in path) {
+                    values[node.coordinate.x][node.coordinate.y] = null
                 }
             }
+            .filterNotNull()
+
+        // Set non-path tiles to '.' and recalculate the connecting neighbors
+        nodeMap.let {
+            nodesNotInPath.forEach { node ->
+                it.values[node.coordinate.x][node.coordinate.y]?.value = "."
+            }
+            it.calculateNeighbors()
         }
 
-        // TEMPORARY
-        nodesNotInPath.forEach {
-            nodeMap.values[it.coordinate.x][it.coordinate.y].value = "."
+        // Create the shifted-node map based on the connection from the original map
+        val shiftedNodeMap = Matrix(nodeMap.rows + 1, nodeMap.columns + 1)
+        shiftedNodeMap.forEach { i, j ->
+            shiftedNodeMap.values[i][j] = Node(
+                Vector2D(i, j),
+                "",
+                shiftedNodeMap.shiftedNeighbors(Vector2D(i, j), nodeMap),
+            )
         }
-        // redo neighbors for nodeMap
-        for (i in 0 until nodeMap.rows) {
-            for (j in 0 until nodeMap.columns) {
-                nodeMap.values[i][j].neighbors = nodeMap.neighbors(Vector2D(i, j))
-            }
-        }
-
-        for (i in 0 until shiftedNodeMap.rows) {
-            for (j in 0 until shiftedNodeMap.columns) {
-                shiftedNodeMap.values[i][j] = Node(
-                    Vector2D(i, j),
-                    "",
-                    shiftedNodeMap.shiftedNeighbors(Vector2D(i, j), nodeMap),
-                )
-            }
-        }
-        print(nodeMap.toString())
 
         // for all items not in the path:
         //   - find 4 coordinates of shifted map and take 1
@@ -92,6 +65,12 @@ class Assignment10 : Assignment() {
         return nodesNotInPath.count {
             !checkIfPointReachesEdge(shiftedNodeMap, it.coordinate)
         }.toString()
+    }
+
+    private fun Matrix.calculateNeighbors() {
+        forEach { i, j ->
+            values[i][j]?.neighbors = neighbors(Vector2D(i, j))
+        }
     }
 
     private fun checkIfPointReachesEdge(shiftedNodeMap: Matrix, vector2D: Vector2D): Boolean {
@@ -104,17 +83,14 @@ class Assignment10 : Assignment() {
         while (queue.isNotEmpty()) {
             val activeNode = queue.removeFirstOrNull()!!
 
-            // detect if the point is on an edge
-            if (activeNode.x == 0 || activeNode.x == shiftedNodeMap.rows - 1) {
-                return true
-            }
-            if (activeNode.y == 0 || activeNode.y == shiftedNodeMap.columns - 1) {
+            // if the node reaches an edge, it is not locked in the path
+            if (shiftedNodeMap.isEdgeCoordinate(activeNode)) {
                 return true
             }
 
             // find neighbors
-            val neighbors = shiftedNodeMap.values[activeNode.x][activeNode.y].neighbors
-            neighbors.forEach { neighbor ->
+            val neighbors = shiftedNodeMap.values[activeNode.x][activeNode.y]?.neighbors
+            neighbors!!.forEach { neighbor ->
                 if (!visitedNodes.contains(neighbor) && !queue.contains(neighbor)) {
                     queue.add(neighbor)
                 }
@@ -124,6 +100,10 @@ class Assignment10 : Assignment() {
         }
         return false
     }
+
+    private fun Matrix.isEdgeCoordinate(vector2D: Vector2D) =
+        vector2D.x == 0 || vector2D.x == rows - 1 ||
+            vector2D.y == 0 || vector2D.y == columns - 1
 
     private fun Matrix.calculatePath(): MutableList<Node> {
         // find starting point
@@ -140,7 +120,7 @@ class Assignment10 : Assignment() {
             }
 
             //  check for all connecting neighbors
-            val neighbors = currentNode.neighbors.map { values[it.x][it.y] }
+            val neighbors = currentNode.neighbors.map { values[it.x][it.y]!! }
             //  select neighbor[0] if neighbor[0] != previous node and set as current point
             neighbors
                 .first { it != previousNode }
@@ -177,7 +157,7 @@ class Assignment10 : Assignment() {
                 // simply check if the two nodes are connected to each other in the normal map
                 2 -> {
                     // check if a connection is established, if so, then don't allow as a neighbor
-                    val neighbors = originalMatrix.values[areas[0].x][areas[0].y].neighbors
+                    val neighbors = originalMatrix.values[areas[0].x][areas[0].y]!!.neighbors
                     if (neighbors.contains(Vector2D(areas[1].x, areas[1].y))) {
                         null
                     } else {
@@ -190,7 +170,7 @@ class Assignment10 : Assignment() {
     }
 
     private fun Matrix.neighbors(coordinate: Vector2D) =
-        when (values[coordinate.x][coordinate.y].value) {
+        when (values[coordinate.x][coordinate.y]?.value) {
             "|" -> listOf(coordinate.up(), coordinate.down())
             "-" -> listOf(coordinate.left(), coordinate.right())
             "L" -> listOf(coordinate.up(), coordinate.right())
@@ -205,7 +185,7 @@ class Assignment10 : Assignment() {
                     coordinate.down() to connectionsToNorth,
                 )
                     .filter { isWithinBounds(it.first) }
-                    .filter { it.second.contains(values[it.first.x][it.first.y].value) }
+                    .filter { it.second.contains(values[it.first.x][it.first.y]!!.value) }
                     .map { it.first }
             }
             else -> emptyList()
