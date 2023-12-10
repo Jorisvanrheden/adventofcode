@@ -2,13 +2,17 @@ package models
 
 import toolkit.Vector2D
 
-data class Node(var value: String, var neighbors: List<Vector2D> = emptyList())
+data class Node(
+    var coordinate: Vector2D,
+    var value: String,
+    var neighbors: List<Vector2D> = emptyList(),
+)
 
 class Matrix(val rows: Int, val columns: Int) {
 
     var values: Array<Array<Node>> = Array(rows) {
         Array(columns) {
-            Node(".", listOf())
+            Node(Vector2D(0, 0), ".", listOf())
         }
     }
 
@@ -32,11 +36,10 @@ class Matrix(val rows: Int, val columns: Int) {
     override fun toString(): String {
         var output = "\n"
         for (i in 0 until rows) {
-            output += "|"
             for (j in 0 until columns) {
-                output += values[i][j]
+                output += values[i][j].value
             }
-            output += "|\n"
+            output += "\n"
         }
         return output
     }
@@ -49,7 +52,7 @@ class Matrix(val rows: Int, val columns: Int) {
                 if (vector2D.x == i && vector2D.y == j) {
                     output += "S"
                 } else {
-                    output += values[i][j]
+                    output += values[i][j].value
                 }
             }
             output += "|\n"
