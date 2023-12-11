@@ -36,7 +36,7 @@ class Assignment11 : Assignment() {
 
     override fun calculateSolutionA() =
         galaxies
-            .expand(1, input)
+            .expand(2, input)
             .sumOfDistances()
             .toString()
 
@@ -69,7 +69,7 @@ class Assignment11 : Assignment() {
                 // all coordinates after this original X should be += expansionRate
                 for (galaxy in galaxies) {
                     if (galaxy.originalCoordinate.x > i) {
-                        galaxy.expandedCoordinate.x += expansionRate
+                        galaxy.expandedCoordinate.x += expansionRate - 1
                     }
                 }
             }
@@ -80,7 +80,7 @@ class Assignment11 : Assignment() {
             if (!column.contains('#')) {
                 for (galaxy in galaxies) {
                     if (galaxy.originalCoordinate.y > j) {
-                        galaxy.expandedCoordinate.y += expansionRate
+                        galaxy.expandedCoordinate.y += expansionRate - 1
                     }
                 }
             }
