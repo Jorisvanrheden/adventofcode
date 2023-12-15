@@ -1,6 +1,7 @@
 package assignments
 
 import utilities.Utilities
+import kotlin.math.min
 
 class Assignment13 : Assignment() {
 
@@ -15,29 +16,13 @@ class Assignment13 : Assignment() {
     }
 
     override fun calculateSolutionA(): String {
-        // first check all row indices
-        val chunksWithMirroredRow = chunks.filter { it.findRowMirrorIndex() != -1 }
-
-        val rowScore = chunksWithMirroredRow
-            .mapNotNull {
-                val rowIndex = it.findRowMirrorIndex()
-                if (rowIndex != -1 ) {
-                    rowIndex
-                } else {
-                    null
-                }
-            }.sumOf { it * 100 }
+        val rowScore = chunks
+            .filter { it.findRowMirrorIndex() != -1 }
+            .sumOf { it.findRowMirrorIndex() * 100 }
 
         val columnScore = chunks
-            .filter { !chunksWithMirroredRow.contains(it) }
-            .mapNotNull {
-                val columnIndex = it.findColumnMirrorIndex()
-                if (columnIndex != -1 ) {
-                    columnIndex
-                } else {
-                    null
-                }
-            }.sumOf { it }
+            .filter { it.findColumnMirrorIndex() != -1 }
+            .sumOf { it.findColumnMirrorIndex() }
 
         return (columnScore + rowScore).toString()
     }
@@ -46,34 +31,34 @@ class Assignment13 : Assignment() {
         return ""
     }
 
-    private fun List<String>.findColumnMirrorIndex(): Int {
-        // for each column add all items
-        val columns = mutableListOf<String>()
-        for (i in 0 until this[0].length) {
-            val column = mutableListOf<Char>()
-            for (row in this) {
-                column += row[i]
-            }
-            columns.add(column.joinToString(""))
-        }
+    private fun List<String>.findColumnMirrorIndex() =
+        rotate90degrees().findRowMirrorIndex()
 
-        return columns.findRowMirrorIndex()
-    }
+    private fun List<String>.rotate90degrees() =
+        this[0]
+            .indices
+            .map {
+                val column = mutableListOf<Char>()
+                for (row in this) {
+                    column += row[it]
+                }
+                column.joinToString("")
+            }
 
     private fun List<String>.findRowMirrorIndex(): Int {
-        val rowsToMirror = mutableListOf<String>()
-
         for (i in indices) {
-            rowsToMirror.add(this[i])
+            val contentToMirror = subList(0, i + 1)
+            val mirroredContent = createMirror(i + 1, contentToMirror.size)
 
-            val mirror = createMirror(i + 1, rowsToMirror.size)
+            val mirrorSize = min(contentToMirror.size, mirroredContent.size)
+            if (mirrorSize == 0) {
+                continue
+            }
 
-            val originalPartWithMirrorSize =
-                rowsToMirror
-                    .reversed()
-                    .subList(0, mirror.size)
-
-            if (mirror.isNotEmpty() && compare (originalPartWithMirrorSize, mirror)) {
+            if (compare(
+                contentToMirror.takeLast(mirrorSize).reversed(),
+                mirroredContent.takeLast(mirrorSize)
+            )) {
                 return i + 1
             }
         }
@@ -82,27 +67,22 @@ class Assignment13 : Assignment() {
     }
 
     private fun compare(a: List<String>, b: List<String>): Boolean {
-        var diff = 0
-
         val flatA = a.reduce { a, b -> a.plus(b) }
         val flatB = b.reduce { a, b -> a.plus(b) }
 
-        for (i in flatA.indices) {
-            if (flatA[i] != flatB[i]) {
-                diff++
-            }
-        }
-        return diff == 1
+        // for solution A,
+        // val requiredDifference = 0
+
+        // for solution B
+        val requiredDifference = 1
+        return flatA
+            .indices
+            .count { flatA[it] != flatB[it] } == requiredDifference
     }
 
-    private fun List<String>.createMirror(index: Int, size: Int): List<String> {
-        val mirror = mutableListOf<String>()
-        for (i in 0 until size) {
-            val newIndex = index + i
-            if (newIndex < count()) {
-                mirror.add(this[newIndex])
-            }
-        }
-        return mirror
-    }
+    private fun List<String>.createMirror(startIndex: Int, size: Int) =
+        IntRange(0, size - 1)
+            .map { startIndex + it }
+            .filter { it < count() }
+            .map { this[it] }
 }
