@@ -17,6 +17,13 @@ data class Vector2D(var x: Int, var y: Int) {
     fun down() = Vector2D(x + 1, y)
     fun right() = Vector2D(x, y + 1)
     fun left() = Vector2D(x, y - 1)
+
+    companion object {
+        val UP = Vector2D(-1, 0)
+        val DOWN = Vector2D(1, 0)
+        val LEFT = Vector2D(0, -1)
+        val RIGHT = Vector2D(0, 1)
+    }
 }
 
 data class Vector2DLong(var x: Long, var y: Long) {
