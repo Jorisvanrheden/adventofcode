@@ -135,16 +135,6 @@ class Assignment12 : Assignment() {
         return copy.joinToString("")
     }
 
-    private fun String.indicesOf(predicate: (Char) -> Boolean): List<Int> {
-        val indicesThatMatchesPredicate = mutableListOf<Int>()
-        for (i in indices) {
-            if (predicate(this[i])) {
-                indicesThatMatchesPredicate.add(i)
-            }
-        }
-        return indicesThatMatchesPredicate
-    }
-
     private fun Int.toBinary(maxValues: Int) =
         String.format(
             "%${maxValues}s",

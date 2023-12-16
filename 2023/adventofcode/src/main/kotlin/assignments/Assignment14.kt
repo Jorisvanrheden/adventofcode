@@ -31,30 +31,90 @@ class Assignment14 : Assignment() {
         coordinates = coords.toList()
     }
 
-    override fun calculateSolutionA(): String {
-        matrix.tilt(Vector2D(0,0).up())
+    override fun calculateSolutionA() =
+        matrix
+            .tilt(Vector2D(0,0).up())
+            .calculateScore()
+            .toString()
 
+    override fun calculateSolutionB(): String {
+        val scores = mutableListOf<Int>()
+        var index = 0
+        var startLoopIndex = 0
+        var loop = mutableListOf<Int>()
+
+        while (true) {
+            matrix.tilt(Vector2D(0,0).up())
+            matrix.tilt(Vector2D(0,0).left())
+            matrix.tilt(Vector2D(0,0).down())
+            matrix.tilt(Vector2D(0,0).right())
+
+            val score = matrix.calculateScore()
+
+            val compareChunkSize = 3
+            for (i in 0 until scores.size - compareChunkSize) {
+                // find first occurrence of duplicated entries
+                val occurrenceIndices = scores.findCollectionOccurrenceIndices(
+                    scores.subList(i, i + compareChunkSize)
+                )
+                if (occurrenceIndices.size > 1) {
+                    // loop start has been found
+                    startLoopIndex = i
+
+                    // find loop
+                    loop = scores.subList(occurrenceIndices[0], occurrenceIndices[1])
+                    break
+                }
+            }
+
+            if (loop.isNotEmpty()) {
+                break
+            }
+
+            // store all scores
+            scores.add(score)
+
+            index++
+        }
+
+        return loop[(1000000000 - startLoopIndex - 1) % loop.size].toString()
+    }
+
+    private fun List<Int>.findCollectionOccurrenceIndices(collection: List<Int>): List<Int> {
+        val indices = mutableListOf<Int>()
+        for (i in 0 until size - collection.size) {
+            if (subList(i, i + collection.size) == collection) {
+                indices.add(i)
+            }
+        }
+        return indices
+    }
+
+    private fun MatrixChar.calculateScore(): Int {
         var score = 0
-        for (i in 0 until matrix.rows) {
+        for (i in 0 until rows) {
             var count = 0
-            for (j in 0 until matrix.columns) {
-                if (matrix.values[i][j] == 'O') {
+            for (j in 0 until columns) {
+                if (values[i][j] == 'O') {
                     count++
                 }
             }
-            score += count * (matrix.rows - i)
+            score += count * (rows - i)
         }
-
-        return score.toString()
+        return score
     }
 
-    override fun calculateSolutionB(): String {
-        return ""
-    }
-
-    private fun MatrixChar.tilt(direction: Vector2D) {
-        // sort vertically
-        coordinates.sortedBy { it.x }
+    private fun MatrixChar.tilt(direction: Vector2D): MatrixChar {
+        // sort
+        if (direction.x == 1 ) {
+            coordinates = coordinates.sortedByDescending { it.x }
+        } else if (direction.x == -1 ) {
+            coordinates = coordinates.sortedBy { it.x }
+        } else if (direction.y == 1 ) {
+            coordinates = coordinates.sortedByDescending { it.y }
+        } else if (direction.y == -1 ) {
+            coordinates = coordinates.sortedBy { it.y }
+        }
 
         coordinates.forEach {
             // remove
@@ -69,21 +129,10 @@ class Assignment14 : Assignment() {
             }
             // unset active val
             values[last.x][last.y] = 'O'
-        }
 
-//        for (j in 0 until columns) {
-//            for (i in 0 until rows) {
-//                if (values[i][j] == 'O') {
-//                    var current = Vector2D(i, j)
-//                    var goal = Vector2D(i, j) + direction
-//                    while (isWithinBounds(goal) && values[goal.x][goal.y] == '.'){
-//                        values[current.x][current.y] = '.'
-//                        values[goal.x][goal.y] = 'O'
-//                        current = goal
-//                        goal = goal.up()
-//                    }
-//                }
-//            }
-//        }
+            it.x = last.x
+            it.y = last.y
+        }
+        return this
     }
 }
