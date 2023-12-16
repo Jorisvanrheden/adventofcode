@@ -33,32 +33,16 @@ class Assignment16 : Assignment() {
 
     override fun calculateSolutionB(): String {
         val entryPoints = mutableListOf<Node>()
-
-        // all top
+        // all top and bottom
         for (j in 0 until matrix.columns) {
-            entryPoints.add(
-                Node(Vector2D(0, j), Vector2D.DOWN)
-            )
+            entryPoints.add(Node(Vector2D(0, j), Vector2D.DOWN))
+            entryPoints.add(Node(Vector2D(matrix.rows - 1, j), Vector2D.UP))
         }
-        // all bottom
-        for (j in 0 until matrix.columns) {
-            entryPoints.add(
-                Node(Vector2D(matrix.rows - 1, j), Vector2D.UP)
-            )
-        }
-        // all left
+        // all left and right
         for (i in 0 until matrix.rows) {
-            entryPoints.add(
-                Node(Vector2D(i, 0), Vector2D.RIGHT)
-            )
+            entryPoints.add(Node(Vector2D(i, 0), Vector2D.RIGHT))
+            entryPoints.add(Node(Vector2D(i, matrix.columns - 1), Vector2D.LEFT))
         }
-        // all right
-        for (i in 0 until matrix.rows) {
-            entryPoints.add(
-                Node(Vector2D(i, matrix.columns - 1), Vector2D.LEFT)
-            )
-        }
-
         return entryPoints
             .map {
                 matrix
@@ -89,7 +73,6 @@ class Assignment16 : Assignment() {
                 }
             visitedNodes.add(currentNode)
         }
-
         return visitedNodes
     }
 
