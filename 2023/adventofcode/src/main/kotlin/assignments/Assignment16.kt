@@ -12,7 +12,6 @@ class Assignment16 : Assignment() {
     private data class Node(val coordinate: Vector2D, val direction: Vector2D)
 
     private lateinit var matrix: MatrixChar
-    private lateinit var matrixCopy: MatrixChar
 
     override fun initialize(input: List<String>) {
         matrix = MatrixChar(input.size, input[0].length)
@@ -20,14 +19,6 @@ class Assignment16 : Assignment() {
         for (i in input.indices) {
             for (j in input[i].indices) {
                 matrix.values[i][j] = input[i][j]
-            }
-        }
-
-        matrixCopy = MatrixChar(input.size, input[0].length)
-
-        for (i in input.indices) {
-            for (j in input[i].indices) {
-                matrixCopy.values[i][j] = input[i][j]
             }
         }
     }
@@ -41,7 +32,43 @@ class Assignment16 : Assignment() {
             .toString()
 
     override fun calculateSolutionB(): String {
-        return ""
+        val entryPoints = mutableListOf<Node>()
+
+        // all top
+        for (j in 0 until matrix.columns) {
+            entryPoints.add(
+                Node(Vector2D(0, j), Vector2D.DOWN)
+            )
+        }
+        // all bottom
+        for (j in 0 until matrix.columns) {
+            entryPoints.add(
+                Node(Vector2D(matrix.rows - 1, j), Vector2D.UP)
+            )
+        }
+        // all left
+        for (i in 0 until matrix.rows) {
+            entryPoints.add(
+                Node(Vector2D(i, 0), Vector2D.RIGHT)
+            )
+        }
+        // all right
+        for (i in 0 until matrix.rows) {
+            entryPoints.add(
+                Node(Vector2D(i, matrix.columns - 1), Vector2D.LEFT)
+            )
+        }
+
+        return entryPoints
+            .map {
+                matrix
+                    .traverse(it)
+                    .map { node -> node.coordinate }
+                    .distinct()
+                    .size
+            }
+            .maxOf { it }
+            .toString()
     }
 
     private fun MatrixChar.traverse(startNode: Node): MutableSet<Node> {
