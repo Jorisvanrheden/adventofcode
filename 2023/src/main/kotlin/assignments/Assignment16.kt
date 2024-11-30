@@ -1,6 +1,6 @@
 package assignments
 
-import models.MatrixChar
+import models.CharMatrix
 import toolkit.Vector2D
 
 class Assignment16 : Assignment() {
@@ -11,10 +11,10 @@ class Assignment16 : Assignment() {
 
     private data class DirectionNode(val coordinate: Vector2D, val direction: Vector2D)
 
-    private lateinit var matrix: MatrixChar
+    private lateinit var matrix: CharMatrix
 
     override fun initialize(input: List<String>) {
-        matrix = MatrixChar(input.size, input[0].length)
+        matrix = CharMatrix(input.size, input[0].length)
 
         for (i in input.indices) {
             for (j in input[i].indices) {
@@ -55,7 +55,7 @@ class Assignment16 : Assignment() {
             .toString()
     }
 
-    private fun MatrixChar.traverse(startNode: DirectionNode): MutableSet<DirectionNode> {
+    private fun CharMatrix.traverse(startNode: DirectionNode): MutableSet<DirectionNode> {
         val visitedNodes = mutableSetOf<DirectionNode>()
         
         val queue = mutableListOf<DirectionNode>()
@@ -76,7 +76,7 @@ class Assignment16 : Assignment() {
         return visitedNodes
     }
 
-    private fun getDirections(input: Char, direction: Vector2D) =
+    private fun getDirections(input: Char?, direction: Vector2D) =
         when (input) {
             // continue
             '.' -> listOf(direction)

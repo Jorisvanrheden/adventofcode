@@ -1,7 +1,7 @@
 package assignments
 
-import models.Matrix
 import models.Node
+import models.NodeMatrix
 import toolkit.Vector2D
 
 class Assignment10 : Assignment() {
@@ -10,51 +10,44 @@ class Assignment10 : Assignment() {
         return "input_10"
     }
 
-    private lateinit var nodeMap: Matrix
+    private lateinit var matrix: NodeMatrix
 
     override fun initialize(input: List<String>) {
-        nodeMap = Matrix(input.count(), input[0].count())
-        nodeMap.forEach { i, j ->
-            nodeMap.values[i][j] = Node(Vector2D(i, j), input[i][j].toString())
+        matrix = NodeMatrix(input.count(), input[0].count())
+        matrix.forEach { i, j ->
+            matrix.values[i][j] = Node(Vector2D(i, j), input[i][j].toString())
         }
     }
 
     override fun calculateSolutionA(): String {
-        nodeMap.calculateNeighbors()
-        return nodeMap
+        matrix.calculateNeighbors()
+        return matrix
             .calculatePath()
             .let { it.size / 2 }
             .toString()
     }
 
     override fun calculateSolutionB(): String {
-        val path = nodeMap.calculatePath()
+        val path = matrix.calculatePath()
 
-        val nodesNotInPath = nodeMap
+        val nodesNotInPath = matrix
             .copy()
-            .apply {
-                // retrieve the non-path nodes by setting all path nodes to null
-                for (node in path) {
-                    values[node.coordinate.x][node.coordinate.y] = null
-                }
-            }
-            .filterNotNull()
+            .flatten()
+            .filter { node -> !path.any { a -> node.coordinate == a.coordinate } }
 
         // Set non-path tiles to '.' and recalculate the connecting neighbors
-        nodeMap.let {
-            nodesNotInPath.forEach { node ->
-                it.values[node.coordinate.x][node.coordinate.y]?.value = "."
-            }
-            it.calculateNeighbors()
+        nodesNotInPath.forEach { node ->
+            matrix.values[node.coordinate.x][node.coordinate.y].value = "."
         }
+        matrix.calculateNeighbors()
 
         // Create the shifted-node map based on the connection from the original map
-        val shiftedNodeMap = Matrix(nodeMap.rows + 1, nodeMap.columns + 1)
+        val shiftedNodeMap = NodeMatrix(matrix.rows + 1, matrix.columns + 1)
         shiftedNodeMap.forEach { i, j ->
             shiftedNodeMap.values[i][j] = Node(
                 Vector2D(i, j),
                 "",
-                shiftedNodeMap.shiftedNeighbors(Vector2D(i, j), nodeMap),
+                shiftedNodeMap.shiftedNeighbors(Vector2D(i, j), matrix),
             )
         }
 
@@ -67,13 +60,13 @@ class Assignment10 : Assignment() {
         }.toString()
     }
 
-    private fun Matrix.calculateNeighbors() {
+    private fun NodeMatrix.calculateNeighbors() {
         forEach { i, j ->
-            values[i][j]?.neighbors = neighbors(Vector2D(i, j))
+            values[i][j].neighbors = neighbors(Vector2D(i, j))
         }
     }
 
-    private fun checkIfPointReachesEdge(shiftedNodeMap: Matrix, vector2D: Vector2D): Boolean {
+    private fun checkIfPointReachesEdge(shiftedNodeMap: NodeMatrix, vector2D: Vector2D): Boolean {
         val queue = mutableListOf<Vector2D>()
         val visitedNodes = mutableListOf<Vector2D>()
 
@@ -101,11 +94,11 @@ class Assignment10 : Assignment() {
         return false
     }
 
-    private fun Matrix.isEdgeCoordinate(vector2D: Vector2D) =
+    private fun NodeMatrix.isEdgeCoordinate(vector2D: Vector2D) =
         vector2D.x == 0 || vector2D.x == rows - 1 ||
             vector2D.y == 0 || vector2D.y == columns - 1
 
-    private fun Matrix.calculatePath(): MutableList<Node> {
+    private fun NodeMatrix.calculatePath(): MutableList<Node> {
         // find starting point
         val startingNode = find { it.value == "S" }
 
@@ -134,7 +127,7 @@ class Assignment10 : Assignment() {
         }
     }
 
-    private fun Matrix.shiftedNeighbors(vector2D: Vector2D, originalMatrix: Matrix): List<Vector2D> {
+    private fun NodeMatrix.shiftedNeighbors(vector2D: Vector2D, originalMatrix: NodeMatrix): List<Vector2D> {
         // (0, 0) shifted
         // fetch relevant coordinates from normal matrix
         return listOf(
@@ -169,8 +162,8 @@ class Assignment10 : Assignment() {
         }.map { it.first }
     }
 
-    private fun Matrix.neighbors(coordinate: Vector2D) =
-        when (values[coordinate.x][coordinate.y]?.value) {
+    private fun NodeMatrix.neighbors(coordinate: Vector2D) =
+        when (values[coordinate.x][coordinate.y].value) {
             "|" -> listOf(coordinate.up(), coordinate.down())
             "-" -> listOf(coordinate.left(), coordinate.right())
             "L" -> listOf(coordinate.up(), coordinate.right())

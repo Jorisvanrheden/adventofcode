@@ -1,6 +1,6 @@
 package assignments
 
-import models.MatrixChar
+import models.CharMatrix
 import toolkit.Vector2D
 
 class Assignment14 : Assignment() {
@@ -9,12 +9,12 @@ class Assignment14 : Assignment() {
         return "input_14"
     }
 
-    private lateinit var matrix: MatrixChar
+    private lateinit var matrix: CharMatrix
 
     private lateinit var coordinates: List<Vector2D>
 
     override fun initialize(input: List<String>) {
-        matrix = MatrixChar(input.size, input[0].length)
+        matrix = CharMatrix(input.size, input[0].length)
 
         for (i in input.indices) {
             for (j in input[0].indices) {
@@ -90,7 +90,7 @@ class Assignment14 : Assignment() {
         return indices
     }
 
-    private fun MatrixChar.calculateScore(): Int {
+    private fun CharMatrix.calculateScore(): Int {
         var score = 0
         for (i in 0 until rows) {
             var count = 0
@@ -104,7 +104,7 @@ class Assignment14 : Assignment() {
         return score
     }
 
-    private fun MatrixChar.tilt(direction: Vector2D): MatrixChar {
+    private fun CharMatrix.tilt(direction: Vector2D): CharMatrix {
         // sort
         if (direction.x == 1 ) {
             coordinates = coordinates.sortedByDescending { it.x }

@@ -1,17 +1,17 @@
 package assignments
 
-import models.Matrix
+import models.IntMatrix
 
 class Assignment8 : Assignment() {
 
-    private lateinit var trees: Matrix<Int>
+    private lateinit var trees: IntMatrix
 
     override fun getInput(): String {
         return "input_8"
     }
 
     override fun initialize(input: List<String>) {
-        trees = Matrix(input[0].length, input.size, 0)
+        trees = IntMatrix(input[0].length, input.size)
 
         for (i in input[0].indices) {
             for (j in input[i].indices) {
@@ -20,32 +20,32 @@ class Assignment8 : Assignment() {
         }
     }
 
-    private fun isVisibleFromTop(matrix: Matrix<Int>, x: Int, y: Int): Boolean {
+    private fun isVisibleFromTop(matrix: IntMatrix, x: Int, y: Int): Boolean {
         for (j in 0 until y) {
             if (matrix.values[x][j] >= matrix.values[x][y]) return false
         }
         return true
     }
-    private fun isVisibleFromBottom(matrix: Matrix<Int>, x: Int, y: Int): Boolean {
+    private fun isVisibleFromBottom(matrix: IntMatrix, x: Int, y: Int): Boolean {
         for (j in y + 1 until matrix.rows) {
             if (matrix.values[x][j] >= matrix.values[x][y]) return false
         }
         return true
     }
-    private fun isVisibleFromLeft(matrix: Matrix<Int>, x: Int, y: Int): Boolean {
+    private fun isVisibleFromLeft(matrix: IntMatrix, x: Int, y: Int): Boolean {
         for (i in 0 until x) {
             if (matrix.values[i][y] >= matrix.values[x][y]) return false
         }
         return true
     }
-    private fun isVisibleFromRight(matrix: Matrix<Int>, x: Int, y: Int): Boolean {
+    private fun isVisibleFromRight(matrix: IntMatrix, x: Int, y: Int): Boolean {
         for (i in x + 1 until matrix.columns) {
             if (matrix.values[i][y] >= matrix.values[x][y]) return false
         }
         return true
     }
 
-    private fun isVisibleFromOutside(matrix: Matrix<Int>, x: Int, y: Int): Boolean {
+    private fun isVisibleFromOutside(matrix: IntMatrix, x: Int, y: Int): Boolean {
         if (isVisibleFromTop(matrix, x, y)) return true
         if (isVisibleFromBottom(matrix, x, y)) return true
         if (isVisibleFromLeft(matrix, x, y)) return true
@@ -54,7 +54,7 @@ class Assignment8 : Assignment() {
         return false
     }
 
-    private fun getViewDistanceInDirection(matrix: Matrix<Int>, x: Int, y: Int, dirX: Int, dirY: Int): Int {
+    private fun getViewDistanceInDirection(matrix: IntMatrix, x: Int, y: Int, dirX: Int, dirY: Int): Int {
         var distance = 0
         var newX = x + dirX
         var newY = y + dirY
@@ -72,7 +72,7 @@ class Assignment8 : Assignment() {
         return distance
     }
 
-    private fun getScenicViewDistance(matrix: Matrix<Int>, x: Int, y: Int): Int {
+    private fun getScenicViewDistance(matrix: IntMatrix, x: Int, y: Int): Int {
         // look at each direction
         val left = getViewDistanceInDirection(matrix, x, y, -1, 0)
         val right = getViewDistanceInDirection(matrix, x, y, 1, 0)

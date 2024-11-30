@@ -1,6 +1,6 @@
 package assignments
 
-import models.Matrix
+import models.IntMatrix
 import toolkit.Vector2D
 import kotlin.math.abs
 
@@ -12,7 +12,7 @@ class Assignment17 : Assignment() {
 
     private lateinit var directions: List<Int>
 
-    data class Block(val matrix: Matrix<Int>, var location: Vector2D) {
+    data class Block(val matrix: IntMatrix, var location: Vector2D) {
         fun getCoordinates(): List<Vector2D> {
             var coordinates = mutableListOf<Vector2D>()
             for (i in 0 until matrix.rows) {
@@ -33,13 +33,13 @@ class Assignment17 : Assignment() {
     }
 
     private fun horizontal(): Block {
-        var matrix = Matrix(1, 4, 0)
+        var matrix = IntMatrix(1, 4)
         for (i in 0 until matrix.columns) matrix.values[0][i] = 1
         return Block(matrix, Vector2D(0, 0))
     }
 
     private fun cross(): Block {
-        var matrix = Matrix(3, 3, 0)
+        var matrix = IntMatrix(3, 3)
         matrix.values[0][1] = 1
         matrix.values[1][0] = 1
         matrix.values[1][1] = 1
@@ -49,7 +49,7 @@ class Assignment17 : Assignment() {
     }
 
     private fun corner(): Block {
-        var matrix = Matrix(3, 3, 0)
+        var matrix = IntMatrix(3, 3)
         matrix.values[0][2] = 1
         matrix.values[1][2] = 1
         matrix.values[2][2] = 1
@@ -59,7 +59,7 @@ class Assignment17 : Assignment() {
     }
 
     private fun vertical(): Block {
-        var matrix = Matrix(4, 1, 0)
+        var matrix = IntMatrix(4, 1)
         for (i in 0 until matrix.rows) {
             matrix.values[i][0] = 1
         }
@@ -67,7 +67,7 @@ class Assignment17 : Assignment() {
     }
 
     private fun block(): Block {
-        var matrix = Matrix(2, 2, 0)
+        var matrix = IntMatrix(2, 2)
         for (i in 0 until matrix.rows) {
             for (j in 0 until matrix.columns) {
                 matrix.values[i][j] = 1
@@ -93,7 +93,7 @@ class Assignment17 : Assignment() {
         directions = dirs
     }
 
-    private fun Matrix<Int>.moveBlock(block: Block, vector2D: Vector2D) {
+    private fun IntMatrix.moveBlock(block: Block, vector2D: Vector2D) {
         // validate if the block can move in its entirety
         val coordinates = block.getCoordinates().map { it + vector2D }
 
@@ -107,7 +107,7 @@ class Assignment17 : Assignment() {
         block.location += vector2D
     }
 
-    private fun Matrix<Int>.isOnFloor(block: Block): Boolean {
+    private fun IntMatrix.isOnFloor(block: Block): Boolean {
         // get lowest y coordinates
         val coordinates = block.getCoordinates()
 
@@ -120,7 +120,7 @@ class Assignment17 : Assignment() {
         return false
     }
 
-    private fun Matrix<Int>.addBlock(block: Block) {
+    private fun IntMatrix.addBlock(block: Block) {
         for (i in 0 until block.matrix.rows) {
             for (j in 0 until block.matrix.columns) {
                 val blockValue = block.matrix.values[i][j]
@@ -131,7 +131,7 @@ class Assignment17 : Assignment() {
         }
     }
 
-    private fun Matrix<Int>.getBottomY(): Int {
+    private fun IntMatrix.getBottomY(): Int {
         for (i in rows - 1 downTo 0) {
             var isEmptyRow = true
             for (j in 0 until columns) {
@@ -152,7 +152,7 @@ class Assignment17 : Assignment() {
         return block
     }
 
-    private fun Matrix<Int>.rowsToString(rowCount: Int): String {
+    private fun IntMatrix.rowsToString(rowCount: Int): String {
         val lowestY = getBottomY()
         if (abs(rows - lowestY) <= rowCount) return ""
 
@@ -168,8 +168,8 @@ class Assignment17 : Assignment() {
         return output
     }
 
-    private fun Matrix<Int>.copy(): Matrix<Int> {
-        val copy = Matrix(rows, columns, 0)
+    private fun IntMatrix.copy(): IntMatrix {
+        val copy = IntMatrix(rows, columns)
         for (i in 0 until rows) {
             for (j in 0 until columns) {
                 copy.values[i][j] = values[i][j]
@@ -180,7 +180,7 @@ class Assignment17 : Assignment() {
 
     override fun calculateSolutionA(): String {
         var currentBlockIndex = 0
-        var matrix = Matrix(3500, 7, 0)
+        var matrix = IntMatrix(3500, 7)
         var activeBlock = getNextBlock(currentBlockIndex, matrix.getBottomY())
 
         var count = 1
@@ -217,7 +217,7 @@ class Assignment17 : Assignment() {
         var map = HashMap<State, Answer>()
 
         var currentBlockIndex = 0
-        var matrix = Matrix<Int>(3500, 7, 0)
+        var matrix = IntMatrix(3500, 7)
         var activeBlock = getNextBlock(currentBlockIndex, matrix.getBottomY())
 
         var rockDelta = 0

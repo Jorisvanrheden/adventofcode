@@ -8,7 +8,7 @@ data class Node(
     var neighbors: List<Vector2D> = emptyList(),
 )
 
-class Matrix<T>(val rows: Int, val columns: Int, private val defaultValue: T) {
+open class Matrix<T>(val rows: Int, val columns: Int, private val defaultValue: T) {
     var values: MutableList<MutableList<T>> = MutableList(rows) { _ ->
         MutableList(columns) { _ ->
             defaultValue
@@ -52,5 +52,15 @@ class Matrix<T>(val rows: Int, val columns: Int, private val defaultValue: T) {
             }
         }
         throw Exception("Element with given predicate is not in the collection")
+    }
+
+    fun flatten(): List<T> {
+        val items = mutableListOf<T>()
+        for (i in 0 until rows) {
+            for (j in 0 until columns) {
+                items.add(values[i][j])
+            }
+        }
+        return items
     }
 }
