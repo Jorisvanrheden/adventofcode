@@ -1,5 +1,7 @@
 package assignments
 
+import models.assignment.Assignment
+
 class Assignment7 : Assignment() {
 
     data class Bag(val name: String, val count: Int) {

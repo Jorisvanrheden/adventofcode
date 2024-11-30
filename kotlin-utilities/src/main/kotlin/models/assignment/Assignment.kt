@@ -1,4 +1,4 @@
-package assignments
+package models.assignment
 
 import kotlin.system.measureTimeMillis
 

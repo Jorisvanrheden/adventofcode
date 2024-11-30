@@ -1,5 +1,7 @@
 package assignments
 
+import models.assignment.Assignment
+
 class Assignment4 : Assignment() {
 
     data class Range(val min: Int, val max: Int) {

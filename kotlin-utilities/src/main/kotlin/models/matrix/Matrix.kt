@@ -1,6 +1,6 @@
-package models
+package models.matrix
 
-import toolkit.Vector2D
+import models.vector.Vector2D
 
 data class Node(
     var coordinate: Vector2D,

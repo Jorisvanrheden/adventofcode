@@ -1,4 +1,4 @@
-package models
+package models.matrix
 
 class CharMatrix(rows: Int, columns: Int) : Matrix<Char>(rows, columns, '.') {
     override fun toString(): String {

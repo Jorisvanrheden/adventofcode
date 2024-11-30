@@ -1,7 +1,8 @@
 package assignments
 
-import models.CharMatrix
-import toolkit.Vector2D
+import models.matrix.CharMatrix
+import models.assignment.Assignment
+import models.vector.Vector2D
 
 class Assignment14 : Assignment() {
 

@@ -1,5 +1,7 @@
 package assignments
 
+import models.assignment.Assignment
+
 class Assignment6 : Assignment() {
 
     private lateinit var message: String

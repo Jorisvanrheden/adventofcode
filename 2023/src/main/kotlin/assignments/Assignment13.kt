@@ -1,5 +1,6 @@
 package assignments
 
+import models.assignment.Assignment
 import utilities.Utilities
 import kotlin.math.min
 

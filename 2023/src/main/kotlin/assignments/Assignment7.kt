@@ -1,5 +1,7 @@
 package assignments
 
+import models.assignment.Assignment
+
 class Assignment7 : Assignment() {
 
     private lateinit var hands: List<Hand>

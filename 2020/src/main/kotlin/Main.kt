@@ -1,5 +1,5 @@
-import assignments.Assignment
-import assignments.Assignment7
+import assignments.* // ktlint-disable no-wildcard-imports
+import models.assignment.Assignment
 import utilities.Utilities
 
 fun main(args: Array<String>) {

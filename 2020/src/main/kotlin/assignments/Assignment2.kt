@@ -1,4 +1,7 @@
 package assignments
+
+import models.assignment.Assignment
+
 class Assignment2 : Assignment() {
     data class PasswordEntry(val min: Int, val max: Int, val letter: Char, val password: String)
 

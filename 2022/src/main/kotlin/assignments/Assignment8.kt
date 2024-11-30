@@ -1,6 +1,7 @@
 package assignments
 
-import models.IntMatrix
+import models.matrix.IntMatrix
+import models.assignment.Assignment
 
 class Assignment8 : Assignment() {
 

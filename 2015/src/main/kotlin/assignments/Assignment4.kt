@@ -1,5 +1,6 @@
 package assignments
 
+import models.assignment.Assignment
 import java.math.BigInteger
 import java.security.MessageDigest
 

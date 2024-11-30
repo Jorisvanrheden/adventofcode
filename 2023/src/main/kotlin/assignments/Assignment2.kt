@@ -1,5 +1,7 @@
 package assignments
 
+import models.assignment.Assignment
+
 class Assignment2 : Assignment() {
     data class Game(val id: Int, val cubes: List<GameCube>)
     data class GameCube(val count: Int, val color: String)

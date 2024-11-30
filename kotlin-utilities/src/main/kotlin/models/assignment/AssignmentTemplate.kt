@@ -1,4 +1,4 @@
-package assignments
+package models.assignment
 
 class AssignmentTemplate : Assignment() {
 
@@ -17,3 +17,4 @@ class AssignmentTemplate : Assignment() {
         return ""
     }
 }
+

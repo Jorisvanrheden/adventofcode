@@ -1,7 +1,8 @@
 package assignments
 
-import models.Matrix
-import toolkit.Vector2D
+import models.matrix.Matrix
+import models.assignment.Assignment
+import models.vector.Vector2D
 import java.lang.Math.max
 import java.lang.Math.min
 

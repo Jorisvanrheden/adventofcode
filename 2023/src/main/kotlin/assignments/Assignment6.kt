@@ -1,5 +1,7 @@
 package assignments
 
+import models.assignment.Assignment
+
 class Assignment6 : Assignment() {
     private lateinit var times: List<Int>
     private lateinit var distances: List<Int>

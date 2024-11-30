@@ -1,5 +1,6 @@
 package assignments
 
+import models.assignment.Assignment
 import kotlin.math.max
 
 class Assignment8 : Assignment() {

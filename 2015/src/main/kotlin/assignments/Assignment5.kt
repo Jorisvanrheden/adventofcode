@@ -1,5 +1,7 @@
 package assignments
 
+import models.assignment.Assignment
+
 class Assignment5 : Assignment() {
 
     override fun getInput(): String {

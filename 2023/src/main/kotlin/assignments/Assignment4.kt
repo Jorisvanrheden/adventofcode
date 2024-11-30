@@ -1,5 +1,6 @@
 package assignments
 
+import models.assignment.Assignment
 import kotlin.math.*
 
 class Assignment4 : Assignment() {

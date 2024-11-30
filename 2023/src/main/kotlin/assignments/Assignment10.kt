@@ -1,8 +1,9 @@
 package assignments
 
-import models.Node
-import models.NodeMatrix
-import toolkit.Vector2D
+import models.matrix.Node
+import models.matrix.NodeMatrix
+import models.assignment.Assignment
+import models.vector.Vector2D
 
 class Assignment10 : Assignment() {
 

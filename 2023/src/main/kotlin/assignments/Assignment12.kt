@@ -1,5 +1,7 @@
 package assignments
 
+import models.assignment.Assignment
+
 class Assignment12 : Assignment() {
 
     data class Entry(

@@ -1,8 +1,7 @@
 package assignments
 
-import models.Matrix
-import models.Node
-import toolkit.Vector2D
+import models.matrix.Matrix
+import models.assignment.Assignment
 import kotlin.math.floor
 
 class Assignment10 : Assignment() {

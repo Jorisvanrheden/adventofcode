@@ -1,7 +1,8 @@
 package assignments
 
-import models.Matrix
-import toolkit.Vector2D
+import models.matrix.Matrix
+import models.assignment.Assignment
+import models.vector.Vector2D
 
 class Assignment3 : Assignment()
 {
@@ -30,7 +31,7 @@ class Assignment3 : Assignment()
     }
 
     private fun getEncountersForSlope(slope: Vector2D):Int{
-        var position:Vector2D = Vector2D(0,0)
+        var position: Vector2D = Vector2D(0,0)
         var encounters:Int = 0
 
         while(position.y < matrix.rows){

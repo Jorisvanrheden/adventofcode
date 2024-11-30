@@ -1,6 +1,7 @@
 package assignments
 
-import toolkit.Vector3D
+import models.assignment.Assignment
+import models.vector.Vector3D
 import kotlin.math.abs
 
 class Assignment18 : Assignment() {

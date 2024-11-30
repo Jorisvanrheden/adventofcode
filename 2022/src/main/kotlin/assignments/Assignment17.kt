@@ -1,7 +1,8 @@
 package assignments
 
-import models.IntMatrix
-import toolkit.Vector2D
+import models.matrix.IntMatrix
+import models.assignment.Assignment
+import models.vector.Vector2D
 import kotlin.math.abs
 
 class Assignment17 : Assignment() {

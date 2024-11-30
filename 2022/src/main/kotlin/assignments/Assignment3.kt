@@ -1,5 +1,7 @@
 package assignments
 
+import models.assignment.Assignment
+
 class Assignment3 : Assignment() {
 
     data class Rucksack(

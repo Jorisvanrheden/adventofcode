@@ -1,6 +1,6 @@
-package models
+package models.matrix
 
-import toolkit.Vector2D
+import models.vector.Vector2D
 
 class NodeMatrix(rows: Int, columns: Int) : Matrix<Node>(rows, columns, Node(Vector2D(0, 0), ".", emptyList())) {
     override fun toString(): String {

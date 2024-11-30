@@ -1,7 +1,8 @@
 package assignments
 
-import models.Matrix
-import toolkit.Vector2D
+import models.matrix.Matrix
+import models.assignment.Assignment
+import models.vector.Vector2D
 
 class Assignment24 : Assignment() {
     override fun getInput(): String {

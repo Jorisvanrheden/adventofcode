@@ -1,5 +1,7 @@
 package assignments
 
+import models.assignment.Assignment
+
 class Assignment2 : Assignment() {
     data class Match(val playerValue: Int, val enemyValue: Int) {
         private fun getScore(valueA: Int, valueB: Int): Int {

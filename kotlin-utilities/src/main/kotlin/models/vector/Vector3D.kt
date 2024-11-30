@@ -1,4 +1,4 @@
-package toolkit
+package models.vector
 
 data class Vector3D(var x: Int, var y: Int, var z: Int) {
     operator fun plus(vector: Vector3D): Vector3D {

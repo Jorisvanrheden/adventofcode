@@ -1,4 +1,4 @@
-package models
+package models.matrix
 
 class IntMatrix(rows: Int, columns: Int) : Matrix<Int>(rows, columns, 0) {
     override fun toString(): String {

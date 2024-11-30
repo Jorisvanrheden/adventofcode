@@ -1,6 +1,7 @@
 package assignments
 
-import toolkit.Vector2D
+import models.assignment.Assignment
+import models.vector.Vector2D
 import kotlin.math.abs
 import kotlin.math.floor
 

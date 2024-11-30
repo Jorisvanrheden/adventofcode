@@ -1,6 +1,7 @@
 package assignments
 
-import toolkit.Vector2DLong
+import models.assignment.Assignment
+import models.vector.Vector2DLong
 import java.lang.Long.max
 import kotlin.math.abs
 import kotlin.math.min

@@ -1,5 +1,6 @@
 package assignments
 
+import models.assignment.Assignment
 import kotlin.math.pow
 
 class Assignment25 : Assignment() {
