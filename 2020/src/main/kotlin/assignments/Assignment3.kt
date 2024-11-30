@@ -1,11 +1,11 @@
 package assignments
 
-import toolkit.Matrix
+import models.Matrix
 import toolkit.Vector2D
 
 class Assignment3 : Assignment()
 {
-    private lateinit var matrix:Matrix
+    private lateinit var matrix: Matrix
 
     override fun getInput(): String {
         return "input_3"
@@ -29,7 +29,7 @@ class Assignment3 : Assignment()
         }
     }
 
-    private fun getEncountersForSlope(slope:Vector2D):Int{
+    private fun getEncountersForSlope(slope: Vector2D):Int{
         var position:Vector2D = Vector2D(0,0)
         var encounters:Int = 0
 

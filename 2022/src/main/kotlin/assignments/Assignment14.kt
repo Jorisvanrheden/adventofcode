@@ -1,6 +1,6 @@
 package assignments
 
-import toolkit.Matrix
+import models.Matrix
 import toolkit.Vector2D
 import java.lang.Math.max
 import java.lang.Math.min
@@ -78,7 +78,7 @@ class Assignment14 : Assignment() {
         )
     }
 
-    private fun Matrix.processSection(bounds: Bounds, section: Section) {
+    private fun Matrix<Int>.processSection(bounds: Bounds, section: Section) {
         for (line in section.lines) {
             val coordinates = line.getCoordinatesInBetween()
             for (coordinate in coordinates) {
@@ -93,7 +93,7 @@ class Assignment14 : Assignment() {
         return true
     }
 
-    private fun findSandTarget(bounds: Bounds, matrix: Matrix, sandSource: Vector2D): Vector2D {
+    private fun findSandTarget(bounds: Bounds, matrix: Matrix<Int>, sandSource: Vector2D): Vector2D {
         var sandPosition = sandSource - Vector2D(bounds.xMin, bounds.yMin)
         while (true) {
             var nextPosition = sandPosition + Vector2D(0, 1)
@@ -129,7 +129,7 @@ class Assignment14 : Assignment() {
         return Vector2D(-1, -1)
     }
 
-    private fun applySandUntilStop(bounds: Bounds, matrix: Matrix, sandSource: Vector2D, stopCoordinate: Vector2D): Int {
+    private fun applySandUntilStop(bounds: Bounds, matrix: Matrix<Int>, sandSource: Vector2D, stopCoordinate: Vector2D): Int {
         var rounds = 0
         while (true) {
             // find first y location below
@@ -155,7 +155,8 @@ class Assignment14 : Assignment() {
         // create matrix
         var matrix = Matrix(
             bounds.xMax - bounds.xMin + 1,
-            bounds.yMax - bounds.yMin + 1
+            bounds.yMax - bounds.yMin + 1,
+            0,
         )
 
         // apply sections to matrix
@@ -190,7 +191,8 @@ class Assignment14 : Assignment() {
         // create matrix
         var matrix = Matrix(
             bounds.xMax - bounds.xMin + 1,
-            bounds.yMax - bounds.yMin + 1
+            bounds.yMax - bounds.yMin + 1,
+            0,
         )
 
         // apply sections to matrix

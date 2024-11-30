@@ -9,7 +9,7 @@ class Assignment16 : Assignment() {
         return "input_16"
     }
 
-    private data class Node(val coordinate: Vector2D, val direction: Vector2D)
+    private data class DirectionNode(val coordinate: Vector2D, val direction: Vector2D)
 
     private lateinit var matrix: MatrixChar
 
@@ -25,23 +25,23 @@ class Assignment16 : Assignment() {
 
     override fun calculateSolutionA() =
         matrix
-            .traverse(Node(Vector2D(0,0), Vector2D.RIGHT))
+            .traverse(DirectionNode(Vector2D(0,0), Vector2D.RIGHT))
             .map { it.coordinate }
             .distinct()
             .size
             .toString()
 
     override fun calculateSolutionB(): String {
-        val entryPoints = mutableListOf<Node>()
+        val entryPoints = mutableListOf<DirectionNode>()
         // all top and bottom
         for (j in 0 until matrix.columns) {
-            entryPoints.add(Node(Vector2D(0, j), Vector2D.DOWN))
-            entryPoints.add(Node(Vector2D(matrix.rows - 1, j), Vector2D.UP))
+            entryPoints.add(DirectionNode(Vector2D(0, j), Vector2D.DOWN))
+            entryPoints.add(DirectionNode(Vector2D(matrix.rows - 1, j), Vector2D.UP))
         }
         // all left and right
         for (i in 0 until matrix.rows) {
-            entryPoints.add(Node(Vector2D(i, 0), Vector2D.RIGHT))
-            entryPoints.add(Node(Vector2D(i, matrix.columns - 1), Vector2D.LEFT))
+            entryPoints.add(DirectionNode(Vector2D(i, 0), Vector2D.RIGHT))
+            entryPoints.add(DirectionNode(Vector2D(i, matrix.columns - 1), Vector2D.LEFT))
         }
         return entryPoints
             .map {
@@ -55,17 +55,17 @@ class Assignment16 : Assignment() {
             .toString()
     }
 
-    private fun MatrixChar.traverse(startNode: Node): MutableSet<Node> {
-        val visitedNodes = mutableSetOf<Node>()
+    private fun MatrixChar.traverse(startNode: DirectionNode): MutableSet<DirectionNode> {
+        val visitedNodes = mutableSetOf<DirectionNode>()
         
-        val queue = mutableListOf<Node>()
+        val queue = mutableListOf<DirectionNode>()
         queue.add(startNode)
 
         while (queue.isNotEmpty()) {
             val currentNode = queue.removeFirst()
             val value = values[currentNode.coordinate.x][currentNode.coordinate.y]
             getDirections(value, currentNode.direction)
-                .map { Node(currentNode.coordinate + it, it) }
+                .map { DirectionNode(currentNode.coordinate + it, it) }
                 .filter { isWithinBounds(it.coordinate) }
                 .filter { !visitedNodes.contains(it) }
                 .forEach {

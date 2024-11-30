@@ -1,6 +1,6 @@
 package assignments
 
-import toolkit.Matrix
+import models.Matrix
 
 class Assignment16 : Assignment() {
 
@@ -128,7 +128,7 @@ class Assignment16 : Assignment() {
 
     private var h = 0
 
-    private lateinit var distanceMatrix: Matrix
+    private lateinit var distanceMatrix: Matrix<Int>
     private lateinit var usefulValves: List<Int>
 
     private fun getUsefulValves(valves: List<Valve>): List<Int> {
@@ -139,8 +139,8 @@ class Assignment16 : Assignment() {
         return v
     }
 
-    private fun getDistanceMatrix(valves: List<Valve>): Matrix {
-        val matrix = Matrix(valves.size, valves.size)
+    private fun getDistanceMatrix(valves: List<Valve>): Matrix<Int> {
+        val matrix = Matrix(valves.size, valves.size, 0)
 
         for (i in valves.indices) {
             for (j in valves.indices) {

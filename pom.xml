@@ -7,6 +7,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>kotlin-utilities</module>
         <module>2015</module>
         <module>2020</module>
         <module>2022</module>

@@ -1,6 +1,8 @@
 package assignments
 
-import toolkit.Matrix
+import models.Matrix
+import models.Node
+import toolkit.Vector2D
 import kotlin.math.floor
 
 class Assignment10 : Assignment() {
@@ -45,7 +47,7 @@ class Assignment10 : Assignment() {
         }
     }
 
-    private fun drawMatrixAt(matrix: Matrix, pixelX: Int, pixelY: Int, cycleX: Int) {
+    private fun drawMatrixAt(matrix: Matrix<Int>, pixelX: Int, pixelY: Int, cycleX: Int) {
         // check if the pixel chunk (-1 .. 1) overlaps with the cycleX
         var pixelValue = 0
         if (cycleX >= pixelY - 1 && cycleX <= pixelY + 1) {
@@ -64,7 +66,7 @@ class Assignment10 : Assignment() {
 
     override fun calculateSolutionB(): String {
         val cycleProcessor = CycleProcessor(cycles.toMutableList())
-        var matrix = Matrix(6, 40)
+        val matrix = Matrix(6, 40, 0)
 
         for (i in 1 until cycleProcessor.registerHistory.size - 1) {
             // checking how many times the current index fits in the amount of columns gets the row index

@@ -1,6 +1,6 @@
 package assignments
 
-import toolkit.Matrix
+import models.Matrix
 import toolkit.Vector2D
 
 class Assignment24 : Assignment() {
@@ -11,11 +11,11 @@ class Assignment24 : Assignment() {
     data class Blizzard(val startingPosition: Vector2D, val direction: Vector2D)
 
     private lateinit var blizzards: List<Blizzard>
-    private lateinit var grid: Matrix
+    private lateinit var grid: Matrix<Int>
 
     override fun initialize(input: List<String>) {
         var blizzards = mutableListOf<Blizzard>()
-        grid = Matrix(input.size, input[0].length)
+        grid = Matrix(input.size, input[0].length, 0)
 
         for (i in input.indices) {
             for (j in input[i].indices) {
@@ -38,8 +38,8 @@ class Assignment24 : Assignment() {
         this.blizzards = blizzards
     }
 
-    private fun initializeBlizzardsForTurns(grid: Matrix, blizzards: List<Blizzard>): List<Matrix> {
-        var blizzardGrids = mutableListOf<Matrix>()
+    private fun initializeBlizzardsForTurns(grid: Matrix<Int>, blizzards: List<Blizzard>): List<Matrix<Int>> {
+        var blizzardGrids = mutableListOf<Matrix<Int>>()
 
         val blizzardXMin = 1
         val blizzardXMax = grid.rows - 1
@@ -52,7 +52,7 @@ class Assignment24 : Assignment() {
 
         for (i in 0 until turns) {
             // initialize a new grid for each turn
-            var updatedGrid = Matrix(grid.rows, grid.columns)
+            var updatedGrid = Matrix(grid.rows, grid.columns, 0)
             // initialize with walkable positions
             for (r in 0 until updatedGrid.rows) {
                 for (c in 0 until updatedGrid.columns) {
@@ -81,7 +81,7 @@ class Assignment24 : Assignment() {
         return blizzardGrids
     }
 
-    private fun getNeighbors(currentPosition: Vector2D, grid: Matrix): List<Vector2D> {
+    private fun getNeighbors(currentPosition: Vector2D, grid: Matrix<Int>): List<Vector2D> {
         val neighborDirections = listOf(
             Vector2D(1, 0),
             Vector2D(-1, 0),
@@ -98,7 +98,7 @@ class Assignment24 : Assignment() {
 
     data class TimeTile(val t: Int, val position: Vector2D)
 
-    private fun findBestPath(grid: Matrix, start: TimeTile, target: Vector2D, blizzardsPerTurn: List<Matrix>): Int {
+    private fun findBestPath(grid: Matrix<Int>, start: TimeTile, target: Vector2D, blizzardsPerTurn: List<Matrix<Int>>): Int {
         // queue for storing neighbors to process during the next iteration
         var queue = mutableListOf<TimeTile>()
 
