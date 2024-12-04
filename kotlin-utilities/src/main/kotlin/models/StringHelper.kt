@@ -9,3 +9,8 @@ fun String.indicesOf(predicate: (Char) -> Boolean): List<Int> {
     }
     return indicesThatMatchesPredicate
 }
+
+fun String.indicesOf(predicate: String): List<Int> {
+    return (0..length - predicate.length)
+        .filter { substring(it, it + predicate.length) == predicate }
+}
