@@ -63,4 +63,14 @@ open class Matrix<T>(val rows: Int, val columns: Int, private val defaultValue: 
         }
         return items
     }
+
+    fun flattenCoordinates(): List<Vector2D> {
+        val items = mutableListOf<Vector2D>()
+        for (i in 0 until rows) {
+            for (j in 0 until columns) {
+                items.add(Vector2D(i, j))
+            }
+        }
+        return items
+    }
 }
