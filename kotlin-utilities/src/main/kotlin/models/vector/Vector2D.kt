@@ -18,6 +18,9 @@ data class Vector2D(var x: Int, var y: Int) {
     fun right() = Vector2D(x, y + 1)
     fun left() = Vector2D(x, y - 1)
 
+    fun rotateRight() = Vector2D(y, -x)
+    fun rotateLeft() = Vector2D(-y, x)
+
     companion object {
         val UP = Vector2D(-1, 0)
         val DOWN = Vector2D(1, 0)
