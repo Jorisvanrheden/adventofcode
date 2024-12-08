@@ -73,4 +73,16 @@ open class Matrix<T>(val rows: Int, val columns: Int, private val defaultValue: 
         }
         return items
     }
+
+    fun occurrencesOf(item: T): List<Vector2D> {
+        val indicesThatMatchesPredicate = mutableListOf<Vector2D>()
+        for (i in 0 until rows) {
+            for (j in 0 until columns) {
+                if (values[i][j] == item) {
+                    indicesThatMatchesPredicate.add(Vector2D(i, j))
+                }
+            }
+        }
+        return indicesThatMatchesPredicate
+    }
 }
