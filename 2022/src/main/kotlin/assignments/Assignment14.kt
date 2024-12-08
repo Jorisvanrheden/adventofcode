@@ -6,7 +6,7 @@ import models.vector.Vector2D
 import java.lang.Math.max
 import java.lang.Math.min
 
-class Assignment14 : Assignment() {
+class Assignment14 : Assignment(14) {
 
     data class Bounds(val xMin: Int, val xMax: Int, val yMin: Int, val yMax: Int)
     data class Line(val start: Vector2D, val end: Vector2D) {
@@ -34,10 +34,6 @@ class Assignment14 : Assignment() {
         }
     }
     data class Section(val lines: List<Line>)
-
-    override fun getInput(): String {
-        return "input_14"
-    }
 
     private lateinit var sections: List<Section>
 

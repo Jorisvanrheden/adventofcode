@@ -2,7 +2,7 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment7 : Assignment() {
+class Assignment7 : Assignment(7) {
 
     data class Bag(val name: String, val count: Int) {
         override fun equals(other: Any?): Boolean {
@@ -14,10 +14,6 @@ class Assignment7 : Assignment() {
     }
 
     private lateinit var dictionary: MutableMap<Bag, List<Bag>>
-
-    override fun getInput(): String {
-        return "input_7"
-    }
 
     override fun initialize(input: List<String>) {
         // parse all key/value pairs

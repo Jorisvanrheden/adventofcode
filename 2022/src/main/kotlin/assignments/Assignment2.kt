@@ -2,7 +2,7 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment2 : Assignment() {
+class Assignment2 : Assignment(2) {
     data class Match(val playerValue: Int, val enemyValue: Int) {
         private fun getScore(valueA: Int, valueB: Int): Int {
             // Rock (0) -> 1 point
@@ -49,10 +49,6 @@ class Assignment2 : Assignment() {
     }
 
     private lateinit var matches: List<Match>
-
-    override fun getInput(): String {
-        return "input_2"
-    }
 
     override fun initialize(input: List<String>) {
         val enemyValues = listOf("A", "B", "C")

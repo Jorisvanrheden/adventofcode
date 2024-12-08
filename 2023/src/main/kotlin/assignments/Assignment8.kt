@@ -3,7 +3,7 @@ package assignments
 import models.assignment.Assignment
 import kotlin.math.max
 
-class Assignment8 : Assignment() {
+class Assignment8 : Assignment(8) {
     private lateinit var instructions: String
     private lateinit var connections: List<Connection>
 
@@ -12,10 +12,6 @@ class Assignment8 : Assignment() {
         val left: Int,
         val right: Int,
     )
-
-    override fun getInput(): String {
-        return "input_8"
-    }
 
     override fun initialize(input: List<String>) {
         val names = input.subList(2, input.lastIndex + 1).map {

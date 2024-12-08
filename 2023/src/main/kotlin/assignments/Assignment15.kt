@@ -2,12 +2,7 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment15 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_15"
-    }
-
+class Assignment15 : Assignment(15) {
     private data class Box(val lenses: MutableList<Lens>)
     private data class Lens(val label: String, val focalStrength: Int)
 

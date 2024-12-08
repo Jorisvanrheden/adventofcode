@@ -5,14 +5,10 @@ import models.vector.Vector2D
 import kotlin.math.abs
 import kotlin.math.floor
 
-class Assignment5 : Assignment() {
+class Assignment5 : Assignment(5) {
     data class BoardingPass(val rowSequence: List<Int>, val columnSequence: List<Int>)
 
     private lateinit var boardingPasses: List<BoardingPass>
-
-    override fun getInput(): String {
-        return "input_5"
-    }
 
     private fun createBoardingPass(input: String): BoardingPass {
         val rowData = input.substring(0, 7)

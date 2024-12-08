@@ -3,12 +3,7 @@ package assignments
 import models.assignment.Assignment
 import models.vector.Vector2D
 
-class Assignment23 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_23"
-    }
-
+class Assignment23 : Assignment(23) {
     data class Elf(
         var position: Vector2D,
         var directionIndex: Int = 0

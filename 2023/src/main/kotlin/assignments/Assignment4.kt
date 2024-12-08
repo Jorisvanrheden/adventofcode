@@ -3,13 +3,9 @@ package assignments
 import models.assignment.Assignment
 import kotlin.math.*
 
-class Assignment4 : Assignment() {
+class Assignment4 : Assignment(4) {
     private lateinit var cards: List<Card>
     data class Card(val winningNumbers: List<Int>, val numbers: List<Int>)
-
-    override fun getInput(): String {
-        return "input_4"
-    }
 
     override fun initialize(input: List<String>) {
         cards = input

@@ -4,12 +4,7 @@ import models.matrix.CharMatrix
 import models.assignment.Assignment
 import models.vector.Vector2D
 
-class Assignment14 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_14"
-    }
-
+class Assignment14 : Assignment(14) {
     private lateinit var matrix: CharMatrix
 
     private lateinit var coordinates: List<Vector2D>

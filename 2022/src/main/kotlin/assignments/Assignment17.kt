@@ -5,12 +5,7 @@ import models.assignment.Assignment
 import models.vector.Vector2D
 import kotlin.math.abs
 
-class Assignment17 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_17"
-    }
-
+class Assignment17 : Assignment(17) {
     private lateinit var directions: List<Int>
 
     data class Block(val matrix: IntMatrix, var location: Vector2D) {

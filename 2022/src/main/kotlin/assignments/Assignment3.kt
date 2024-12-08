@@ -2,7 +2,7 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment3 : Assignment() {
+class Assignment3 : Assignment(3) {
 
     data class Rucksack(
         val originalEntry: String,
@@ -11,10 +11,6 @@ class Assignment3 : Assignment() {
     )
 
     private lateinit var rucksacks: List<Rucksack>
-
-    override fun getInput(): String {
-        return "input_3"
-    }
 
     override fun initialize(input: List<String>) {
         rucksacks = input.map {

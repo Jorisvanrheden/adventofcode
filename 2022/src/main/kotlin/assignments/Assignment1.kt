@@ -3,15 +3,9 @@ package assignments
 import models.assignment.Assignment
 import utilities.Utilities
 
-class Assignment1 : Assignment() {
-
+class Assignment1 : Assignment(1) {
     data class Elf(val calories: List<Int>)
-
     private lateinit var elves: List<Elf>
-
-    override fun getInput(): String {
-        return "input_1"
-    }
 
     override fun initialize(input: List<String>) {
         val chunks = Utilities.packageByEmptyLine(input)

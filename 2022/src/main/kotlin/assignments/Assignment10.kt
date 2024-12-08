@@ -4,7 +4,7 @@ import models.matrix.Matrix
 import models.assignment.Assignment
 import kotlin.math.floor
 
-class Assignment10 : Assignment() {
+class Assignment10 : Assignment(10) {
 
     data class Cycle(var duration: Int, val addition: Int)
     private lateinit var cycles: List<Cycle>
@@ -31,10 +31,6 @@ class Assignment10 : Assignment() {
             // - the x-th index - 1 return the 'end' status, but we need to retrieve the 'during' status
             return index * registerHistory[index - 2]
         }
-    }
-
-    override fun getInput(): String {
-        return "input_10"
     }
 
     override fun initialize(input: List<String>) {

@@ -3,16 +3,12 @@ package assignments
 import models.assignment.Assignment
 import kotlin.math.abs
 
-class Assignment3 : Assignment() {
+class Assignment3 : Assignment(3) {
     private lateinit var numbers: List<GridNumber>
     private lateinit var symbols: List<Symbol>
 
     data class GridNumber(val index: Int, val value: Int, val range: IntRange)
     data class Symbol(val index: Int, val value: Char, val column: Int)
-
-    override fun getInput(): String {
-        return "input_3"
-    }
 
     override fun initialize(input: List<String>) {
         numbers = input.flatMapIndexed { index, it ->

@@ -2,15 +2,11 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment2 : Assignment() {
+class Assignment2 : Assignment(2) {
     data class Game(val id: Int, val cubes: List<GameCube>)
     data class GameCube(val count: Int, val color: String)
 
     private lateinit var games: List<Game>
-
-    override fun getInput(): String {
-        return "input_2"
-    }
 
     override fun initialize(input: List<String>) {
         games = input.map { line ->

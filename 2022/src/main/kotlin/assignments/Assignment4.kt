@@ -2,7 +2,7 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment4 : Assignment() {
+class Assignment4 : Assignment(4) {
 
     data class Range(val min: Int, val max: Int) {
         fun contains(x: Int): Boolean {
@@ -12,10 +12,6 @@ class Assignment4 : Assignment() {
     data class Pair(val rangeA: Range, val rangeB: Range)
 
     private lateinit var pairs: List<Pair>
-
-    override fun getInput(): String {
-        return "input_4"
-    }
 
     private fun stringToRange(input: String): Range {
         val chunks = input.split('-')

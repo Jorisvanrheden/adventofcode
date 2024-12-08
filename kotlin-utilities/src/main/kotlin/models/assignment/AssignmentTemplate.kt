@@ -1,11 +1,6 @@
 package models.assignment
 
-class AssignmentTemplate : Assignment() {
-
-    override fun getInput(): String {
-        return "input_x"
-    }
-
+class AssignmentTemplate : Assignment(0) {
     override fun initialize(input: List<String>) {
     }
 

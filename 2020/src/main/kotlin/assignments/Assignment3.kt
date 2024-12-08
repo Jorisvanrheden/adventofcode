@@ -1,19 +1,15 @@
 package assignments
 
-import models.matrix.Matrix
 import models.assignment.Assignment
+import models.matrix.IntMatrix
 import models.vector.Vector2D
 
-class Assignment3 : Assignment()
+class Assignment3 : Assignment(3)
 {
-    private lateinit var matrix: Matrix
-
-    override fun getInput(): String {
-        return "input_3"
-    }
+    private lateinit var matrix: IntMatrix
 
     override fun initialize(input: List<String>) {
-        matrix = Matrix(input.size, input[0].count())
+        matrix = IntMatrix(input.size, input[0].count())
 
         input.forEachIndexed{ row, line ->
             for(column in 0 until line.count()){
@@ -31,8 +27,8 @@ class Assignment3 : Assignment()
     }
 
     private fun getEncountersForSlope(slope: Vector2D):Int{
-        var position: Vector2D = Vector2D(0,0)
-        var encounters:Int = 0
+        var position = Vector2D(0,0)
+        var encounters = 0
 
         while(position.y < matrix.rows){
             if(matrix.values[position.y][position.x] == 1) encounters++

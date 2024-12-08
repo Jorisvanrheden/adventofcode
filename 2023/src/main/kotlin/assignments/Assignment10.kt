@@ -5,12 +5,7 @@ import models.matrix.NodeMatrix
 import models.assignment.Assignment
 import models.vector.Vector2D
 
-class Assignment10 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_10"
-    }
-
+class Assignment10 : Assignment(10) {
     private lateinit var matrix: NodeMatrix
 
     override fun initialize(input: List<String>) {

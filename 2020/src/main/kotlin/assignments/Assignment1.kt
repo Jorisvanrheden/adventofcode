@@ -2,12 +2,8 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment1 : Assignment() {
+class Assignment1 : Assignment(1) {
     private lateinit var expenseReport: List<Int>
-
-    override fun getInput(): String {
-        return "input_1"
-    }
 
     override fun initialize(input: List<String>) {
         expenseReport = input.map { it.toInt() }

@@ -4,7 +4,7 @@ import models.assignment.Assignment
 import models.vector.Vector3D
 import kotlin.math.abs
 
-class Assignment18 : Assignment() {
+class Assignment18 : Assignment(18) {
 
     data class Bounds(
         val xMin: Int,
@@ -14,10 +14,6 @@ class Assignment18 : Assignment() {
         val zMin: Int,
         val zMax: Int
     )
-
-    override fun getInput(): String {
-        return "input_18"
-    }
 
     lateinit var cubes: List<Vector3D>
 

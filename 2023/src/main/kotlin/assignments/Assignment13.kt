@@ -4,12 +4,7 @@ import models.assignment.Assignment
 import utilities.Utilities
 import kotlin.math.min
 
-class Assignment13 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_13"
-    }
-
+class Assignment13 : Assignment(13) {
     private lateinit var chunks: List<List<String>>
 
     override fun initialize(input: List<String>) {

@@ -2,13 +2,9 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment6 : Assignment() {
+class Assignment6 : Assignment(6) {
     private lateinit var times: List<Int>
     private lateinit var distances: List<Int>
-
-    override fun getInput(): String {
-        return "input_6"
-    }
 
     override fun initialize(input: List<String>) {
         times = input.first().toNumbers()

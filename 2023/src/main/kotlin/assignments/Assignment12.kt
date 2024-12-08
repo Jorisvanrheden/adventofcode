@@ -2,18 +2,13 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment12 : Assignment() {
-
+class Assignment12 : Assignment(12) {
     data class Entry(
         val input: String,
         val summary: List<Int>,
     )
 
     private lateinit var entries: List<Entry>
-
-    override fun getInput(): String {
-        return "input_12"
-    }
 
     override fun initialize(input: List<String>) {
         entries = input.map { line ->

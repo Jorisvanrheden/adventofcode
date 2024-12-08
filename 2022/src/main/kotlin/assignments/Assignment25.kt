@@ -3,12 +3,7 @@ package assignments
 import models.assignment.Assignment
 import kotlin.math.pow
 
-class Assignment25 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_25"
-    }
-
+class Assignment25 : Assignment(25) {
     private lateinit var snafuNumbers: List<String>
 
     private fun String.toDecimal(): Long {

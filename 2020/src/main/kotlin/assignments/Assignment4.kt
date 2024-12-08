@@ -3,15 +3,11 @@ package assignments
 import models.assignment.Assignment
 import utilities.Utilities
 
-class Assignment4 : Assignment() {
+class Assignment4 : Assignment(4) {
     data class Passport(val map: Map<String, String>)
 
     private lateinit var passports: List<Passport>
     private val properties: List<String> = listOf("byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid", "cid")
-
-    override fun getInput(): String {
-        return "input_4"
-    }
 
     override fun initialize(input: List<String>) {
         var passports: MutableList<Passport> = mutableListOf()

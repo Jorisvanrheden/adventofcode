@@ -3,13 +3,9 @@ package assignments
 import models.matrix.Matrix
 import models.assignment.Assignment
 
-class Assignment16 : Assignment() {
+class Assignment16 : Assignment(16) {
 
     data class Valve(val name: String, val flowRate: Int, val connections: List<Int>)
-
-    override fun getInput(): String {
-        return "input_16"
-    }
 
     private lateinit var valves: List<Valve>
 

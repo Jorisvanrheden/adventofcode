@@ -3,7 +3,7 @@ package assignments
 import models.assignment.Assignment
 import models.vector.Vector2D
 
-class Assignment12 : Assignment() {
+class Assignment12 : Assignment(12) {
 
     data class Tile(
         val x: Int,
@@ -37,10 +37,6 @@ class Assignment12 : Assignment() {
     private lateinit var grid: Grid
     private var start: Vector2D = Vector2D(0, 0)
     private var target: Vector2D = Vector2D(0, 0)
-
-    override fun getInput(): String {
-        return "input_12"
-    }
 
     override fun initialize(input: List<String>) {
         grid = Grid(input.size, input[0].length)

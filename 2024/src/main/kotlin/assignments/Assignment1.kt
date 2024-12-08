@@ -3,13 +3,9 @@ package assignments
 import models.assignment.Assignment
 import kotlin.math.abs
 
-class Assignment1 : Assignment() {
+class Assignment1 : Assignment(1) {
     private lateinit var leftList: List<Int>
     private lateinit var rightList: List<Int>
-
-    override fun getInput(): String {
-        return "input_1"
-    }
 
     override fun initialize(input: List<String>) {
         input

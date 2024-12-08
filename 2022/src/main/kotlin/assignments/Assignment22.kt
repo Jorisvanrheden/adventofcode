@@ -4,12 +4,7 @@ import models.assignment.Assignment
 import models.vector.Vector2D
 import utilities.Utilities
 
-class Assignment22 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_22"
-    }
-
+class Assignment22 : Assignment(22) {
     data class MatrixGridTile(val x: Int, val y: Int, var value: Int, var neighbors: List<MatrixGridTile?>)
 
     class MatrixGrid(val rows: Int, val columns: Int) {

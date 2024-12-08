@@ -2,12 +2,7 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment2 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_2"
-    }
-
+class Assignment2 : Assignment(2) {
     data class Size(val l: Int, val w: Int, val h: Int)
 
     private lateinit var sizes: List<Size>

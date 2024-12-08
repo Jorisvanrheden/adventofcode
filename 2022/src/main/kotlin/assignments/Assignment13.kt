@@ -5,7 +5,7 @@ import models.vector.Vector2D
 import utilities.Utilities
 import kotlin.math.min
 
-class Assignment13 : Assignment() {
+class Assignment13 : Assignment(13) {
     interface PacketData {
         fun compare(x: PacketDataValue): Int
         fun compare(x: PacketDataList): Int
@@ -77,10 +77,6 @@ class Assignment13 : Assignment() {
             if (packets.size > x.packets.size) return 1
             return 0
         }
-    }
-
-    override fun getInput(): String {
-        return "input_13"
     }
 
     private lateinit var packets: MutableList<Packet>

@@ -4,11 +4,7 @@ import models.matrix.Matrix
 import models.assignment.Assignment
 import models.vector.Vector2D
 
-class Assignment24 : Assignment() {
-    override fun getInput(): String {
-        return "input_24"
-    }
-
+class Assignment24 : Assignment(24) {
     data class Blizzard(val startingPosition: Vector2D, val direction: Vector2D)
 
     private lateinit var blizzards: List<Blizzard>

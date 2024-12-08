@@ -6,7 +6,7 @@ import java.lang.Long.max
 import kotlin.math.abs
 import kotlin.math.min
 
-class Assignment15 : Assignment() {
+class Assignment15 : Assignment(15) {
 
     data class Bounds(val xMin: Long, val xMax: Long, val yMin: Long, val yMax: Long)
     data class Sensor(val position: Vector2DLong, val closestBeacon: Vector2DLong) {
@@ -28,10 +28,6 @@ class Assignment15 : Assignment() {
             if (rangeAtOrigin.x > rangeAtOrigin.y) return Vector2DLong(0, 0)
             return rangeAtOrigin
         }
-    }
-
-    override fun getInput(): String {
-        return "input_15"
     }
 
     private lateinit var sensors: List<Sensor>

@@ -2,12 +2,7 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment5 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_5"
-    }
-
+class Assignment5 : Assignment(5) {
     private lateinit var input: List<String>
 
     override fun initialize(input: List<String>) {

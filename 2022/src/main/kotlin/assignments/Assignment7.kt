@@ -3,7 +3,7 @@ package assignments
 import models.assignment.Assignment
 import kotlin.math.abs
 
-class Assignment7 : Assignment() {
+class Assignment7 : Assignment(7) {
 
     data class File(val size: Int, val name: String)
     data class Directory(val name: String, var files: MutableList<File>, var dirs: MutableList<Directory>, var parent: Directory?) {
@@ -38,10 +38,6 @@ class Assignment7 : Assignment() {
 
     private var dir: Directory = Directory("/", mutableListOf(), mutableListOf(), null)
     private var activeDir: Directory = dir
-
-    override fun getInput(): String {
-        return "input_7"
-    }
 
     private fun addContentToDirectory(directory: Directory, index: Int, input: List<String>): Int {
         var i = index

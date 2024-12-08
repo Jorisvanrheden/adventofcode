@@ -3,16 +3,12 @@ package assignments
 import models.assignment.Assignment
 import utilities.Utilities
 
-class Assignment5 : Assignment() {
+class Assignment5 : Assignment(5) {
     data class AlamanacMap(val entries: List<AlamanacMapEntry>)
     data class AlamanacMapEntry(val source: Long, val destination: Long, val range: Long)
 
     private lateinit var seeds: List<Long>
     private lateinit var maps: List<AlamanacMap>
-
-    override fun getInput(): String {
-        return "input_5"
-    }
 
     override fun initialize(input: List<String>) {
         seeds = input

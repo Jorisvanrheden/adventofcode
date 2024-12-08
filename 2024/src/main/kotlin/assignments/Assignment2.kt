@@ -3,12 +3,8 @@ package assignments
 import models.assignment.Assignment
 import kotlin.math.sign
 
-class Assignment2 : Assignment() {
+class Assignment2 : Assignment(2) {
     private lateinit var reports: List<List<Int>>
-
-    override fun getInput(): String {
-        return "input_2"
-    }
 
     override fun initialize(input: List<String>) {
         reports = input

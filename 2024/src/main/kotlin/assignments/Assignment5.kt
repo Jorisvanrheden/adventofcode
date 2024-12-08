@@ -4,17 +4,12 @@ import models.assignment.Assignment
 import utilities.Utilities
 import kotlin.math.floor
 
-class Assignment5 : Assignment() {
-
+class Assignment5 : Assignment(5) {
     private lateinit var rules: List<Pair<Int, Int>>
     private lateinit var updates: List<List<Int>>
 
     private val connectionBefore = HashMap<Int, MutableList<Int>>()
     private val connectionAfter = HashMap<Int, MutableList<Int>>()
-
-    override fun getInput(): String {
-        return "input_5"
-    }
 
     override fun initialize(input: List<String>) {
         Utilities.packageByEmptyLine(input).let { sections ->

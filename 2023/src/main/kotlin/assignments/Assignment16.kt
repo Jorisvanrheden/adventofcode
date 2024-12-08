@@ -4,12 +4,7 @@ import models.matrix.CharMatrix
 import models.assignment.Assignment
 import models.vector.Vector2D
 
-class Assignment16 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_16"
-    }
-
+class Assignment16 : Assignment(16) {
     private data class DirectionNode(val coordinate: Vector2D, val direction: Vector2D)
 
     private lateinit var matrix: CharMatrix

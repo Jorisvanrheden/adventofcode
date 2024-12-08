@@ -4,15 +4,11 @@ import models.assignment.Assignment
 import models.vector.Vector2D
 import kotlin.math.abs
 
-class Assignment9 : Assignment() {
+class Assignment9 : Assignment(9) {
 
     data class Instruction(val direction: Vector2D, val steps: Int)
 
     private lateinit var instructions: List<Instruction>
-
-    override fun getInput(): String {
-        return "input_9"
-    }
 
     private fun Int.clamp(): Int {
         if (this > 0) return 1

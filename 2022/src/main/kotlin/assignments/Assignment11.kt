@@ -3,7 +3,7 @@ package assignments
 import models.assignment.Assignment
 import utilities.Utilities
 
-class Assignment11 : Assignment() {
+class Assignment11 : Assignment(11) {
     interface Operation {
         fun computeUpdatedValue(input: Long): Long
     }
@@ -43,10 +43,6 @@ class Assignment11 : Assignment() {
         val monkeyIfFalse: Int,
         var inspections: Long = 0
     )
-
-    override fun getInput(): String {
-        return "input_11"
-    }
 
     private fun getOperationValue(input: String): OperationValue {
         if (input == "old") return ReferenceOperationValue()

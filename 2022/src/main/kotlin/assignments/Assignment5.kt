@@ -3,16 +3,12 @@ package assignments
 import models.assignment.Assignment
 import utilities.Utilities
 
-class Assignment5 : Assignment() {
+class Assignment5 : Assignment(5) {
     data class Instruction(val amount: Int, val from: Int, val to: Int)
     data class Stack(var items: MutableList<Char>) {
         fun copy(): Stack {
             return Stack(items.toMutableList())
         }
-    }
-
-    override fun getInput(): String {
-        return "input_5"
     }
 
     private lateinit var stacks: List<Stack>

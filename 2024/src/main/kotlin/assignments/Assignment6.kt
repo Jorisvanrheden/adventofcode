@@ -4,13 +4,8 @@ import models.assignment.Assignment
 import models.matrix.CharMatrix
 import models.vector.Vector2D
 
-class Assignment6 : Assignment() {
-
+class Assignment6 : Assignment(6) {
     private lateinit var matrix: CharMatrix
-
-    override fun getInput(): String {
-        return "input_6"
-    }
 
     override fun initialize(input: List<String>) {
         matrix = CharMatrix(input.size, input[0].length)

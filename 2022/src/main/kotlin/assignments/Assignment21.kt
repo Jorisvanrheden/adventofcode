@@ -2,12 +2,7 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment21 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_21"
-    }
-
+class Assignment21 : Assignment(21) {
     interface MathOperation {
         fun getResult(monkeys: Map<String, Monkey>): Long
         fun getValues(monkeys: Map<String, Monkey>): List<Long> = emptyList()

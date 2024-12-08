@@ -3,13 +3,8 @@ package assignments
 import models.assignment.Assignment
 import models.indicesOf
 
-class Assignment3 : Assignment() {
-
+class Assignment3 : Assignment(3) {
     private lateinit var memory: String
-
-    override fun getInput(): String {
-        return "input_3"
-    }
 
     override fun initialize(input: List<String>) {
         memory = input.joinToString()

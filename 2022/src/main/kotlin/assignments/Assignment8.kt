@@ -3,13 +3,9 @@ package assignments
 import models.matrix.IntMatrix
 import models.assignment.Assignment
 
-class Assignment8 : Assignment() {
+class Assignment8 : Assignment(8) {
 
     private lateinit var trees: IntMatrix
-
-    override fun getInput(): String {
-        return "input_8"
-    }
 
     override fun initialize(input: List<String>) {
         trees = IntMatrix(input[0].length, input.size)

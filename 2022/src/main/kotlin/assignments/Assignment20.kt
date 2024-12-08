@@ -2,12 +2,7 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment20 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_20"
-    }
-
+class Assignment20 : Assignment(20) {
     data class Number(val name: String, var x: Long) {
         override fun equals(other: Any?): Boolean {
             return name == (other as Number)?.name

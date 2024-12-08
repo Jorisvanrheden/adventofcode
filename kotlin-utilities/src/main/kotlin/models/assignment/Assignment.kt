@@ -2,8 +2,10 @@ package models.assignment
 
 import kotlin.system.measureTimeMillis
 
-abstract class Assignment {
-    abstract fun getInput(): String
+abstract class Assignment(
+    private val day: Int
+) {
+    fun getInput(): String = "input_$day"
     abstract fun initialize(input: List<String>)
 
     fun run() {

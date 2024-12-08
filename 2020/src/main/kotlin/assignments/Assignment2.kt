@@ -2,14 +2,10 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment2 : Assignment() {
+class Assignment2 : Assignment(2) {
     data class PasswordEntry(val min: Int, val max: Int, val letter: Char, val password: String)
 
     private lateinit var passwordEntries: List<PasswordEntry>
-
-    override fun getInput(): String {
-        return "input_2"
-    }
 
     private fun stringToPasswordEntry(input: String): PasswordEntry {
         val chunks = input.split(": ")

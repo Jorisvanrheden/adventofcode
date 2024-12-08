@@ -4,18 +4,13 @@ import models.assignment.Assignment
 import models.matrix.CharMatrix
 import models.vector.Vector2D
 
-class Assignment4 : Assignment() {
-
+class Assignment4 : Assignment(4) {
     private lateinit var matrix: CharMatrix
 
     private data class Line(
         val start: Vector2D,
         val end: Vector2D,
     )
-
-    override fun getInput(): String {
-        return "input_4"
-    }
 
     override fun initialize(input: List<String>) {
         matrix = CharMatrix(input.size, input[0].length)

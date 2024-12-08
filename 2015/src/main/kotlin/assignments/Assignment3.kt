@@ -3,12 +3,7 @@ package assignments
 import models.assignment.Assignment
 import models.vector.Vector2D
 
-class Assignment3 : Assignment() {
-
-    override fun getInput(): String {
-        return "input_3"
-    }
-
+class Assignment3 : Assignment(3) {
     private lateinit var input: String
 
     override fun initialize(input: List<String>) {

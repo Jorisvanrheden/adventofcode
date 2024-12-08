@@ -2,7 +2,7 @@ package assignments
 
 import models.assignment.Assignment
 
-class Assignment7 : Assignment() {
+class Assignment7 : Assignment(7) {
 
     private lateinit var hands: List<Hand>
 
@@ -11,10 +11,6 @@ class Assignment7 : Assignment() {
         var cards: List<Int>,
         val bid: Int,
     )
-
-    override fun getInput(): String {
-        return "input_7"
-    }
 
     override fun initialize(input: List<String>) {
         hands = input.map {
