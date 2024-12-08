@@ -21,19 +21,29 @@ class Assignment6 : Assignment() {
         }
     }
 
-    private fun CharMatrix.coordinatesWithChar(char: Char): List<Vector2D> {
-        val vectors = mutableListOf<Vector2D>()
-        for (i in 0 until rows) {
-            for (j in 0 until columns) {
-                if (values[i][j] == char) vectors.add(Vector2D(i, j))
-            }
-        }
-        return vectors
+    override fun calculateSolutionA(): String {
+        return matrix
+            .calculateVisitedNodesOrNull()
+            ?.count()
+            ?.toString() ?: "No answer found."
     }
 
-    private fun CharMatrix.traverse(): Set<Vector2D>? {
+    override fun calculateSolutionB(): String {
+        return matrix
+            .flattenCoordinates()
+            .count { coordinate ->
+                if (matrix.values[coordinate.x][coordinate.y] == '.') {
+                    val copy = matrix.copy().apply { values[coordinate.x][coordinate.y] = '#' }
+                    copy.calculateVisitedNodesOrNull() == null
+                } else {
+                    false
+                }
+            }.toString()
+    }
+
+    private fun CharMatrix.calculateVisitedNodesOrNull(): Set<Vector2D>? {
         var direction = Vector2D.UP
-        var location = coordinatesWithChar('^').first()
+        var location = occurrencesOf('^').first()
 
         // If the same consecutive two coordinates are found again, then a cycle is detected
         val keys = mutableMapOf<Pair<Vector2D, Vector2D>, Int>()
@@ -62,30 +72,6 @@ class Assignment6 : Assignment() {
             }
         }
         return locations.toSet()
-    }
-
-    override fun calculateSolutionA(): String {
-        return matrix
-            .traverse()
-            ?.count()
-            ?.toString() ?: "No answer found."
-    }
-
-    override fun calculateSolutionB(): String {
-        var timesStuckInLoop = 0
-
-        matrix.forEach { x, y ->
-            matrix.copy().apply {
-                if (values[x][y] == '.') {
-                    values[x][y] = '#'
-                    if (traverse() == null) {
-                        timesStuckInLoop++
-                    }
-                }
-            }
-        }
-
-        return timesStuckInLoop.toString()
     }
 }
 
