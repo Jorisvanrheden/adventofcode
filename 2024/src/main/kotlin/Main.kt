@@ -3,7 +3,7 @@ import models.assignment.Assignment
 import utilities.Utilities
 
 fun main(args: Array<String>) {
-    val assignment: Assignment = Assignment8()
+    val assignment: Assignment = Assignment9()
 
     val input: List<String> = Utilities.readFile("2024/src/main/kotlin/input/" + assignment.getInput())
 
