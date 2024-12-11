@@ -24,16 +24,14 @@ class Assignment9 : Assignment(9) {
             0,
             ceil(diskMap.length.toDouble() / 2).toInt() - 1,
         ).map {
-            val id = it
-            val blockLength = diskMap[it * 2].digitToInt()
-            val emptySpace = (it * 2 + 1).let {
-                if (it < diskMap.length) diskMap[it].digitToInt()
-                else 0
-            }
+            val startIndex = it * 2
             File(
-                id = id,
-                blockLength = blockLength,
-                emptySpaceLength = emptySpace
+                id = it,
+                blockLength = diskMap[startIndex].digitToInt(),
+                emptySpaceLength = (startIndex + 1).let {
+                    if (it < diskMap.length) diskMap[it].digitToInt()
+                    else 0
+                }
             )
         }
     }
@@ -52,35 +50,36 @@ class Assignment9 : Assignment(9) {
     override fun calculateSolutionA(): String {
         val entries = files.flatMap { it.toUnits() }.toMutableList()
 
-        while (true) {
-            val indexToReplace = entries.indexOfFirst { !it.hasValue }
-            val indexToUse = entries.indexOfLast { it.hasValue }
+        val emptyIndices = entries.mapIndexedNotNull { index, s -> index.takeIf { !s.hasValue } }
+        val filledIndices  = entries.mapIndexedNotNull { index, s -> index.takeIf { s.hasValue } }
 
-            if (indexToReplace > indexToUse) break
+        for (i in emptyIndices.indices) {
+            val emptySpaceIndex = emptyIndices[i]
+            val filledSpaceIndex = filledIndices[filledIndices.lastIndex - i]
+            if (emptySpaceIndex > filledSpaceIndex) break
 
-            val old = entries[indexToReplace]
-            entries[indexToReplace] = entries[indexToUse]
-            entries[indexToUse] = old
+            val old = entries[emptySpaceIndex]
+            entries[emptySpaceIndex] = entries[filledSpaceIndex]
+            entries[filledSpaceIndex] = old
         }
-
         return entries
             .toChecksum()
             .toString()
     }
 
     override fun calculateSolutionB(): String {
-        val itemsToFit = files.asReversed().toMutableList()
-        for (item in itemsToFit) {
+        val items = files.sortedByDescending { it.id }
+        for (item in items) {
             val fileWithFreeSpace = files.firstOrNull { (it.emptySpaceLength - it.entryUnits.size) >= item.blockLength } ?: continue
 
             if (files.indexOf(fileWithFreeSpace) > files.indexOf(item)) continue
 
             fileWithFreeSpace.entryUnits.addAll(item.toUnits().filter { it.hasValue })
 
-            files.first { it.id == item.id }.processed = true
+            item.processed = true
         }
 
-        val s = files.map {
+        return files.flatMap {
             val list = mutableListOf<EntryUnit>()
             if (it.processed) {
                 for (i in 0 until it.blockLength + it.emptySpaceLength) {
@@ -104,10 +103,7 @@ class Assignment9 : Assignment(9) {
                 }
             }
             list
-        }.flatten()
-
-        return s
-            .toChecksum()
+        }.toChecksum()
             .toString()
     }
 
