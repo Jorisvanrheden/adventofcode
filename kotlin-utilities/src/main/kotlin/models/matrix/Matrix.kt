@@ -85,4 +85,12 @@ open class Matrix<T>(val rows: Int, val columns: Int, private val defaultValue: 
         }
         return indicesThatMatchesPredicate
     }
+
+    fun neighbors(node: Vector2D) =
+        listOf(
+            node.up(),
+            node.right(),
+            node.down(),
+            node.left(),
+        ).filter { isWithinBounds(it) }
 }
