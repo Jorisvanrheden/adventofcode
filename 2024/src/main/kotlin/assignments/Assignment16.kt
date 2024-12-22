@@ -19,35 +19,37 @@ class Assignment16 : Assignment(16) {
     }
 
     override fun calculateSolutionA(): String {
-        val path = matrix.traverse(
+        return matrix.traverse(
             start = matrix.occurrencesOf('S').first(),
             end = matrix.occurrencesOf('E').first(),
-        )
-        return calculateScore(path).toString()
+            Vector2D.RIGHT
+        ).first.toString()
     }
 
     override fun calculateSolutionB(): String {
-        val path = matrix.traverse(
-            start = matrix.occurrencesOf('S').first(),
-            end = matrix.occurrencesOf('E').first(),
-        )
-        return calculateScore(path).toString()
-    }
+        val start = matrix.occurrencesOf('S').first()
+        val end = matrix.occurrencesOf('E').first()
+        val lowestCost = matrix.traverse(start, end, Vector2D.RIGHT)
 
-    private fun calculateScore(path: List<Vector2D>): Int {
-        var lastDirection = Vector2D.RIGHT
-        var directionChanges = 0
-        for (i in 1 until path.lastIndex) {
-            val direction = path[i] - path[i - 1]
-            if (direction != lastDirection) {
-                lastDirection = direction
-                directionChanges++
+        var c = 2
+        for (i in 0 until matrix.rows) {
+            println("$i/${matrix.rows}")
+            for (j in 0 until matrix.columns) {
+                if (Vector2D(i,j) == start || Vector2D(i,j) == end) continue
+                val middle = Vector2D(i, j)
+                if (matrix.values[i][j] == '#') continue
+                val a = matrix.traverse(start, middle, Vector2D.RIGHT)
+                val b = matrix.traverse(middle, end, middle - a.second[middle]!!)
+                if (a.first == -1 || b.first == -1) continue
+                if (a.first + b.first == lowestCost.first) {
+                    c++
+                }
             }
         }
-        return (directionChanges * 1000 + path.size)
+        return c.toString()
     }
 
-    private fun CharMatrix.traverse(start: Vector2D, end: Vector2D): List<Vector2D> {
+    private fun CharMatrix.traverse(start: Vector2D, end: Vector2D, startDirection: Vector2D): Pair<Int, Map<Vector2D, Vector2D>> {
         // Cost from start to node
         val gScores = mutableMapOf<Vector2D, Int>()
         // Cost from start to finish through this node
@@ -61,15 +63,16 @@ class Assignment16 : Assignment(16) {
         while (queue.isNotEmpty()) {
             val current = queue.minByOrNull { fScores[it]!! }!!
             if (current == end) {
-                return constructPath(end, bestConnectionTo)
+                return fScores[current]!! to bestConnectionTo
             }
 
-            val currentDirection = directionToPreviousNode(current, start, bestConnectionTo)
+            val currentDirection = directionToPreviousNode(current, start, bestConnectionTo, startDirection)
             neighbors(current)
                 .filter { values[it.x][it.y] != '#' }
                 .forEach { neighbor ->
-                    val weightToNeighbor = if (is90DegreesNeighbor(current, neighbor, currentDirection)) 1000 else 1
-                    val tentativeGScore = gScores[current]!! + weightToNeighbor
+                    var costToNeighbor = 1
+                    if (is90DegreesNeighbor(current, neighbor, currentDirection)) costToNeighbor += 1000
+                    val tentativeGScore = gScores[current]!! + costToNeighbor
                     if (tentativeGScore < gScores.getOrDefault(neighbor, Int.MAX_VALUE)) {
                         bestConnectionTo[neighbor] = current
                         gScores[neighbor] = tentativeGScore
@@ -82,22 +85,12 @@ class Assignment16 : Assignment(16) {
             }
             queue.remove(current)
         }
-        return emptyList()
+        return -1 to emptyMap()
     }
 
-    private fun constructPath(end: Vector2D, cameFrom: Map<Vector2D, Vector2D>): List<Vector2D> {
-        val path = mutableListOf<Vector2D>()
-        var latestNode = end
-        while (cameFrom.containsKey(latestNode)) {
-            path.add(latestNode)
-            latestNode = cameFrom[latestNode]!!
-        }
-        return path.reversed()
-    }
-
-    private fun directionToPreviousNode(current: Vector2D, start: Vector2D, cameFrom: Map<Vector2D, Vector2D>) =
+    private fun directionToPreviousNode(current: Vector2D, start: Vector2D, cameFrom: Map<Vector2D, Vector2D>, startDirection: Vector2D) =
         if (current == start) {
-            Vector2D.RIGHT
+            startDirection
         } else {
             current - cameFrom[current]!!
         }
