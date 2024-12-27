@@ -4,14 +4,10 @@ import models.assignment.Assignment
 import models.matrix.CharMatrix
 import models.vector.Vector2D
 import java.util.*
+import kotlin.math.abs
 
 class Assignment20 : Assignment(20) {
     private lateinit var matrix: CharMatrix
-
-    private data class Node(
-        val position: Vector2D,
-        var canCheat: Boolean = true,
-    )
 
     override fun initialize(input: List<String>) {
         matrix = CharMatrix(input.size, input[0].length).apply {
@@ -24,50 +20,53 @@ class Assignment20 : Assignment(20) {
     }
 
     override fun calculateSolutionA(): String {
-        val start = Node(matrix.occurrencesOf('S').first())
-        val end = Node(matrix.occurrencesOf('E').first())
-
-        val costWithoutCheats = matrix.dijkstra(start.position, end.position)
-
-        val shortcuts = mutableSetOf<Vector2D>()
-        for (i in 0 until matrix.rows) {
-            println(i)
-            for (j in 0 until matrix.columns) {
-                if (matrix.values[i][j] != '#') continue
-
-                // cache
-                val c = matrix.values[i][j]
-
-                // update
-                matrix.values[i][j] = '.'
-
-                val cost = matrix.dijkstra(start.position, end.position)
-                if (costWithoutCheats - cost >= 100) {
-                    shortcuts.add(Vector2D(i, j))
-//                    println(matrix)
-                }
-
-                // reset
-                matrix.values[i][j] = c
-            }
-        }
-        return shortcuts.count().toString()
+        return findBetterPathCount(
+            matrix,
+            matrix.occurrencesOf('S').first(),
+            matrix.occurrencesOf('E').first(),
+            2,
+            100
+        ).toString()
     }
 
     override fun calculateSolutionB(): String {
-        return ""
+        return findBetterPathCount(
+            matrix,
+            matrix.occurrencesOf('S').first(),
+            matrix.occurrencesOf('E').first(),
+            20,
+            100
+        ).toString()
     }
 
-    private fun CharMatrix.dijkstra(start: Vector2D, end: Vector2D): Int {
+    private fun findBetterPathCount(matrix: CharMatrix, start: Vector2D, end: Vector2D, shortcutLength: Int, distanceThreshold: Int): Int {
+        val distancesFromStart = matrix.distances(start)
+        val distancesFromEnd = matrix.distances(end)
+
+        val distanceWithoutCheats = distancesFromStart[end]!!
+
+        var count = 0
+
+        for ((key1, distance1) in distancesFromStart) {
+            for ((key2, distance2) in distancesFromEnd) {
+                val totalDistance = key1.manhattanDistance(key2)
+                if (totalDistance <= shortcutLength) {
+                    if (distanceWithoutCheats - (distance1 + distance2 + totalDistance) >= distanceThreshold) {
+                        count++
+                    }
+                }
+            }
+        }
+        return count
+    }
+
+    private fun CharMatrix.distances(from: Vector2D): Map<Vector2D, Int> {
         val distanceTo = mutableMapOf<Vector2D, Int>().withDefault { Int.MAX_VALUE }
         val priorityQueue = PriorityQueue<Pair<Vector2D, Int>>(compareBy { it.second })
-        priorityQueue.add(Pair(start, 0))
+        priorityQueue.add(Pair(from, 0))
 
         while (priorityQueue.isNotEmpty()) {
             val (currentNode, currentDistance) = priorityQueue.poll()
-            if (currentNode == end) {
-                return distanceTo[end]!!
-            }
             neighbors(currentNode)
                 .filter { values[it.x][it.y] != '#' }
                 .forEach { neighbor ->
@@ -75,9 +74,11 @@ class Assignment20 : Assignment(20) {
                     if (newDistance < distanceTo.getValue(neighbor)) {
                         distanceTo[neighbor] = newDistance
                         priorityQueue.add(Pair(neighbor, newDistance))
+                    }
                 }
-            }
         }
-        return -1
+        return distanceTo
     }
+
+    private fun Vector2D.manhattanDistance(other: Vector2D) = abs(x - other.x) + abs(y - other.y)
 }
